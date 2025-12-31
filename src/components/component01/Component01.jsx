@@ -1,6 +1,9 @@
 import "./Component01.css";
+import { useNavigate } from "react-router-dom";
 
 const Component01 = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="component01-container">
 
@@ -24,9 +27,9 @@ const Component01 = () => {
         </div>
       </section>
 
-      {/* 예약 요약 카드 */}
+      {/* 예약 요약 카드 navigate는 예약 페이지 이동 기능 */} 
       <section className="summary-section">
-        <div className="summary-card">
+        <div className="summary-card" onClick={() => navigate("/reservation")}> 
           <p className="card-title">오늘 예약</p>
           <p className="card-count highlight">2<span>건</span></p>
         </div>
