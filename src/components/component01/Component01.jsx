@@ -7,7 +7,7 @@ const Component01 = () => {
       {/* 상단 프로필 영역 */}
       <section className="profile-section">
           <img
-            src="/public/icons/profile.png"
+            src="/icons/profile.png"
             alt="기사프로필이미지"
             className="profile-image-placeholder"
           />       
