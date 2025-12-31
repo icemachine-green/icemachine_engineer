@@ -3,7 +3,7 @@
 ================================================= */
 .footer-container {
   width: 100%;
-  padding: 40px 0;
+	height: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,6 +22,9 @@
   .footer-image {
     width: 480px;
   }
+	.footer-container {
+		height: 130px;
+	}
 }
 
 /* =================================================
@@ -31,6 +34,9 @@
   .footer-image {
     width: 420px;
   }
+	.footer-container {
+		height: 120px;
+	}
 }
 
 /* =================================================
@@ -38,7 +44,7 @@
 ================================================= */
 @media (max-width: 768px) {
   .footer-container {
-    padding: 32px 0;
+		height: 100px;
   }
 
   .footer-image {
@@ -51,7 +57,7 @@
 ================================================= */
 @media (max-width: 480px) {
   .footer-container {
-    padding: 24px 0;
+  	height: 80px;
   }
 
   .footer-image {

@@ -1,3 +1,294 @@
-.component01-container h1 {
-	text-align: center;
+/* =========================
+   전체 컨테이너
+========================= */
+.component01-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 64px 40px 120px;
+  box-sizing: border-box;
+}
+
+/* =========================
+   상단 프로필 영역
+========================= */
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  margin-bottom: 96px;
+  justify-content: center;
+}
+
+/* 프로필 이미지 */
+.profile-image-placeholder {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background-color: #e5e5e5;
+  flex-shrink: 0;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
+}
+
+.profile-image-placeholder:hover {
+  transform: scale(1.04); /*호버시 이미지 확대*/
+
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.18),
+    0 4px 8px rgba(0, 0, 0, 0.12);
+
+  filter: brightness(1.03);
+}
+
+/* 프로필 정보 */
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 이름 */
+.profile-name {
+  font-size: 100px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.profile-name span {
+  font-size: 50px;
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+/* 메시지 박스 */
+.profile-message {
+  width: 360px;
+  padding: 20px 22px;
+  border: 1px solid #cfcfcf;
+  border-radius: 14px;
+  background-color: #E3E3E3;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.profile-message p {
+  margin: 0;
+  font-size: 35px;
+  line-height: 1.6;
+}
+
+/* 강조 텍스트 */
+.highlight {
+  color: #2f7d46;
+  font-weight: 700;
+}
+
+/* =========================
+   예약 요약 카드 영역
+========================= */
+.summary-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 48px;
+}
+
+/* 카드 */
+.summary-card {
+  height: 280px;
+  background-color: #E3E3E3;
+  border: 1px solid #cfcfcf;
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 1px 2px rgba(0, 0, 0, 0.06);
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+/* hover 효과 */
+.summary-card:hover {
+  background-color: #ECECEC;
+  border-color: #BDBDBD;
+
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.12),
+    0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* 카드 제목 */
+.card-title {
+  font-size: 60px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+/* 카드 숫자 */
+.card-count {
+  font-size: 100px;
+  font-weight: 700;
+  line-height: 0.05;
+}
+
+.card-count span {
+  font-size: 35px;
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+/* =================================================
+   반응형 미디어쿼리
+================================================= */
+
+/* ===== 1024px 이하 ===== */
+@media (max-width: 1024px) {
+  .profile-section {
+    gap: 36px;
+    margin-bottom: 80px;
+  }
+
+  .profile-image-placeholder {
+    width: 240px;
+    height: 240px;
+  }
+
+  .profile-name {
+    font-size: 80px;
+  }
+
+  .profile-name span {
+    font-size: 40px;
+  }
+
+  .profile-message p {
+    font-size: 30px;
+  }
+
+  .summary-card {
+    height: 240px;
+  }
+
+  .card-title {
+    font-size: 48px;
+  }
+
+  .card-count {
+    font-size: 80px;
+  }
+}
+
+/* ===== 950px 이하 ===== */
+@media (max-width: 950px) {
+  .component01-container {
+    padding: 56px 32px 100px;
+  }
+
+  .profile-section {
+    gap: 32px;
+  }
+
+  .profile-message {
+    width: 320px;
+  }
+
+  .summary-section {
+    gap: 36px;
+  }
+}
+
+/* ===== 768px 이하 ===== */
+@media (max-width: 768px) {
+  .profile-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-info {
+    align-items: center;
+  }
+
+  .profile-name {
+    font-size: 64px;
+  }
+
+  .profile-name span {
+    font-size: 32px;
+  }
+
+  .profile-message p {
+    font-size: 26px;
+  }
+
+  .summary-section {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-card {
+    height: 220px;
+  }
+
+  .card-title {
+    font-size: 44px;
+  }
+
+  .card-count {
+    font-size: 72px;
+  }
+}
+
+/* ===== 480px 이하 ===== */
+@media (max-width: 480px) {
+  .component01-container {
+    padding: 48px 20px 80px;
+  }
+
+  .profile-image-placeholder {
+    width: 180px;
+    height: 180px;
+  }
+
+  .profile-name {
+    font-size: 48px;
+  }
+
+  .profile-name span {
+    font-size: 24px;
+  }
+
+  .profile-message {
+    width: 100%;
+  }
+
+  .profile-message p {
+    font-size: 22px;
+  }
+
+  .summary-card {
+    height: 200px;
+  }
+
+  .card-title {
+    font-size: 36px;
+  }
+
+  .card-count {
+    font-size: 60px;
+  }
 }

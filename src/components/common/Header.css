@@ -67,8 +67,8 @@
 @media (max-width: 480px) {
   .header-container {
     height: 80px;
-    font-size: 20px;
-    gap: 20px;
+    font-size: 16px;
+    gap: 16px;
   }
 }
 
