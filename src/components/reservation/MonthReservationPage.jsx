@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./MonthReservationPage.css";
 
 const data = [
@@ -12,6 +12,7 @@ const data = [
 const MonthReservationPage = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [calendarList, setCalendarList] = useState({});
+  const containerRef = useRef(null);
 
   useEffect(() => {
     // 데이터 가공
@@ -22,6 +23,7 @@ const MonthReservationPage = () => {
     });
     setCalendarList(tempList);
   }, []);
+  
 
   const pad = (num) => (num > 9 ? num : '0' + num);
 
@@ -79,7 +81,10 @@ const MonthReservationPage = () => {
   };
 
   return (
-    <div className="month-reservation-page">
+    <div
+      className="month-reservation-page"
+      ref={containerRef}
+    >
       <div className="calendar-container">
         <div className="header">
           <button className="date-last" onClick={prevMonth}>&lt;</button>
@@ -101,3 +106,4 @@ const MonthReservationPage = () => {
 };
 
 export default MonthReservationPage;
+
