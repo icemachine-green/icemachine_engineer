@@ -34,7 +34,7 @@ const Component01 = () => {
           <p className="card-count highlight">2<span>건</span></p>
         </div>
 
-        <div className="summary-card">
+        <div className="summary-card" onClick={() => navigate("/monthreservation")}>
           <p className="card-title">이번 달 예약</p>
           <p className="card-count highlight">31<span>건</span></p>
         </div>
