@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { formatKoreanFullDate } from "../../utils/dateUtils.js";
 import "./ReservationPage.css";
 
 const reservations = [
@@ -85,6 +86,7 @@ const reservations = [
   },
 ]; /* 위에는 백엔드 연동을 대비한 더미데이터임 */
 
+
 const ReservationPage = () => {
   const [visibleCount, setVisibleCount] = useState(3);
 
@@ -94,7 +96,7 @@ const ReservationPage = () => {
 
   return (
     <div className="reservation-container">
-      <p className="reservation-date">2025.12.22.(월)</p>
+      <p className="reservation-date">{formatKoreanFullDate()}</p>
 
       <div className="reservation-list">
         {reservations.slice(0, visibleCount).map((item) => (
