@@ -1,97 +1,20 @@
 import { useState } from "react";
 import { formatKoreanFullDate } from "../../utils/dateUtils.js";
 import "./ReservationPage.css";
-
-const reservations = [
-  {
-    id: 1,
-    time: "10:00 ~ 12:00",
-    name: "이지영",
-    address: "대구시 동구 큰고개로 50",
-    type: "대형",
-    service: "DEEP_CLEAN",
-    status: null,
-  },
-  {
-    id: 2,
-    time: "10:00 ~ 12:00",
-    name: "이지영",
-    address: "대구시 동구 큰고개로 50",
-    type: "대형",
-    service: "DEEP_CLEAN",
-    status: null,
-  },
-  {
-    id: 3,
-    time: "14:00 ~ 17:00",
-    name: "이지영",
-    address: "대구시 동구 큰고개로 50",
-    type: "대형",
-    service: "DEEP_CLEAN",
-    status: "작업 진행중",
-  },
-  {
-    id: 4,
-    time: "15:00 ~ 18:00",
-    name: "김민수",
-    address: "대구시 수성구 달구벌대로 200",
-    type: "중형",
-    service: "BASIC",
-    status: null,
-  },
-  {
-    id: 5,
-    time: "18:00 ~ 20:00",
-    name: "박서연",
-    address: "대구시 북구 침산로 10",
-    type: "소형",
-    service: "DEEP_CLEAN",
-    status: null,
-  },
-  {
-    id: 6,
-    time: "09:00 ~ 11:00",
-    name: "최현우",
-    address: "대구시 달서구 월배로 77",
-    type: "대형",
-    service: "BASIC",
-    status: null,
-  },
-	 {
-    id: 7,
-    time: "15:00 ~ 18:00",
-    name: "김민수",
-    address: "대구시 수성구 달구벌대로 200",
-    type: "중형",
-    service: "BASIC",
-    status: null,
-  },
-  {
-    id: 8,
-    time: "18:00 ~ 20:00",
-    name: "박서연",
-    address: "대구시 북구 침산로 10",
-    type: "소형",
-    service: "DEEP_CLEAN",
-    status: null,
-  },
-  {
-    id: 9,
-    time: "09:00 ~ 11:00",
-    name: "최현우",
-    address: "대구시 달서구 월배로 77",
-    type: "대형",
-    service: "BASIC",
-    status: null,
-  },
-]; /* 위에는 백엔드 연동을 대비한 더미데이터임 */
-
+import { useNavigate } from "react-router-dom";
+import { reservationsDummy } from "../../data/reservationsDummy.js";
 
 const ReservationPage = () => {
   const [visibleCount, setVisibleCount] = useState(3);
+  const navigate = useNavigate();
 
   const handleMore = () => {
     setVisibleCount((prev) => prev + 3);
+  };
+
+  // ✅ id 기반 상세 페이지 이동
+  const goToDetail = (id) => {
+    navigate(`/reservation/detail/${id}`);
   };
 
   return (
@@ -99,13 +22,24 @@ const ReservationPage = () => {
       <p className="reservation-date">{formatKoreanFullDate()}</p>
 
       <div className="reservation-list">
-        {reservations.slice(0, visibleCount).map((item) => (
-          <div key={item.id} className="reservation-card">
+        {reservationsDummy.slice(0, visibleCount).map((item) => (
+          <div
+            key={item.id}
+            className="reservation-card"
+            onClick={() => goToDetail(item.id)}
+          >
             <div className="card-top">
               <span className="time-badge">{item.time}</span>
 
+              {/* ✅ 작업 진행중일 때만 원형 뱃지 */}
               {item.status && (
-                <span className="status-badge">{item.status}</span>
+                <span
+                  className={`status-badge ${
+                    item.status === "작업 진행중" ? "working" : ""
+                  }`}
+                >
+                  {item.status}
+                </span>
               )}
             </div>
 
@@ -119,12 +53,19 @@ const ReservationPage = () => {
               </p>
             </div>
 
-            <button className="detail-btn">예약 상세보기</button>
+            {/* ✅ 버튼 클릭해도 동일하게 이동 */}
+            <button
+              className="detail-btn"
+              type="button"
+              onClick={() => goToDetail(item.id)}
+            >
+              예약 상세보기
+            </button>
           </div>
         ))}
       </div>
 
-      {visibleCount < reservations.length && (
+      {visibleCount < reservationsDummy.length && (
         <button className="more-btn" onClick={handleMore}>
           더 보기
         </button>
