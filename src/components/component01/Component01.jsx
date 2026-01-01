@@ -15,6 +15,7 @@ const Component01 = () => {
             src="/icons/profile.png"
             alt="기사프로필이미지"
             className="profile-image-placeholder"
+            onClick={() => navigate("/mypage")}
           />       
         <div className="profile-info">
           <p className="profile-name">

@@ -36,7 +36,8 @@
 }
 
 .profile-image-placeholder:hover {
-  transform: scale(1.04); /*호버시 이미지 확대*/
+  transform: scale(1.04);
+  /* 호버 시 이미지 확대 */
 
   box-shadow:
     0 10px 24px rgba(0, 0, 0, 0.18),
