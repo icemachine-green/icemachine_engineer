@@ -1,3 +1,21 @@
+.month-title {
+  width: 100%;
+  text-align: left;
+  /* 왼쪽 정렬 */
+  font-size: 90px;
+  font-weight: normal;
+  margin-top: 20px;
+  margin-left: 15px;
+}
+
+.month-title strong {
+  font-weight: bold;
+  margin-right: 5px;
+  font-size: 130px;
+  color: #00814C;
+}
+
+
 .month-reservation-page {
   display: flex;
   justify-content: center;
@@ -113,6 +131,16 @@
 
 /* 1024 이하 */
 @media (max-width: 1024px) {
+  .month-title {
+    font-size: 70px;
+    margin-top: 15px;
+    width: 65%;
+  }
+  
+  .month-title strong {
+    font-size: 100px;
+  }
+
   .calendar-container {
     width: 85%;
     height: 85%;
@@ -140,6 +168,16 @@
 
 /* 950 이하 */
 @media (max-width: 950px) {
+  .month-title {
+    font-size: 60px;
+    margin-top: 15px;
+    width: 65%;
+  }
+  
+  .month-title strong {
+    font-size: 85px;
+  }
+
   .calendar-container {
     width: 80%;
     height: 80%;
@@ -167,6 +205,16 @@
 
 /* 768 이하 */
 @media (max-width: 768px) {
+  .month-title {
+    font-size: 45px;
+    width: 65%;
+    /* 화면 절반 차지 */
+    margin-top: 10px;
+  }
+  
+  .month-title strong {
+    font-size: 65px;
+  }
   .calendar-container {
     width: 70%;
     height: 80%;
@@ -195,6 +243,17 @@
 
 /* 480 이하 */
 @media (max-width: 480px) {
+  .month-title {
+    font-size: 35px;
+    width: 65%;
+    /* 화면 절반 차지 */
+    margin-top: 8px;
+  }
+  
+  .month-title strong {
+    font-size: 50px;
+  }
+
   .calendar-container {
     width: 70%;
     height: 80%;
