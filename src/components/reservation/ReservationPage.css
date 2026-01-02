@@ -39,14 +39,12 @@
     0 4px 12px rgba(0, 0, 0, 0.08),
     0 1px 2px rgba(0, 0, 0, 0.06);
 
-  /* 🔧 [추가] 카드 호버 전환 효과 */
   transition:
     background-color 0.25s ease,
     box-shadow 0.25s ease,
     transform 0.25s ease;
 }
 
-/* 🔧 [추가] 카드 호버 시 은은한 강조 효과 */
 .reservation-card:hover {
   background-color: #ececec;
 
@@ -96,18 +94,15 @@
   animation: statusPulse 1.8s ease-in-out infinite;
 }
 
-/* 작업 진행중의 은은한 맥동 애니메이션 */
 @keyframes statusPulse {
   0% {
     background-color: #6dd6c2;
     box-shadow: 0 0 0 0 rgba(109, 214, 194, 0.45);
   }
-
   50% {
     background-color: #8be3d2;
     box-shadow: 0 0 0 8px rgba(109, 214, 194, 0.15);
   }
-
   100% {
     background-color: #6dd6c2;
     box-shadow: 0 0 0 0 rgba(109, 214, 194, 0.45);
@@ -177,9 +172,37 @@
   cursor: pointer;
 }
 
-/* =================================================
-   🔽 반응형 미디어쿼리 (기존 유지 / 변경 없음)
-================================================= */
+/* =========================
+   사진 버튼 (갤러리 / 촬영)
+========================= */
+.photo-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.photo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: none;
+  background-color: #00814c;
+  color: #3a3a3a;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.photo-btn:hover {
+  background-color: #006c39;
+}
+
+/* =========================
+   반응형 미디어쿼리 (기존 유지)
+========================= */
 
 /* 1024px 이하 */
 @media (max-width: 1024px) {
@@ -287,5 +310,10 @@
   .more-btn {
     font-size: 16px;
     height: 48px;
+  }
+
+  .photo-btn {
+    font-size: 13px;
+    padding: 6px 12px;
   }
 }

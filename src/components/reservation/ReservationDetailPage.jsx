@@ -1,39 +1,37 @@
 // ReservationDetailPage.jsx
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { reservationsDummy } from "../../data/reservationsDummy.js";
 import "./ReservationDetailPage.css";
 
 const ReservationDetailPage = () => {
   const { id } = useParams();
-  const reservation = reservationsDummy.find(item => item.id === Number(id));
-  const mapRef = useRef(null); // 지도 영역 ref
+  const reservation = reservationsDummy.find((item) => item.id === Number(id));
+  const mapRef = useRef(null);
+  const [images, setImages] = useState([]); // 이미지 상태
 
   useEffect(() => {
     if (!reservation) return;
 
-    // SDK 준비될 때까지 대기
     const waitForKakao = () => {
       if (window.kakao && window.kakao.maps) {
         initMap();
       } else {
-        setTimeout(waitForKakao, 100); // 0.1초마다 확인
+        setTimeout(waitForKakao, 100);
       }
     };
 
     const initMap = () => {
       const mapContainer = mapRef.current;
       const mapOption = {
-        center: new window.kakao.maps.LatLng(35.8714, 128.6014), // 대구 시청 기본
+        center: new window.kakao.maps.LatLng(35.8714, 128.6014),
         level: 3,
       };
       const map = new window.kakao.maps.Map(mapContainer, mapOption);
 
       const geocoder = new window.kakao.maps.services.Geocoder();
       geocoder.addressSearch(reservation.address, (result, status) => {
-        // 🔹 콘솔 로그 추가
         console.log("주소:", reservation.address, "결과:", result, "상태:", status);
-
         if (status === window.kakao.maps.services.Status.OK) {
           const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
           new window.kakao.maps.Marker({ position: coords, map });
@@ -52,10 +50,21 @@ const ReservationDetailPage = () => {
     return <div className="reservation-detail-page">예약 정보를 찾을 수 없습니다.</div>;
   }
 
+  // 이미지 추가 이벤트
+  const handleAddImage = (event) => {
+    const files = event.target.files;
+    if (!files) return;
+
+    const newImages = Array.from(files).slice(0, 2 - images.length); // 최대 2개 제한
+    if (newImages.length === 0) return;
+
+    const newImageUrls = newImages.map((file) => URL.createObjectURL(file));
+    setImages((prev) => [...prev, ...newImageUrls]);
+  };
+
   return (
     <div className="reservation-detail-page">
       <div className="detail-card">
-
         {/* 날짜 / 시간 */}
         <div className="detail-date">
           <p className="date-text">{reservation.date}</p>
@@ -74,7 +83,6 @@ const ReservationDetailPage = () => {
         <div className="detail-section">
           <p className="section-label">주소</p>
           <p className="section-text">{reservation.address}</p>
-
           <div
             ref={mapRef}
             className="map-placeholder"
@@ -91,25 +99,50 @@ const ReservationDetailPage = () => {
             <p className="section-text">모델 | {reservation.model}</p>
             <p className="section-text">고객 설치 사진</p>
           </div>
-          <div className="device-image">이미지</div>
+
+          {/* 이미지 영역: 작업 전 / 작업 후 */}
+          <div className="device-image-container">
+            {/* 작업 전 */}
+            <div className="device-image-box">
+              <p className="image-box-label">작업 전</p>
+              {images[0] ? (
+                <img src={images[0]} alt="작업 전 이미지" className="device-image-item" />
+              ) : (
+                <div className="placeholder">작업전</div>
+              )}
+            </div>
+
+            {/* 작업 후 */}
+            <div className="device-image-box">
+              <p className="image-box-label">작업 후</p>
+              {images[1] ? (
+                <img src={images[1]} alt="작업 후 이미지" className="device-image-item" />
+              ) : (
+                <div className="placeholder">작업후</div>
+              )}
+            </div>
+          </div>
         </div>
 
         <hr />
 
-        {/* 서비스 정보 */}
-        <div className="detail-section">
-          <p className="section-label">서비스 | {reservation.service}</p>
-          <p className="section-text">예상 소요 시간 | {reservation.duration}</p>
-        </div>
-
-        <hr />
-
-        {/* 작업 사진 */}
+        {/* 작업 사진 버튼 */}
         <div className="detail-section">
           <p className="section-label">작업 사진</p>
           <div className="photo-buttons">
             <button className="photo-btn">📷 사진 촬영</button>
-            <button className="photo-btn">➕ 갤러리에서 추가</button>
+
+            {/* 숨겨진 input */}
+            <label className="photo-btn" style={{ cursor: "pointer" }}>
+              ➕ 갤러리에서 추가
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                style={{ display: "none" }}
+                onChange={handleAddImage}
+              />
+            </label>
           </div>
         </div>
 
@@ -131,10 +164,3 @@ const ReservationDetailPage = () => {
 };
 
 export default ReservationDetailPage;
-
-
-
-
-
-
-
