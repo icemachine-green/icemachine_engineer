@@ -1,16 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { reservationsDummy } from "../../data/reservationsDummy.js";
 import "./ReservationDetailPage.css";
+import { useDispatch, useSelector } from "react-redux";
+import { detailThunk } from "../../store/thunks/reservationDetail.thunk.js";
+import { Map } from "react-kakao-maps-sdk";
 
 const ReservationDetailPage = () => {
+  const dispatch = useDispatch();
   const { id } = useParams();
-  const reservation = reservationsDummy.find((item) => item.id === Number(id));
-  const mapRef = useRef(null);
+  const [latLng, setLatLng] = useState({ lat: 35.8714, lng: 128.6014});
+  const { reservationDetailData } = useSelector(state => state.reservationDetail);
+  const [ isNotFoundReservation, setIsNotFoundReservation ] = useState(false);
 
   const [images, setImages] = useState([]);
   const [currentStatus, setCurrentStatus] = useState(
-    reservation?.status || "예약됨"
+    reservationDetailData?.status || "예약됨"
   );
 
   /* 모달 관련 상태 */
@@ -21,45 +25,35 @@ const ReservationDetailPage = () => {
   const [showCompleteModal, setShowCompleteModal] = useState(false);
 
   useEffect(() => {
-    if (!reservation) return;
+    async function init() {
+      // 서버에서 예약정보 가져오는 처리
+      const result = await dispatch(detailThunk(id)).unwrap();
 
-    const waitForKakao = () => {
-      if (window.kakao && window.kakao.maps) {
-        initMap();
+      if(!result) {
+        setIsNotFoundReservation(true);
       } else {
-        setTimeout(waitForKakao, 100);
+        const waitForKakao = (item) => {
+          if (window.kakao && window.kakao.maps) {
+            // 위도 경도 획득
+            const geocoder = new window.kakao.maps.services.Geocoder();
+            geocoder.addressSearch(item.address, (result, status) => {
+              if (status === window.kakao.maps.services.Status.OK) {
+                setLatLng({ lat: result[0].y, lng: result[0].x });
+              }
+            });
+          } else {
+            setTimeout(waitForKakao, 100);
+          }
+        };
+  
+        waitForKakao(result);
       }
-    };
+    }
 
-    const initMap = () => {
-      const mapContainer = mapRef.current;
-      const mapOption = {
-        center: new window.kakao.maps.LatLng(35.8714, 128.6014),
-        level: 3,
-      };
-      const map = new window.kakao.maps.Map(mapContainer, mapOption);
+    init();
+  }, []);
 
-      const geocoder = new window.kakao.maps.services.Geocoder();
-      geocoder.addressSearch(reservation.address, (result, status) => {
-        if (status === window.kakao.maps.services.Status.OK) {
-          const coords = new window.kakao.maps.LatLng(
-            result[0].y,
-            result[0].x
-          );
-          new window.kakao.maps.Marker({ position: coords, map });
-          map.setCenter(coords);
-        } else {
-          map.setCenter(
-            new window.kakao.maps.LatLng(35.8714, 128.6014)
-          );
-        }
-      });
-    };
-
-    waitForKakao();
-  }, [reservation]);
-
-  if (!reservation) {
+  if ( isNotFoundReservation && !reservationDetailData) {
     return (
       <div className="reservation-detail-page">
         예약 정보를 찾을 수 없습니다.
@@ -111,17 +105,17 @@ const ReservationDetailPage = () => {
       <div className="detail-card">
         {/* 날짜 / 시간 */}
         <div className="detail-date">
-          <p className="date-text">{reservation.date}</p>
-          <p className="time-text">{reservation.time}</p>
+          <p className="date-text">{reservationDetailData?.date}</p>
+          <p className="time-text">{reservationDetailData?.time}</p>
         </div>
 
         {/* 고객 정보 */}
         <div className="detail-section">
           <h3 className="section-title">
-            {reservation.name} 고객님
+            {reservationDetailData?.name} 고객님
           </h3>
           <p className="section-text phone">
-            📞 {reservation.phone}
+            📞 {reservationDetailData?.phone}
           </p>
         </div>
 
@@ -130,8 +124,11 @@ const ReservationDetailPage = () => {
         {/* 주소 & 지도 */}
         <div className="detail-section">
           <p className="section-label">주소</p>
-          <p className="section-text">{reservation.address}</p>
-          <div ref={mapRef} className="map-placeholder" />
+          <p className="section-text">{reservationDetailData?.address}</p>
+          <Map
+            center={{ lat: latLng.lat, lng: latLng.lng }}
+            className="map-placeholder"
+          />
         </div>
 
         <hr />
@@ -140,10 +137,10 @@ const ReservationDetailPage = () => {
         <div className="detail-section row">
           <div className="device-info">
             <p className="section-label">
-              크기 | {reservation.type}
+              크기 | {reservationDetailData?.type}
             </p>
             <p className="section-text">
-              모델 | {reservation.model}
+              모델 | {reservationDetailData?.model}
             </p>
             <p className="section-text">고객 설치 사진</p>
           </div>
