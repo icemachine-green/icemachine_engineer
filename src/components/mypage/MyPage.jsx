@@ -31,7 +31,7 @@ const MyPage = () => {
       {/* 내 작업 내역 */}
       <section className="card">
         <h2 className="card-title">내 작업 내역</h2>
-
+        <div className="card-subtitle">작업수</div>
         <div className="work-count">
           <div>
             <span>예약</span>
@@ -46,12 +46,82 @@ const MyPage = () => {
             <strong>116건</strong>
           </div>
         </div>
+      <div className="card-subtitle">등록된 리뷰 내역<span> (최신순)</span></div>
+      {/* 리뷰 카드 부분 */}
 
-        <div className="review-list">
-          <div className="review-card" />
-          <div className="review-card" />
-          <div className="review-card" />
+      <div className="review-list">
+        {/* 리뷰 카드 시작 */}
+        <div className="review-item">
+          {/* 제빙기 이미지 영역 (실제 img는 나중에 교체) */}
+          <img
+            className="review-image"
+            src="/icons/icemachine.png"
+            alt="제빙기 작업 이미지"
+          />
+          {/* 리뷰 내용 */}
+          <div className="review-content">
+            <div className="review-top">
+              <div className="review-stars">
+                ★★★★★
+              </div>
+              <div className="review-meta">
+                <span className="review-name">진중권</span>
+                <span className="review-date">2025.12.27</span>
+              </div>
+            </div>
+            <p className="review-text">
+              제빙기 내부까지 꼼꼼하게 청소해 주셔서<br />
+              얼음 상태가 확실히 달라졌어요.
+            </p>
+          </div>
         </div>
+
+        {/* 동일 카드 2 */}
+        <div className="review-item">
+          <img
+            className="review-image"
+            src="/icons/icemachine.png"
+            alt="제빙기 작업 이미지"
+          />
+          <div className="review-content">
+            <div className="review-top">
+              <div className="review-stars">★★★★★</div>
+              <div className="review-meta">
+                <span className="review-name">김재인</span>
+                <span className="review-date">2025.12.28</span>
+              </div>
+            </div>
+            <p className="review-text">
+              제빙기 내부까지 꼼꼼하게 청소해 주셔서<br />
+              얼음 상태가 확실히 달라졌어요.
+            </p>
+          </div>
+        </div>
+
+        {/* 동일 카드 3 */}
+        <div className="review-item">
+          <img
+            className="review-image"
+            src="/icons/icemachine.png"
+            alt="제빙기 작업 이미지"
+          />
+          <div className="review-content">
+            <div className="review-top">
+              <div className="review-stars">★★★★★</div>
+              <div className="review-meta">
+                <span className="review-name">김상환</span>
+                <span className="review-date">2025.12.29</span>
+              </div>
+            </div>
+            <p className="review-text">
+              제빙기 내부까지 꼼꼼하게 청소해 주셔서<br />
+              얼음 상태가 확실히 달라졌어요.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
       </section>
 
       {/* 작업 상세 */}
@@ -66,7 +136,7 @@ const MyPage = () => {
 
             <div className="detail-row">
               <span>방문일자</span>
-              <span>2025년 12월 27일</span>
+              <span>2026년 01월 02일</span>
             </div>
             <div className="detail-row">
               <span>고객명</span>
@@ -77,7 +147,10 @@ const MyPage = () => {
               <span>Hoshizaki IM-65</span>
             </div>
 
-            <div className="detail-image" />
+            <img 
+              className="detail-image"
+              src="/icons/icemachine_model.png"
+              alt="제빙기 제품 이미지" />
 
             <div className="detail-row">
               <span>서비스 종류</span>
@@ -89,8 +162,16 @@ const MyPage = () => {
             </div>
 
             <div className="before-after">
-              <div />
-              <div />
+              <img 
+                className="review-image"
+                src="/icons/icemachine_dark.png"
+                alt="제빙기 작업 이미지"
+              />
+              <img 
+                className="review-image"
+                src="/icons/icemachine.png"
+                alt="제빙기 작업 이미지"
+              />
             </div>
 
           </div>
