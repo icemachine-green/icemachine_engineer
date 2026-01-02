@@ -1,3 +1,37 @@
+/* 이번 달 예약 상자 */
+.month-top-title-box {
+  background-color: #E3E3E3;
+  width: 100%;           /* 화면 폭 따라 조절 */
+  max-width: 1440px;     /* 최대 폭 제한 */
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: baseline; /* baseline 기준으로 맞춤 */
+  box-sizing: border-box;
+}
+
+.month-top-title-box span {
+  display: inline-flex;      /* flex로 글자 자체 정렬 */
+  align-items: flex-end;     /* 밑줄 기준 맞춤 */
+  line-height: 1;
+}
+
+.text-normal {
+  font-size: 60px;
+  font-weight: bold;
+  color: #000;
+}
+
+.text-highlight {
+  font-size: 110px;
+  font-weight: bold;
+  color: #00814C;
+  margin: 0 10px;
+}
+
+
+
+/* 월 예약보기 타이틀 */
 .month-title {
   width: 100%;
   text-align: left;
@@ -35,7 +69,7 @@
   height: 900px;
   background-color: #fff;
   border-radius: 10px;
-  padding: 30px 20px;
+ padding: 30px 20px 0px 20px; /* ← 상 30px, 우 20px, 하 0, 좌 20px */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -94,6 +128,44 @@
   background-color: #f9f9f9;
 }
 
+/* 캘린더 하단 컬러 표시 --- */
+.calendar-color-view {
+  display: flex;
+  gap: 20px; /* 예약/휴무 간 간격 */
+  align-items: center;
+  font-size: 50px; /* 텍스트 크기 기준으로 박스 크기 설정 */
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;  /* ← 오른쪽 정렬 */
+  gap: 20px;
+  font-size: 16px;
+  width: 100%;                  /* ← 전체 폭 차지 */
+}
+
+/* label과 color-box는 그대로 유지 */
+.label {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* 글자와 네모 사이 간격 */
+}
+
+.color-box {
+  display: inline-block;
+  width: 1.7ch;
+  height: 1.7ch; /* 컬러 박스 크기 지정 */
+  border-radius: 3px;
+}
+
+.color-box.reservation {
+  background-color: #0F9956;
+}
+
+.color-box.offday {
+  background-color: #535353;
+}
+/* 캘린더 하단 컬러 표시 끝 --- */
+
+
 .noColor {
   background-color: transparent;
   border: none;
@@ -131,6 +203,15 @@
 
 /* 1024 이하 */
 @media (max-width: 1024px) {
+  .text-normal {
+    font-size: 50px;
+  }
+
+  .text-highlight {
+    font-size: 90px;
+    margin: 0 8px;
+  }
+
   .month-title {
     font-size: 70px;
     margin-top: 15px;
@@ -168,6 +249,15 @@
 
 /* 950 이하 */
 @media (max-width: 950px) {
+  .text-normal {
+    font-size: 45px;
+  }
+
+  .text-highlight {
+    font-size: 80px;
+    margin: 0 6px;
+  }
+
   .month-title {
     font-size: 60px;
     margin-top: 15px;
@@ -205,6 +295,24 @@
 
 /* 768 이하 */
 @media (max-width: 768px) {
+  .text-normal {
+    font-size: 28px;
+  }
+
+  .text-highlight {
+    font-size: 50px;
+    margin: 0 3px;
+  }
+
+  .text-normal {
+    font-size: 35px;
+  }
+
+  .text-highlight {
+    font-size: 60px;
+    margin: 0 4px;
+  }
+
   .month-title {
     font-size: 45px;
     width: 65%;

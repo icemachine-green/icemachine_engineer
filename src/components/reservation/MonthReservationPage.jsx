@@ -12,12 +12,29 @@ const data = [
   { date: '2026-01-15', content: '예약' },
   { date: '2026-01-26', content: '예약' },
   { date: '2026-01-21', content: '휴무' },
+  { date: '2026-01-29', content: '예약' },
+  { date: '2026-01-27', content: '예약' },
+  { date: '2026-02-20', content: '예약' },
 ];
 
 const MonthReservationPage = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [calendarList, setCalendarList] = useState({});
   const containerRef = useRef(null);
+
+    // 가장 상단 현재 달 예약 건수 계산 함수
+  const getCurrentMonthReservationCount = () => {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1; // JS 월은 0~11
+    let count = 0;
+    data.forEach(item => {
+      const [itemYear, itemMonth] = item.date.split("-").map(Number);
+      if (itemYear === year && itemMonth === month && item.content === "예약") {
+        count += 1;
+      }
+    });
+    return count;
+  };
 
   useEffect(() => {
     // 데이터 가공
@@ -87,6 +104,14 @@ const MonthReservationPage = () => {
 
   return (
     <>
+   <div className="month-top-title-container">
+      <div className="month-top-title-box">
+        <span className="text-normal">이번 달 예약 </span>
+        <span className="text-highlight">{getCurrentMonthReservationCount()}</span>
+        <span className="text-normal">건</span>
+      </div>
+  </div>
+
     <div className="month-title">
       <strong>{currentDate.getMonth() + 1}</strong>월 예약보기
     </div>
@@ -110,6 +135,16 @@ const MonthReservationPage = () => {
           </div>
         </div>
       </div>
+    </div>  
+    <div className="calendar-color-view">
+      <span className="label">
+        예약
+      <span className="color-box reservation"></span>
+      </span>
+      <span className="label">
+        휴무
+      <span className="color-box offday"></span>
+        </span>
     </div>
     </>
   );
