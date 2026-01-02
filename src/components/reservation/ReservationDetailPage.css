@@ -79,7 +79,7 @@ hr {
 ========================= */
 .map-placeholder {
     margin-top: 10px;
-    height: 160px;
+    height: 300px; /* 지도 최소 높이 확보 */
     background-color: #d0d0d0;
     border-radius: 12px;
     display: flex;
