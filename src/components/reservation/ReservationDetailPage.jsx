@@ -8,7 +8,13 @@ const ReservationDetailPage = () => {
   const { id } = useParams();
   const reservation = reservationsDummy.find((item) => item.id === Number(id));
   const mapRef = useRef(null);
-  const [images, setImages] = useState([]); // 이미지 상태
+
+  const [images, setImages] = useState([]);
+  const [currentStatus, setCurrentStatus] = useState(reservation?.status || "예약됨");
+
+  /* ✅ 모달 관련 상태 */
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [cancelReason, setCancelReason] = useState("");
 
   useEffect(() => {
     if (!reservation) return;
@@ -31,13 +37,11 @@ const ReservationDetailPage = () => {
 
       const geocoder = new window.kakao.maps.services.Geocoder();
       geocoder.addressSearch(reservation.address, (result, status) => {
-        console.log("주소:", reservation.address, "결과:", result, "상태:", status);
         if (status === window.kakao.maps.services.Status.OK) {
           const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
           new window.kakao.maps.Marker({ position: coords, map });
           map.setCenter(coords);
         } else {
-          console.error("주소 변환 실패, fallback 대구 시청 중심:", reservation.address);
           map.setCenter(new window.kakao.maps.LatLng(35.8714, 128.6014));
         }
       });
@@ -50,16 +54,31 @@ const ReservationDetailPage = () => {
     return <div className="reservation-detail-page">예약 정보를 찾을 수 없습니다.</div>;
   }
 
-  // 이미지 추가 이벤트
+  /* 이미지 추가 */
   const handleAddImage = (event) => {
     const files = event.target.files;
     if (!files) return;
 
-    const newImages = Array.from(files).slice(0, 2 - images.length); // 최대 2개 제한
-    if (newImages.length === 0) return;
-
+    const newImages = Array.from(files).slice(0, 2 - images.length);
     const newImageUrls = newImages.map((file) => URL.createObjectURL(file));
     setImages((prev) => [...prev, ...newImageUrls]);
+  };
+
+  /* 작업 상태 핸들러 */
+  const handleStart = () => setCurrentStatus("작업 진행중");
+  const handleComplete = () => setCurrentStatus("작업 완료");
+
+  /* ✅ 작업 취소 모달 핸들러 */
+  const openCancelModal = () => setShowCancelModal(true);
+  const closeCancelModal = () => {
+    setShowCancelModal(false);
+    setCancelReason("");
+  };
+
+  const handleSaveCancelReason = () => {
+    console.log("취소 사유:", cancelReason); // 추후 서버 전송 가능
+    setCurrentStatus("예약됨");
+    closeCancelModal();
   };
 
   return (
@@ -83,11 +102,7 @@ const ReservationDetailPage = () => {
         <div className="detail-section">
           <p className="section-label">주소</p>
           <p className="section-text">{reservation.address}</p>
-          <div
-            ref={mapRef}
-            className="map-placeholder"
-            style={{ width: "100%", height: "300px" }}
-          ></div>
+          <div ref={mapRef} className="map-placeholder" />
         </div>
 
         <hr />
@@ -100,23 +115,20 @@ const ReservationDetailPage = () => {
             <p className="section-text">고객 설치 사진</p>
           </div>
 
-          {/* 이미지 영역: 작업 전 / 작업 후 */}
           <div className="device-image-container">
-            {/* 작업 전 */}
             <div className="device-image-box">
               <p className="image-box-label">작업 전</p>
               {images[0] ? (
-                <img src={images[0]} alt="작업 전 이미지" className="device-image-item" />
+                <img src={images[0]} alt="작업 전" className="device-image-item" />
               ) : (
                 <div className="placeholder">작업전</div>
               )}
             </div>
 
-            {/* 작업 후 */}
             <div className="device-image-box">
               <p className="image-box-label">작업 후</p>
               {images[1] ? (
-                <img src={images[1]} alt="작업 후 이미지" className="device-image-item" />
+                <img src={images[1]} alt="작업 후" className="device-image-item" />
               ) : (
                 <div className="placeholder">작업후</div>
               )}
@@ -126,39 +138,64 @@ const ReservationDetailPage = () => {
 
         <hr />
 
-        {/* 작업 사진 버튼 */}
+        {/* 작업 사진 */}
         <div className="detail-section">
           <p className="section-label">작업 사진</p>
           <div className="photo-buttons">
             <button className="photo-btn">📷 사진 촬영</button>
-
-            {/* 숨겨진 input */}
-            <label className="photo-btn" style={{ cursor: "pointer" }}>
+            <label className="photo-btn">
               ➕ 갤러리에서 추가
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                style={{ display: "none" }}
-                onChange={handleAddImage}
-              />
+              <input type="file" accept="image/*" multiple hidden onChange={handleAddImage} />
             </label>
           </div>
         </div>
 
         <hr />
 
-        {/* 고객 요청사항 */}
-        <div className="detail-section row space-between">
-          <p className="section-label">고객 요청사항 여부</p>
-          <div className="request-badge">있음</div>
+        {/* 작업 상태 버튼 */}
+        <div className="button-area">
+          {currentStatus === "작업 진행중" ? (
+            <>
+              <p className="status-message">지금은 작업중입니다...!</p>
+              <button className="start-btn" onClick={handleComplete}>
+                작업 완료
+              </button>
+              <button className="cancel-btn" onClick={openCancelModal}>
+                작업 취소
+              </button>
+            </>
+          ) : (
+            <button className="start-btn" onClick={handleStart}>
+              작업 시작
+            </button>
+          )}
         </div>
       </div>
 
-      {/* 작업 시작 버튼 */}
-      <button className="start-btn">
-        {reservation.status === "작업 진행중" ? "작업 계속" : "작업 시작"}
-      </button>
+      {/* ✅ 작업 취소 모달 */}
+        {showCancelModal && (
+          <div className="modal-overlay">
+            <div className="modal-container">
+              <div className="modal-header">
+                <h3 className="modal-title">작업 취소 사유</h3>
+                <button className="modal-close-btn" onClick={closeCancelModal}>
+                  ×
+                </button>
+              </div>
+
+              <textarea
+                className="modal-textarea"
+                placeholder="기사님! 작업 취소 사유를 작성해주세요."
+                value={cancelReason}
+                onChange={(e) => setCancelReason(e.target.value)}
+              />
+
+              <button className="modal-submit-btn" onClick={handleSaveCancelReason}>
+                취소 사유 저장하기
+              </button>
+            </div>
+          </div>
+        )}
     </div>
   );
 };
