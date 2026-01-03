@@ -3,57 +3,69 @@ import { useParams } from "react-router-dom";
 import "./ReservationDetailPage.css";
 import { useDispatch, useSelector } from "react-redux";
 import { detailThunk } from "../../store/thunks/reservationDetail.thunk.js";
-import { Map } from "react-kakao-maps-sdk";
+import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 
 const ReservationDetailPage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const [latLng, setLatLng] = useState({ lat: 35.8714, lng: 128.6014});
-  const { reservationDetailData } = useSelector(state => state.reservationDetail);
-  const [ isNotFoundReservation, setIsNotFoundReservation ] = useState(false);
 
+  const [latLng, setLatLng] = useState({
+    lat: 35.8714,
+    lng: 128.6014,
+  });
+
+  const { reservationDetailData } = useSelector(
+    (state) => state.reservationDetail
+  );
+
+  const [isNotFoundReservation, setIsNotFoundReservation] = useState(false);
   const [images, setImages] = useState([]);
+
   const [currentStatus, setCurrentStatus] = useState(
     reservationDetailData?.status || "예약됨"
   );
 
-  /* 모달 관련 상태 */
+  /* 모달 상태 */
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
-
-  /* ✅ 작업 완료 모달 상태 */
   const [showCompleteModal, setShowCompleteModal] = useState(false);
 
   useEffect(() => {
     async function init() {
-      // 서버에서 예약정보 가져오는 처리
       const result = await dispatch(detailThunk(id)).unwrap();
 
-      if(!result) {
+      if (!result) {
         setIsNotFoundReservation(true);
-      } else {
-        const waitForKakao = (item) => {
-          if (window.kakao && window.kakao.maps) {
-            // 위도 경도 획득
-            const geocoder = new window.kakao.maps.services.Geocoder();
-            geocoder.addressSearch(item.address, (result, status) => {
-              if (status === window.kakao.maps.services.Status.OK) {
-                setLatLng({ lat: result[0].y, lng: result[0].x });
-              }
-            });
-          } else {
-            setTimeout(waitForKakao, 100);
-          }
-        };
-  
-        waitForKakao(result);
+        return;
       }
+
+      const waitForKakao = (item) => {
+        if (window.kakao && window.kakao.maps) {
+          const geocoder = new window.kakao.maps.services.Geocoder();
+
+          geocoder.addressSearch(item.address, (res, status) => {
+            if (
+              status === window.kakao.maps.services.Status.OK &&
+              res.length > 0
+            ) {
+              setLatLng({
+                lat: Number(res[0].y),
+                lng: Number(res[0].x),
+              });
+            }
+          });
+        } else {
+          setTimeout(() => waitForKakao(item), 100);
+        }
+      };
+
+      waitForKakao(result);
     }
 
     init();
-  }, []);
+  }, [dispatch, id]);
 
-  if ( isNotFoundReservation && !reservationDetailData) {
+  if (isNotFoundReservation && !reservationDetailData) {
     return (
       <div className="reservation-detail-page">
         예약 정보를 찾을 수 없습니다.
@@ -61,33 +73,32 @@ const ReservationDetailPage = () => {
     );
   }
 
+  /* 사진 하나씩 삭제 (마지막 사진부터) */
+  const handleRemoveImage = () => {
+    setImages((prev) => prev.slice(0, prev.length - 1));
+  };
+
   /* 이미지 추가 */
   const handleAddImage = (event) => {
     const files = event.target.files;
     if (!files) return;
 
     const newImages = Array.from(files).slice(0, 2 - images.length);
-    const newImageUrls = newImages.map((file) =>
-      URL.createObjectURL(file)
-    );
-    setImages((prev) => [...prev, ...newImageUrls]);
+    const urls = newImages.map((file) => URL.createObjectURL(file));
+
+    setImages((prev) => [...prev, ...urls]);
   };
 
-  /* 작업 상태 핸들러 */
+  /* 작업 상태 */
   const handleStart = () => setCurrentStatus("작업 진행중");
+  const handleComplete = () => setShowCompleteModal(true);
 
-  /* ✅ 작업 완료 클릭 → 모달 오픈 */
-  const handleComplete = () => {
-    setShowCompleteModal(true);
-  };
-
-  /* ✅ 작업 완료 모달 확인 */
   const handleConfirmComplete = () => {
     setCurrentStatus("작업 종료");
     setShowCompleteModal(false);
   };
 
-  /* 작업 취소 모달 핸들러 */
+  /* 취소 모달 */
   const openCancelModal = () => setShowCancelModal(true);
   const closeCancelModal = () => {
     setShowCancelModal(false);
@@ -112,10 +123,12 @@ const ReservationDetailPage = () => {
         {/* 고객 정보 */}
         <div className="detail-section">
           <h3 className="section-title">
-            {reservationDetailData?.name} 고객님
+            <h2>{reservationDetailData?.storeName}</h2>
+            <hr />
+            <h3>{reservationDetailData?.name} 고객님</h3>
           </h3>
           <p className="section-text phone">
-            📞 {reservationDetailData?.phone}
+            <h3>📞 {reservationDetailData?.phone}</h3>
           </p>
         </div>
 
@@ -124,11 +137,23 @@ const ReservationDetailPage = () => {
         {/* 주소 & 지도 */}
         <div className="detail-section">
           <p className="section-label">주소</p>
-          <p className="section-text">{reservationDetailData?.address}</p>
+          <p className="section-text">
+            {reservationDetailData?.address}
+          </p>
+
           <Map
             center={{ lat: latLng.lat, lng: latLng.lng }}
+            level={3}
             className="map-placeholder"
-          />
+          >
+            <MapMarker position={{ lat: latLng.lat, lng: latLng.lng }} />
+
+            <CustomOverlayMap position={{ lat: latLng.lat, lng: latLng.lng }}>
+              <div className="map-label">
+                {reservationDetailData?.storeName}
+              </div>
+            </CustomOverlayMap>
+          </Map>
         </div>
 
         <hr />
@@ -180,7 +205,14 @@ const ReservationDetailPage = () => {
         <div className="detail-section">
           <p className="section-label">작업 사진</p>
           <div className="photo-buttons">
-            <button className="photo-btn">📷 사진 촬영</button>
+            <button
+              className="photo-btn"
+              onClick={handleRemoveImage}
+              disabled={images.length === 0}
+            >
+              ➖ 사진 삭제
+            </button>
+
             <label className="photo-btn">
               ➕ 갤러리에서 추가
               <input
@@ -196,7 +228,7 @@ const ReservationDetailPage = () => {
 
         <hr />
 
-        {/* 작업 상태 버튼 */}
+        {/* 작업 상태 */}
         <div className="button-area">
           {currentStatus === "예약됨" && (
             <button className="start-btn" onClick={handleStart}>
@@ -267,14 +299,12 @@ const ReservationDetailPage = () => {
         </div>
       )}
 
-      {/* ✅ 작업 완료 모달 */}
+      {/* 작업 완료 모달 */}
       {showCompleteModal && (
         <div className="modal-overlay">
           <div className="modal-container">
             <h3 className="modal-title">작업 완료</h3>
-            <p className="modal-desc">
-              작업 완료 되었습니다.
-            </p>
+            <p className="modal-desc">작업 완료 되었습니다.</p>
             <button
               className="modal-confirm-btn"
               onClick={handleConfirmComplete}

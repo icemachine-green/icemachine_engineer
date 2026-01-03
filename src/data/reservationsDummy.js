@@ -1,14 +1,15 @@
 // reservationsDummy.js
-// 더미 데이터의 주소는 실제 있는 주소여야, 카카오맵에서 출력이 가능합니다 (실제 데이터에서도 마찬가지일 것입니다)
+// 더미 데이터의 주소는 실제 있는 주소여야, 카카오맵에서 출력이 가능합니다
 
 export const reservationsDummy = [
   {
     id: 1,
+    storeName: "교보문고 대구점",
     date: "2026-01-01",
     time: "09:00 ~ 10:00",
     name: "이지영",
     phone: "010-1212-7777",
-    address: "대구광역시 중구 국채보상로 586", // 교보문고 대구점 :contentReference[oaicite:0]{index=0}
+    address: "대구광역시 중구 국채보상로 586",
     type: "대형",
     model: "Hoshizaki IM-65",
     service: "DEEP_CLEAN",
@@ -17,11 +18,12 @@ export const reservationsDummy = [
   },
   {
     id: 2,
+    storeName: "경대북문 카페온",
     date: "2026-01-01",
     time: "10:30 ~ 12:30",
     name: "김민수",
     phone: "010-2222-3333",
-    address: "대구광역시 북구 대학로 80", // 경북대학교 정문 :contentReference[oaicite:1]{index=1}
+    address: "대구광역시 북구 대학로 80",
     type: "중형",
     model: "Hoshizaki IM-45",
     service: "BASIC",
@@ -30,11 +32,12 @@ export const reservationsDummy = [
   },
   {
     id: 3,
+    storeName: "중앙공원 베이커리",
     date: "2026-01-01",
     time: "14:00 ~ 17:00",
     name: "박서연",
     phone: "010-3333-4444",
-    address: "대구광역시 중구 공평로 88", // 근처 중앙공원 주변 주소 (수창공원/수창동 인근) :contentReference[oaicite:2]{index=2}
+    address: "대구광역시 중구 공평로 88",
     type: "소형",
     model: "Hoshizaki IM-30",
     service: "DEEP_CLEAN",
@@ -43,11 +46,12 @@ export const reservationsDummy = [
   },
   {
     id: 4,
+    storeName: "동성로 스트리트버거",
     date: "2026-01-02",
     time: "09:00 ~ 10:00",
     name: "최현우",
     phone: "010-4444-5555",
-    address: "대구광역시 중구 동성로2길 69", // 동성로 번화가 상권 교통/쇼핑 지역 (Jungangno Station 인근) :contentReference[oaicite:3]{index=3}
+    address: "대구광역시 중구 동성로2길 69",
     type: "대형",
     model: "Hoshizaki IM-65",
     service: "BASIC",
@@ -56,11 +60,12 @@ export const reservationsDummy = [
   },
   {
     id: 5,
+    storeName: "동성로 커피하우스",
     date: "2026-01-02",
     time: "11:00 ~ 13:00",
     name: "정다은",
     phone: "010-5555-6666",
-    address: "대구광역시 중구 동성로1길 50", // 동성로 상권 (근처 장소) :contentReference[oaicite:4]{index=4}
+    address: "대구광역시 중구 동성로1길 50",
     type: "중형",
     model: "Hoshizaki IM-45",
     service: "DEEP_CLEAN",
@@ -69,11 +74,12 @@ export const reservationsDummy = [
   },
   {
     id: 6,
+    storeName: "아토주유소 편의점",
     date: "2026-01-02",
     time: "14:00 ~ 17:00",
     name: "이준호",
     phone: "010-6666-7777",
-    address: "대구광역시 달서구 구마로 42", // 아토주유소 근처 주소 :contentReference[oaicite:5]{index=5}
+    address: "대구광역시 달서구 구마로 42",
     type: "대형",
     model: "Hoshizaki IM-75",
     service: "DEEP_CLEAN",
@@ -82,11 +88,12 @@ export const reservationsDummy = [
   },
   {
     id: 7,
+    storeName: "달성공원 분식",
     date: "2026-01-03",
     time: "09:00 ~ 10:00",
     name: "한지민",
     phone: "010-7777-8888",
-    address: "대구광역시 중구 달성공원로 35", // 수창공원/달성공원 근처 :contentReference[oaicite:6]{index=6}
+    address: "대구광역시 중구 달성공원로 35",
     type: "소형",
     model: "Hoshizaki IM-30",
     service: "BASIC",
@@ -95,11 +102,12 @@ export const reservationsDummy = [
   },
   {
     id: 8,
+    storeName: "동성로 SHL카페",
     date: "2026-01-03",
     time: "10:30 ~ 12:30",
     name: "오세훈",
     phone: "010-8888-9999",
-    address: "대구광역시 중구 국채보상로 648", // SHL동성빌딩 / 국채보상로 :contentReference[oaicite:7]{index=7}
+    address: "대구광역시 중구 국채보상로 648",
     type: "중형",
     model: "Hoshizaki IM-45",
     service: "DEEP_CLEAN",
@@ -108,25 +116,26 @@ export const reservationsDummy = [
   },
   {
     id: 9,
+    storeName: "구지면 창리식당",
     date: "2026-01-03",
     time: "14:00 ~ 17:00",
     name: "윤아름",
     phone: "010-9999-0000",
-    address: "대구광역시 달성군 구지면 창리로11길 38", // 구지면보건지소 근처 :contentReference[oaicite:8]{index=8}
+    address: "대구광역시 달성군 구지면 창리로11길 38",
     type: "대형",
     model: "Hoshizaki IM-65",
     service: "DEEP_CLEAN",
     duration: "180분",
     status: null,
   },
-
   {
     id: 10,
+    storeName: "중앙공원 브런치",
     date: "2026-01-04",
     time: "09:00 ~ 10:00",
     name: "강민호",
     phone: "010-1010-2020",
-    address: "대구광역시 중구 공평로 66", // 중앙공원 주변 변형 주소 :contentReference[oaicite:9]{index=9}
+    address: "대구광역시 중구 공평로 66",
     type: "중형",
     model: "Hoshizaki IM-45",
     service: "BASIC",
@@ -135,11 +144,12 @@ export const reservationsDummy = [
   },
   {
     id: 11,
+    storeName: "국채보상로 푸드랩",
     date: "2026-01-04",
     time: "11:00 ~ 13:00",
     name: "서유진",
     phone: "010-2020-3030",
-    address: "대구광역시 중구 국채보상로 580", // 국채보상로 인근 주소 :contentReference[oaicite:10]{index=10}
+    address: "대구광역시 중구 국채보상로 580",
     type: "대형",
     model: "Hoshizaki IM-75",
     service: "DEEP_CLEAN",
@@ -148,11 +158,12 @@ export const reservationsDummy = [
   },
   {
     id: 12,
+    storeName: "경대정문 분식집",
     date: "2026-01-04",
     time: "14:00 ~ 17:00",
     name: "문지훈",
     phone: "010-3030-4040",
-    address: "대구광역시 북구 대학로 80", // 경북대학교 다시 :contentReference[oaicite:11]{index=11}
+    address: "대구광역시 북구 대학로 80",
     type: "소형",
     model: "Hoshizaki IM-30",
     service: "DEEP_CLEAN",
@@ -161,11 +172,12 @@ export const reservationsDummy = [
   },
   {
     id: 13,
+    storeName: "국채보상로 스낵바",
     date: "2026-01-05",
     time: "09:00 ~ 10:00",
     name: "임수진",
     phone: "010-4040-5050",
-    address: "대구광역시 중구 국채보상로 595", // 국채보상로 인근 주소 :contentReference[oaicite:12]{index=12}
+    address: "대구광역시 중구 국채보상로 595",
     type: "소형",
     model: "Hoshizaki IM-30",
     service: "BASIC",
@@ -174,11 +186,12 @@ export const reservationsDummy = [
   },
   {
     id: 14,
+    storeName: "동성로 야시장포차",
     date: "2026-01-05",
     time: "10:30 ~ 12:30",
     name: "조성훈",
     phone: "010-5050-6060",
-    address: "대구광역시 중구 동성로2길 77", // 동성로 주변 주소 :contentReference[oaicite:13]{index=13}
+    address: "대구광역시 중구 동성로2길 77",
     type: "중형",
     model: "Hoshizaki IM-45",
     service: "DEEP_CLEAN",
@@ -187,11 +200,12 @@ export const reservationsDummy = [
   },
   {
     id: 15,
+    storeName: "서구 문화로 식당",
     date: "2026-01-05",
     time: "14:00 ~ 17:00",
     name: "배지훈",
     phone: "010-6060-7070",
-    address: "대구광역시 서구 문화로 96", // 서구구민운동장근처 :contentReference[oaicite:14]{index=14}
+    address: "대구광역시 서구 문화로 96",
     type: "대형",
     model: "Hoshizaki IM-75",
     service: "DEEP_CLEAN",
@@ -200,11 +214,12 @@ export const reservationsDummy = [
   },
   {
     id: 16,
+    storeName: "동성로 로스터리",
     date: "2026-01-06",
     time: "09:00 ~ 10:00",
     name: "신혜린",
     phone: "010-7070-8080",
-    address: "대구광역시 중구 동성로1길 45", // 동성로 주변 또 다른 주소 :contentReference[oaicite:15]{index=15}
+    address: "대구광역시 중구 동성로1길 45",
     type: "소형",
     model: "Hoshizaki IM-30",
     service: "BASIC",
@@ -213,11 +228,12 @@ export const reservationsDummy = [
   },
   {
     id: 17,
+    storeName: "서대구역 푸드코트",
     date: "2026-01-06",
     time: "11:00 ~ 13:00",
     name: "홍준표",
     phone: "010-8080-9090",
-    address: "대구광역시 북구 호국로 807", // 서대구역 근처 도로명주소 :contentReference[oaicite:16]{index=16}
+    address: "대구광역시 북구 호국로 807",
     type: "중형",
     model: "Hoshizaki IM-45",
     service: "DEEP_CLEAN",
@@ -226,11 +242,12 @@ export const reservationsDummy = [
   },
   {
     id: 18,
+    storeName: "동성로 메인카페",
     date: "2026-01-06",
     time: "14:00 ~ 17:00",
     name: "김하늘",
     phone: "010-9090-0001",
-    address: "대구광역시 중구 동성로2가 88", // 동성로 중심 주소 :contentReference[oaicite:17]{index=17}
+    address: "대구광역시 중구 동성로2가 88",
     type: "대형",
     model: "Hoshizaki IM-65",
     service: "DEEP_CLEAN",

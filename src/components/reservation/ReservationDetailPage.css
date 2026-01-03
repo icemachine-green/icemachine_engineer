@@ -33,7 +33,7 @@
   font-weight: 700;
   line-height: 1.15;     
   margin: 0; 
-  padding: 8px;           
+  padding: 10px;           
 }
 
 .time-text {
@@ -41,7 +41,7 @@
   opacity: 0.95;
   line-height: 1.15;     
   margin: 0;
-  padding: 8px;               
+  padding: 10px;               
 }
 
 /* =========================
@@ -172,6 +172,7 @@ hr {
     border-radius: 14px;
     padding: 12px 8px;
     font-size: 14px;
+    font-weight: 500; 
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
@@ -343,4 +344,18 @@ hr {
     background-color: #9a9a9a;
     color: #f0f0f0;
     cursor: not-allowed;
+}
+
+/* =========================
+   지도 매장명 라벨 css
+========================= */
+.map-label {
+  background: #ffffff;
+  padding: 6px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  transform: translateY(-50px);
 }
