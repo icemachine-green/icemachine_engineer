@@ -47,7 +47,7 @@ export const reservationsDummy = [
   {
     id: 4,
     storeName: "동성로 스트리트버거",
-    date: "2026-01-02",
+    date: "2026-01-07",
     time: "09:00 ~ 10:00",
     name: "최현우",
     phone: "010-4444-5555",
@@ -61,7 +61,7 @@ export const reservationsDummy = [
   {
     id: 5,
     storeName: "동성로 커피하우스",
-    date: "2026-01-02",
+    date: "2026-01-07",
     time: "11:00 ~ 13:00",
     name: "정다은",
     phone: "010-5555-6666",
@@ -75,7 +75,7 @@ export const reservationsDummy = [
   {
     id: 6,
     storeName: "아토주유소 편의점",
-    date: "2026-01-02",
+    date: "2026-01-07",
     time: "14:00 ~ 17:00",
     name: "이준호",
     phone: "010-6666-7777",
@@ -89,7 +89,7 @@ export const reservationsDummy = [
   {
     id: 7,
     storeName: "달성공원 분식",
-    date: "2026-01-03",
+    date: "2026-01-08",
     time: "09:00 ~ 10:00",
     name: "한지민",
     phone: "010-7777-8888",
@@ -103,7 +103,7 @@ export const reservationsDummy = [
   {
     id: 8,
     storeName: "동성로 SHL카페",
-    date: "2026-01-03",
+    date: "2026-01-08",
     time: "10:30 ~ 12:30",
     name: "오세훈",
     phone: "010-8888-9999",
@@ -117,7 +117,7 @@ export const reservationsDummy = [
   {
     id: 9,
     storeName: "구지면 창리식당",
-    date: "2026-01-03",
+    date: "2026-01-08",
     time: "14:00 ~ 17:00",
     name: "윤아름",
     phone: "010-9999-0000",
@@ -131,7 +131,7 @@ export const reservationsDummy = [
   {
     id: 10,
     storeName: "중앙공원 브런치",
-    date: "2026-01-04",
+    date: "2026-01-09",
     time: "09:00 ~ 10:00",
     name: "강민호",
     phone: "010-1010-2020",
@@ -145,7 +145,7 @@ export const reservationsDummy = [
   {
     id: 11,
     storeName: "국채보상로 푸드랩",
-    date: "2026-01-04",
+    date: "2026-01-09",
     time: "11:00 ~ 13:00",
     name: "서유진",
     phone: "010-2020-3030",
@@ -159,7 +159,7 @@ export const reservationsDummy = [
   {
     id: 12,
     storeName: "경대정문 분식집",
-    date: "2026-01-04",
+    date: "2026-01-10",
     time: "14:00 ~ 17:00",
     name: "문지훈",
     phone: "010-3030-4040",
@@ -173,7 +173,7 @@ export const reservationsDummy = [
   {
     id: 13,
     storeName: "국채보상로 스낵바",
-    date: "2026-01-05",
+    date: "2026-01-10",
     time: "09:00 ~ 10:00",
     name: "임수진",
     phone: "010-4040-5050",
@@ -187,7 +187,7 @@ export const reservationsDummy = [
   {
     id: 14,
     storeName: "동성로 야시장포차",
-    date: "2026-01-05",
+    date: "2026-01-10",
     time: "10:30 ~ 12:30",
     name: "조성훈",
     phone: "010-5050-6060",
@@ -201,7 +201,7 @@ export const reservationsDummy = [
   {
     id: 15,
     storeName: "서구 문화로 식당",
-    date: "2026-01-05",
+    date: "2026-01-11",
     time: "14:00 ~ 17:00",
     name: "배지훈",
     phone: "010-6060-7070",
@@ -215,7 +215,7 @@ export const reservationsDummy = [
   {
     id: 16,
     storeName: "동성로 로스터리",
-    date: "2026-01-06",
+    date: "2026-01-11",
     time: "09:00 ~ 10:00",
     name: "신혜린",
     phone: "010-7070-8080",
@@ -229,7 +229,7 @@ export const reservationsDummy = [
   {
     id: 17,
     storeName: "서대구역 푸드코트",
-    date: "2026-01-06",
+    date: "2026-01-11",
     time: "11:00 ~ 13:00",
     name: "홍준표",
     phone: "010-8080-9090",
@@ -243,7 +243,7 @@ export const reservationsDummy = [
   {
     id: 18,
     storeName: "동성로 메인카페",
-    date: "2026-01-06",
+    date: "2026-01-12",
     time: "14:00 ~ 17:00",
     name: "김하늘",
     phone: "010-9090-0001",

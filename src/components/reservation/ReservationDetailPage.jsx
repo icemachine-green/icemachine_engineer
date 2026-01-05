@@ -114,6 +114,7 @@ const ReservationDetailPage = () => {
   return (
     <div className="reservation-detail-page">
       <div className="detail-card">
+        
         {/* 날짜 / 시간 */}
         <div className="detail-date">
           <p className="date-text">{reservationDetailData?.date}</p>
