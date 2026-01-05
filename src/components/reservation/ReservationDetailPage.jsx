@@ -123,14 +123,15 @@ const ReservationDetailPage = () => {
 
         {/* 고객 정보 */}
         <div className="detail-section">
-          <h3 className="section-title">
+          <div className="section-title">
             <h2>{reservationDetailData?.storeName}</h2>
             <hr />
             <h3>{reservationDetailData?.name} 고객님</h3>
-          </h3>
-          <p className="section-text phone">
+          </div>
+
+          <div className="section-text phone">
             <h3>📞 {reservationDetailData?.phone}</h3>
-          </p>
+          </div>
         </div>
 
         <hr />
