@@ -1,6 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import "./MonthReservationPage.css";
 
+/* ===== 더미 데이터 그대로 유지 ===== */
 const data = [
   { date: '2025-12-16', content: '예약' },
   { date: '2025-12-03', content: '예약' },
@@ -8,7 +11,8 @@ const data = [
   { date: '2025-12-26', content: '예약' },
   { date: '2025-12-21', content: '휴무' },
   { date: '2026-01-16', content: '예약' },
-  { date: '2026-01-03', content: '예약' },
+  { date: '2026-01-05', content: '예약' },
+  { date: '2026-01-15', content: '예약' },
   { date: '2026-01-15', content: '예약' },
   { date: '2026-01-26', content: '예약' },
   { date: '2026-01-21', content: '휴무' },
@@ -18,137 +22,111 @@ const data = [
 ];
 
 const MonthReservationPage = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [calendarList, setCalendarList] = useState({});
-  const containerRef = useRef(null);
+  // ✅ 초기 날짜를 2026년 1월 1일로 설정
+  const [currentDate, setCurrentDate] = useState(new Date(2026, 0, 1));
 
-    // 가장 상단 현재 달 예약 건수 계산 함수
+  /* ===== 이번 달 예약 건수 계산 함수 ===== */
   const getCurrentMonthReservationCount = () => {
     const year = currentDate.getFullYear();
-    const month = currentDate.getMonth() + 1; // JS 월은 0~11
+    const month = currentDate.getMonth() + 1;
     let count = 0;
+
     data.forEach(item => {
       const [itemYear, itemMonth] = item.date.split("-").map(Number);
       if (itemYear === year && itemMonth === month && item.content === "예약") {
         count += 1;
       }
     });
+
     return count;
   };
 
-  useEffect(() => {
-    // 데이터 가공
-    const tempList = {};
-    data.forEach(item => {
-      if (!tempList[item.date]) tempList[item.date] = [];
-      tempList[item.date].push(item.content);
-    });
-    setCalendarList(tempList);
-  }, []);
-  
-
-  const pad = (num) => (num > 9 ? num : '0' + num);
-
-  const renderDates = () => {
-    const viewYear = currentDate.getFullYear();
-    const viewMonth = currentDate.getMonth();
-    const firstDay = new Date(viewYear, viewMonth, 1).getDay();
-    const lastDay = new Date(viewYear, viewMonth + 1, 0).getDate();
-    const limitDay = firstDay + lastDay;
-    const nextDay = Math.ceil(limitDay / 7) * 7;
-
-    let dates = [];
-
-    // 이전 달 빈 칸
-    for (let i = 0; i < firstDay; i++) {
-      dates.push(<div key={`empty-start-${i}`} className="noColor"></div>);
-    }
-
-    // 이번 달 날짜
-    for (let i = 1; i <= lastDay; i++) {
-      const dateStr = `${viewYear}-${pad(viewMonth + 1)}-${pad(i)}`;
-      dates.push(
-        <div key={i}>
-          {i}
-          {calendarList[dateStr]?.map((content, idx) => (
-            <span
-              key={idx}
-              className={content === "예약" ? "reservation-btn" : content === "휴무" ? "closed-btn" : ""}
-            >
-              {content}
-            </span>
-          ))}
-        </div>
-      );
-    }
-
-    // 다음 달 빈 칸
-    for (let i = limitDay; i < nextDay; i++) {
-      dates.push(<div key={`empty-end-${i}`} className="noColor"></div>);
-    }
-
-    return dates;
+  /* 날짜 포맷 YYYY-MM-DD */
+  const formatDate = (date) => {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
   };
 
-  const prevMonth = () => {
-    const newDate = new Date(currentDate);
-    newDate.setMonth(currentDate.getMonth() - 1);
-    setCurrentDate(newDate);
-  };
+  /* 날짜 칸 커스텀 렌더링 */
+  const tileContent = ({ date, view }) => {
+    if (view !== "month") return null;
 
-  const nextMonth = () => {
-    const newDate = new Date(currentDate);
-    newDate.setMonth(currentDate.getMonth() + 1);
-    setCurrentDate(newDate);
+    const dateStr = formatDate(date);
+    const dayData = data.filter(item => item.date === dateStr);
+
+    if (dayData.length === 0) return null;
+
+    const reservationCount = dayData.filter(item => item.content === "예약").length;
+    const hasOffday = dayData.some(item => item.content === "휴무");
+
+    return (
+      <>
+        {reservationCount > 0 && (
+          <span className="reservation-btn">
+            예약 {reservationCount}건
+          </span>
+        )}
+        {hasOffday && (
+          <span className="closed-btn">
+            휴무
+          </span>
+        )}
+      </>
+    );
   };
 
   return (
     <>
-   <div className="month-top-title-container">
-      <div className="month-top-title-box">
-        <span className="text-normal">이번 달 예약 </span>
-        <span className="text-highlight">{getCurrentMonthReservationCount()}</span>
-        <span className="text-normal">건</span>
+      {/* ===== 상단 예약 건수 ===== */}
+      <div className="month-top-title-container">
+        <div className="month-top-title-box">
+          <span className="text-normal">이번 달 </span>
+          <span className="text-highlight">
+            {getCurrentMonthReservationCount()}
+          </span>
+          <span className="text-normal">건 예약</span>
+        </div>
       </div>
-  </div>
 
-    <div className="month-title">
-      <strong>{currentDate.getMonth() + 1}</strong>월 예약보기
-    </div>
-    <div
-      className="month-reservation-page"
-      ref={containerRef}
-    >
-      <div className="calendar-container">
-        <div className="header">
-          <button className="date-last" onClick={prevMonth}>&lt;</button>
-          <h2 className="date-now">{`${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1}월`}</h2>
-          <button className="date-next" onClick={nextMonth}>&gt;</button>
-        </div>
-        <div className="calendar">
-          <div className="grid date-title">
-            <div>일</div><div>월</div><div>화</div>
-            <div>수</div><div>목</div><div>금</div><div>토</div>
-          </div>
-          <div className="grid date-board">
-            {renderDates()}
-          </div>
+      {/* ===== 캘린더 ===== */}
+      <div className="month-reservation-page">
+        <div className="calendar-container">
+          <Calendar
+            locale="ko-KR"
+            calendarType="gregory"
+            value={null}  
+            onActiveStartDateChange={({ activeStartDate }) =>
+              setCurrentDate(activeStartDate)
+            }
+            tileContent={tileContent}
+            formatDay={(locale, date) => date.getDate()}
+            prev2Label={null}
+            next2Label={null}
+            view="month"              // 월 단위 화면 고정
+            onClickMonth={() => {}}   // 월 클릭 무시
+            onClickYear={() => {}}    // 연도 클릭 무시
+          />
         </div>
       </div>
-    </div>  
-    <div className="calendar-color-view">
-      <span className="label">
-        예약
-      <span className="color-box reservation"></span>
-      </span>
-      <span className="label">
-        휴무
-      <span className="color-box offday"></span>
+
+      {/* ===== 하단 컬러 안내 ===== */}
+      <div className="calendar-color-view">
+        <span className="label">
+          예약 <span className="color-box reservation"></span>
         </span>
-    </div>
+        <span className="label">
+          휴무 <span className="color-box offday"></span>
+        </span>
+      </div>
     </>
   );
 };
 
 export default MonthReservationPage;
+
+
+
+
 
