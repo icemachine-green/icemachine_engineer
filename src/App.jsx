@@ -3,12 +3,15 @@ import Header from "./components/common/Header.jsx";
 import Footer from "./components/common/Footer.jsx";
 import TopButton from "./components/common/TopButton.jsx";
 import { Outlet } from "react-router-dom";
+import ScrollToTop from "./components/scrolltotop/ScrollToTop.jsx";
 
 function App() {
 
 
   return (
     <>
+      <ScrollToTop />
+
       <Header />
       <main>
         <Outlet />
