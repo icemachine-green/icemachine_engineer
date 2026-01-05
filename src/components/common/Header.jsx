@@ -6,17 +6,20 @@ export default function Header() {
 
   return (
     <header className="header-container">
+      {/* 메인 페이지 */}
       <span
-        className="header-contaier-main"
+        className="header-item header-main"
         onClick={() => navigate("/")}
       >
         메인 페이지
       </span>
 
-      <span className="header-contaier-line">|</span>
+      {/* 구분선 */}
+      <span className="header-separator">|</span>
 
+      {/* 예약 페이지 */}
       <span
-        className="header-contaier-reservation"
+        className="header-item header-reservation"
         onClick={() => navigate("/reservation")}
       >
         예약 페이지

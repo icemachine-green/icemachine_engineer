@@ -1,5 +1,5 @@
 /* =================================================
-   Header - PC 100% 기준 (절대 변경 없음)
+   Header - PC 100% 기준
 ================================================= */
 .header-container {
   width: 100%;
@@ -8,24 +8,41 @@
   color: #ffffff;
 
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* 가로 중앙 */
+  align-items: center;     /* 세로 중앙 */
   gap: 70px;
 
-  font-size: 80px;
-  text-align: center;
+  font-size: clamp(28px, 4vw, 80px); /* 모바일 디바이스 대응*/
+  text-align: center;      /* span 내부 텍스트 중앙 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: calc(100% - 17px); /* 스크롤바 가정 (대략 17px) */
 }
 
-/* 클릭 가능 표시 */
-.header-contaier-main,
-.header-contaier-reservation {
+/* 클릭 가능한 메뉴 아이템 */
+.header-item {
   cursor: pointer;
-  transition: opacity 0.2s ease;
+  transition: all 0.25s ease;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 내부 글자 중앙 */
+  min-width: 120px;  /* 글자 길이 따라 중앙 유지 */
 }
 
-.header-contaier-main:hover,
-.header-contaier-reservation:hover {
-  opacity: 0.7;
+/* hover 효과 */
+.header-item:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+/* 구분선 */
+.header-separator {
+  color: #777;
+  font-weight: 400;
+  display: inline-block;
+  text-align: center;
 }
 
 /* =================================================
@@ -51,25 +68,77 @@
 }
 
 /* =================================================
-   Responsive - 768px 이하
+   Responsive - 768px 이하 (태블릿/모바일)
 ================================================= */
 @media (max-width: 768px) {
   .header-container {
     height: 100px;
-    font-size: 34px;
+    font-size: 37px;
     gap: 36px;
+    padding: 0 16px;
   }
+  
+  
+
+  .header-item {
+    padding: 6px 10px;
+    min-width: 100px;
+  }
+
+  
 }
 
 /* =================================================
-   Responsive - 480px 이하
+   Responsive - 480px 이하 (모바일 소형)
 ================================================= */
 @media (max-width: 480px) {
   .header-container {
     height: 80px;
-    font-size: 16px;
+    font-size: 35px;
     gap: 16px;
+    padding: 0 12px;
+  }
+
+  .header-container span {
+    font-size: 30px;
+  }
+
+  .header-item {
+    padding: 4px 6px;
+    font-size: 16px;
+    min-width: 80px;
+  }
+
+  .header-separator {
+    font-size: 16px;
   }
 }
+
+/* =================================================
+   Ultra small devices (자동 대응)
+================================================= */
+@media (max-width: 360px) {
+  .header-container {
+    height: 70px;
+    font-size: 30px;
+    gap: 12px;
+    padding: 0 8px;
+  }
+
+  .header-container span {
+    font-size: 27px;
+  }
+
+  .header-item {
+    padding: 3px 5px;
+    font-size: 14px;
+    min-width: 70px;
+  }
+
+  .header-separator {
+    font-size: 14px;
+  }
+}
+
 
 
