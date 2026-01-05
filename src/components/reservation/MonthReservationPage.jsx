@@ -11,7 +11,7 @@ const data = [
   { date: '2025-12-26', content: '예약' },
   { date: '2025-12-21', content: '휴무' },
   { date: '2026-01-16', content: '예약' },
-  { date: '2026-01-05', content: '예약' },
+  { date: '2026-01-06', content: '예약' },
   { date: '2026-01-15', content: '예약' },
   { date: '2026-01-15', content: '예약' },
   { date: '2026-01-26', content: '예약' },
