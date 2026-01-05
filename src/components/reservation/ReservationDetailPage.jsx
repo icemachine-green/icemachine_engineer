@@ -4,6 +4,7 @@ import "./ReservationDetailPage.css";
 import { useDispatch, useSelector } from "react-redux";
 import { detailThunk } from "../../store/thunks/reservationDetail.thunk.js";
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
+import { openNaverMap } from "../../utils/openNaverMap.js";
 
 const ReservationDetailPage = () => {
   const dispatch = useDispatch();
@@ -139,9 +140,18 @@ const ReservationDetailPage = () => {
         {/* 주소 & 지도 */}
         <div className="detail-section">
           <p className="section-label">주소</p>
-          <p className="section-text">
-            {reservationDetailData?.address}
-          </p>
+          <span
+            className="section-text"
+            onClick={() =>
+              openNaverMap({
+                lat: latLng.lat,
+                lng: latLng.lng,
+                name: reservationDetailData?.storeName,
+              })
+            }
+          >
+            📍 {reservationDetailData?.address}
+          </span>
 
           <Map
             center={{ lat: latLng.lat, lng: latLng.lng }}
