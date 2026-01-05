@@ -4,73 +4,81 @@
 .reservation-detail-page {
     max-width: 1440px;
     margin: 0 auto;
-    padding: 24px 20px 40px;
+    padding: 32px 24px 48px;
+    font-family: 'Noto Sans KR', sans-serif;
 }
 
 /* =========================
-   메인 회색 카드
+   메인 카드
 ========================= */
 .detail-card {
-    background-color: #e3e3e3;
-    border-radius: 22px;
-    padding: 15px 20px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    background-color: #f5f5f5;
+    border-radius: 24px;
+    padding: 24px 28px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.3s ease;
+}
+
+.detail-card:hover {
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
 }
 
 /* =========================
-   상단 날짜 영역
+   날짜 영역
 ========================= */
 .detail-date {
-    background-color: #00814c;
+    background: linear-gradient(135deg, #00c3a2, #00814c);
     color: #fff;
     border-radius: 16px;
-    padding: 0.015px;
-    text-align: center;  
+    text-align: center;
+    padding: 12px 0;
+    margin-bottom: 16px;
+    font-weight: 700;
 }
 
 .date-text {
-  font-size: 33px;
-  font-weight: 700;
-  line-height: 1.15;     
-  margin: 0; 
-  padding: 10px;           
+    font-size: 34px;
+    margin: 0;
+    line-height: 1.2;
 }
 
 .time-text {
-  font-size: 27px;
-  opacity: 0.95;
-  line-height: 1.15;     
-  margin: 0;
-  padding: 10px;               
+    font-size: 28px;
+    opacity: 0.95;
+    margin: 0;
+    line-height: 1.2;
 }
 
 /* =========================
-   공통 섹션
+   섹션 공통
 ========================= */
 .detail-section {
-    padding: 14px 0;
+    padding: 16px 0;
 }
 
-.section-title {
-    font-size: 18px;
+.section-title h2 {
+    font-size: 20px;
     font-weight: 700;
     color: #222;
+    margin-bottom: 4px;
+}
+
+.section-title h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #555;
 }
 
 .section-label {
     font-size: 14px;
     color: #666;
+    margin-bottom: 4px;
 }
 
 .section-text {
     font-size: 15px;
-    margin-top: 4px;
     color: #222;
     cursor: pointer;
-}
-
-.phone {
-    font-weight: 500;
 }
 
 /* =========================
@@ -78,51 +86,34 @@
 ========================= */
 hr {
     border: none;
-    border-top: 1px solid #cfcfcf;
-    margin: 6px 0;
+    border-top: 1px solid #d0d0d0;
+    margin: 8px 0;
 }
 
 /* =========================
-   지도 자리
+   지도 영역
 ========================= */
 .map-placeholder {
     margin-top: 12px;
-    height: 300px;
-    background-color: #d0d0d0;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #777;
-    font-size: 14px;
+    height: 320px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
 }
 
 /* =========================
-   가로 정렬 섹션
-========================= */
-.row {
-    display: flex;
-    gap: 16px;
-}
-
-.space-between {
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* =========================
-   작업 전/후 이미지 박스
+   이미지 섹션
 ========================= */
 .device-image-container {
     display: flex;
-    gap: 14px;
+    gap: 16px;
     flex-wrap: wrap;
-    margin-left: 25px;
+    margin-left: 8px;
 }
 
 .device-image-box {
     flex: 1;
-    min-width: 100px;
+    min-width: 110px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -130,12 +121,18 @@ hr {
 }
 
 .device-image-item {
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 10px;
     border: 1px solid #ccc;
     background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+}
+
+.device-image-item:hover {
+    transform: scale(1.05);
 }
 
 .image-box-label {
@@ -145,198 +142,104 @@ hr {
 }
 
 .placeholder {
-    width: 100px;
-    height: 100px;
-    border-radius: 8px;
+    width: 110px;
+    height: 110px;
+    border-radius: 10px;
     border: 1px dashed #bdbdbd;
-    background-color: #f2f2f2;
-    color: #999;
-    font-size: 12px;
+    background-color: #f7f7f7;
+    color: #aaa;
+    font-size: 13px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 /* =========================
-   사진 버튼 영역
+   사진 버튼
 ========================= */
 .photo-buttons {
     display: flex;
     gap: 12px;
-    margin-top: 12px;
+    margin-top: 14px;
 }
 
 .photo-btn {
     flex: 1;
-    display: flex;              /* ⭐ 핵심 */
-    align-items: center;        /* 수직 중앙 */
-    justify-content: center;    /* 수평 중앙 */
-    background-color: #f5f5f5;
-    border: 1px solid #cfcfcf;
-    border-radius: 14px;
-    padding: 12px 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 10px;
     font-size: 14px;
-    font-weight: 500; 
+    font-weight: 500;
+    border-radius: 14px;
+    border: 1px solid #d0d0d0;
+    background-color: #fdfdfd;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background 0.2s ease, transform 0.1s ease;
 }
 
-.photo-btn:hover {
-    background-color: #ededed;
+.photo-btn:hover:not(:disabled) {
+    background-color: #f0f0f0;
+    transform: translateY(-1px);
+}
+
+.photo-btn:disabled {
+    background-color: #e0e0e0;
+    border-color: #d0d0d0;
+    color: #999;
+    cursor: not-allowed;
 }
 
 /* =========================
-   하단 버튼
+   작업 상태 버튼 영역
 ========================= */
-.start-btn {
+.button-area {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* 버튼 사이 간격 */
     margin-top: 24px;
+}
+
+/* =========================
+   작업 상태 버튼
+========================= */
+.start-btn,
+.cancel-btn,
+.complete-btn,
+.complete-btn:disabled {
     width: 100%;
     height: 54px;
-    background-color: #00c3a2;
-    border: none;
     border-radius: 18px;
     font-size: 18px;
     font-weight: 700;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.start-btn {
+    background-color: #00c3a2;
+    border: none;
+    color: #fff;
 }
 
 .start-btn:hover {
     background-color: #00b193;
-}
-
-.start-btn:active {
     transform: scale(0.98);
 }
 
 .cancel-btn {
-    margin-top: 12px;
-    width: 100%;
-    height: 54px;
     background-color: #8f6161;
-    color: #fff;
     border: none;
-    border-radius: 18px;
-    font-size: 18px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+    color: #fff;
 }
 
 .cancel-btn:hover {
-    background-color: rgb(99, 70, 70);
+    background-color: #734d4d;
 }
 
-/* =========================
-   작업 취소 / 완료 공용 모달
-========================= */
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.45);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-}
-
-.modal-container {
-    width: 100%;
-    max-width: 420px;
-    background-color: #ffffff;
-    border-radius: 14px;
-    border: 1px solid #bdbdbd;
-    padding: 20px 18px 22px; /* 여백 안정화 */
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.modal-title {
-    font-size: 20px; /* 과도한 크기 조정 */
-    font-weight: 700;
-    color: #222;
-}
-
-.modal-close-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: #2f2f2f;
-    color: #fff;
-    font-size: 26px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* 완료 모달 본문 텍스트 */
-.modal-desc {
-    margin: 18px 0 26px;
-    text-align: center;
-    font-size: 15px;
-    color: #555;
-    line-height: 1.5;
-}
-
-.modal-textarea {
-    width: 100%;
-    height: 110px;
-    resize: none;
-    border: 1px solid #cfcfcf;
-    border-radius: 8px;
-    padding: 10px 12px;
-    font-size: 14px;
-    outline: none;
-    box-sizing: border-box;
-}
-
-.modal-textarea:focus {
-    border-color: #00814c;
-}
-
-.modal-textarea::placeholder {
-    color: #9a9a9a;
-}
-
-/* 취소 / 완료 버튼 공용 */
-.modal-submit-btn,
-.modal-confirm-btn {
-    width: 100%;
-    height: 42px;
-    background-color: #2f2f2f;
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.modal-submit-btn:hover,
-.modal-confirm-btn:hover {
-    background-color: #1f1f1f;
-}
-
-/* =========================
-   작업 종료 버튼
-========================= */
 .complete-btn {
-    margin-top: 24px;
-    width: 100%;
-    height: 54px;
     background-color: #7a7a7a;
-    color: #ffffff;
     border: none;
-    border-radius: 18px;
-    font-size: 18px;
-    font-weight: 700;
+    color: #fff;
     cursor: default;
 }
 
@@ -351,30 +254,101 @@ hr {
 }
 
 /* =========================
-   지도 매장명 라벨 css
+   모달
 ========================= */
-.map-label {
-  background: #ffffff;
-  padding: 6px 10px;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: 500;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  white-space: nowrap;
-  transform: translateY(-50px);
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-container {
+    width: 100%;
+    max-width: 440px;
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 24px 20px 26px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #222;
+}
+
+.modal-close-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #2f2f2f;
+    color: #fff;
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.modal-textarea {
+    width: 100%;
+    height: 110px;
+    border-radius: 10px;
+    border: 1px solid #d0d0d0;
+    padding: 12px;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+}
+
+.modal-textarea:focus {
+    border-color: #00c3a2;
+}
+
+.modal-textarea::placeholder {
+    color: #aaa;
+}
+
+.modal-submit-btn,
+.modal-confirm-btn {
+    width: 100%;
+    height: 44px;
+    border-radius: 12px;
+    background-color: #2f2f2f;
+    color: #fff;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 12px;
+    cursor: pointer;
+}
+
+.modal-submit-btn:hover,
+.modal-confirm-btn:hover {
+    background-color: #1f1f1f;
 }
 
 /* =========================
-   사진 삭제 버튼 비활성 상태 개선
+   지도 라벨
 ========================= */
-.photo-btn:disabled {
-    background-color: #e0e0e0;   /* 허연 느낌 제거 */
-    border-color: #d0d0d0;
-    color: #9a9a9a;
-    cursor: not-allowed;
-}
-
-/* hover 효과 제거 (disabled 상태에서) */
-.photo-btn:disabled:hover {
-    background-color: #e0e0e0;
+.map-label {
+    background: #fff;
+    padding: 6px 12px;
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    white-space: nowrap;
+    transform: translateY(-50px);
 }

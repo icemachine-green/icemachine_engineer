@@ -78,9 +78,14 @@
 
 /* 강조 */
 .highlight {
-  color: #00814c;
   font-weight: 700;
+  background: linear-gradient(135deg, #00c3a2, #00814c);
+  -webkit-background-clip: text; /* 크롬, 사파리용 */
+  -webkit-text-fill-color: transparent; /* 텍스트 내부를 투명 처리 */
+  background-clip: text; /* 표준 속성 (파이어폭스 등) */
+  color: transparent; /* fallback */
 }
+
 
 /* =========================
    예약 카드
