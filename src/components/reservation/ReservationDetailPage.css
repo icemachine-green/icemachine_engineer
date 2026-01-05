@@ -264,16 +264,21 @@ hr {
     justify-content: center;
     align-items: center;
     z-index: 999;
+    padding: 16px; /* 작은 화면에서도 모달이 깨지지 않도록 */
 }
+
 
 .modal-container {
     width: 100%;
     max-width: 440px;
+    max-height: 90vh; /* 화면 90% 이상 안 넘도록 */
+    overflow-y: auto; /* 내용이 많으면 스크롤 */
     background-color: #fff;
     border-radius: 16px;
     padding: 24px 20px 26px;
     box-shadow: 0 12px 28px rgba(0,0,0,0.15);
 }
+
 
 .modal-header {
     display: flex;
@@ -302,7 +307,8 @@ hr {
 }
 
 .modal-textarea {
-    width: 100%;
+    width: 100%;               /* 모달 내부 폭에 맞춤 */
+    max-width: 380px;          /* 모달보다 약간 작게 제한 */
     height: 110px;
     border-radius: 10px;
     border: 1px solid #d0d0d0;
@@ -310,7 +316,12 @@ hr {
     font-size: 14px;
     resize: none;
     outline: none;
+    box-sizing: border-box;    /* padding 포함해서 width 계산 */
+    margin: 0 auto;            /* 중앙 정렬 */
+    display: block;            /* margin auto가 작동하도록 */
 }
+
+
 
 .modal-textarea:focus {
     border-color: #00c3a2;
