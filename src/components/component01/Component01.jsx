@@ -2,6 +2,7 @@ import "./Component01.css";
 import { useNavigate } from "react-router-dom";
 import { formatKoreanShortDate } from "../../utils/dateUtils.js";
 
+
 const Component01 = () => {
   const navigate = useNavigate();
   const todayFormatted = formatKoreanShortDate();
@@ -21,7 +22,6 @@ const Component01 = () => {
           <p className="profile-name">
             홍길동 <span>기사님</span>
           </p>
-
           <div className="profile-message">
             <p>
               <strong className="highlight">{todayFormatted}</strong>입니다.<br />
@@ -58,5 +58,3 @@ const Component01 = () => {
 };
 
 export default Component01;
-
-

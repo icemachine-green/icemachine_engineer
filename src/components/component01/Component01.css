@@ -27,11 +27,9 @@
   background-color: #e3e3e3;
   flex-shrink: 0;
   cursor: pointer;
-
   box-shadow:
     0 6px 18px rgba(0, 0, 0, 0.14),
     0 2px 4px rgba(0, 0, 0, 0.08);
-
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -67,7 +65,7 @@
   border: 1px solid #cfcfcf;
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.08),
-    0 1px 2px rgba(0, 0, 0, 0.06);  
+    0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 .profile-message p {
@@ -80,12 +78,11 @@
 .highlight {
   font-weight: 700;
   background: linear-gradient(135deg, #00c3a2, #00814c);
-  -webkit-background-clip: text; /* 크롬, 사파리용 */
-  -webkit-text-fill-color: transparent; /* 텍스트 내부를 투명 처리 */
-  background-clip: text; /* 표준 속성 (파이어폭스 등) */
-  color: transparent; /* fallback */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
-
 
 /* =========================
    예약 카드
@@ -102,7 +99,6 @@
   background-color: #e3e3e3;
   border: 1px solid #cfcfcf;
   border-radius: 20px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -110,16 +106,15 @@
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.08),
     0 1px 2px rgba(0, 0, 0, 0.06);
-
   cursor: pointer;
 }
+
 .summary-card:hover {
   background-color: #ececec;
   box-shadow:
     0 10px 26px rgba(0, 0, 0, 0.14),
     0 4px 8px rgba(0, 0, 0, 0.09);
 }
-
 
 .card-title {
   font-size: 60px;
