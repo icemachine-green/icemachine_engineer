@@ -87,16 +87,22 @@ const ReservationDetailPage = () => {
     setCurrentStatus(nextStatus);
     saveToLocal(nextStatus, workMemo);
     setShowCompleteModal(false);
-    // 선택 사항: 완료 후 목록으로 이동
-    // navigate('/reservation'); 
+    navigate('/reservation'); 
   };
 
   const handleSaveCancelReason = () => {
-    const nextStatus = "예약됨"; // 혹은 '취소됨'으로 설정 가능
-    setCurrentStatus(nextStatus);
-    saveToLocal(nextStatus, `취소사유: ${cancelReason}\n${workMemo}`);
-    closeCancelModal();
-  };
+  const nextStatus = "예약됨"; 
+  
+  const cleanMemo = workMemo.includes("취소사유:") 
+    ? workMemo.split("\n").slice(1).join("\n") 
+    : workMemo;
+
+  const newMemo = `취소사유: ${cancelReason}\n${cleanMemo}`;
+  
+  setCurrentStatus(nextStatus);
+  saveToLocal(nextStatus, newMemo);
+  closeCancelModal();
+};
 
   const handleMemoChange = (e) => {
     const nextMemo = e.target.value;
