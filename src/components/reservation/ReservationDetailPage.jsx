@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./ReservationDetailPage.css";
 import { useDispatch, useSelector } from "react-redux";
 import { detailThunk } from "../../store/thunks/reservationDetail.thunk.js";
@@ -8,6 +8,7 @@ import { openNaverMap } from "../../utils/openNaverMap.js";
 
 const ReservationDetailPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const [latLng, setLatLng] = useState({ lat: 35.8714, lng: 128.6014 });
@@ -16,7 +17,6 @@ const ReservationDetailPage = () => {
   const [isNotFoundReservation, setIsNotFoundReservation] = useState(false);
   const [images, setImages] = useState([]);
   
-  // 상태 및 메모 관리
   const [currentStatus, setCurrentStatus] = useState("");
   const [workMemo, setWorkMemo] = useState("");
 
@@ -25,13 +25,13 @@ const ReservationDetailPage = () => {
   const [cancelReason, setCancelReason] = useState("");
   const [showCompleteModal, setShowCompleteModal] = useState(false);
 
-  // 로컬 저장 로직 (준비 단계용)
+  // 로컬 저장 로직: 목록 페이지와 공유되는 핵심 데이터
   const saveToLocal = useCallback((status, memo) => {
     localStorage.setItem(`reservation_${id}`, JSON.stringify({
-      status: status || currentStatus,
+      status: status,
       memo: memo !== undefined ? memo : workMemo
     }));
-  }, [id, currentStatus, workMemo]);
+  }, [id, workMemo]);
 
   useEffect(() => {
     async function init() {
@@ -42,6 +42,7 @@ const ReservationDetailPage = () => {
         return;
       }
 
+      // 초기 로드 시 저장된 데이터 확인
       const savedData = localStorage.getItem(`reservation_${id}`);
       if (savedData) {
         const parsed = JSON.parse(savedData);
@@ -52,6 +53,7 @@ const ReservationDetailPage = () => {
         setWorkMemo(result.memo || "");
       }
 
+      // 카카오 맵 Geocoding (기존 로직 유지)
       const waitForKakao = (item) => {
         if (window.kakao && window.kakao.maps) {
           const geocoder = new window.kakao.maps.services.Geocoder();
@@ -73,7 +75,7 @@ const ReservationDetailPage = () => {
   const handleStart = () => {
     const nextStatus = "작업 진행중";
     setCurrentStatus(nextStatus);
-    saveToLocal(nextStatus);
+    saveToLocal(nextStatus, workMemo);
   };
 
   const handleComplete = () => {
@@ -83,14 +85,16 @@ const ReservationDetailPage = () => {
   const handleConfirmComplete = () => {
     const nextStatus = "작업 종료";
     setCurrentStatus(nextStatus);
-    saveToLocal(nextStatus);
+    saveToLocal(nextStatus, workMemo);
     setShowCompleteModal(false);
+    // 선택 사항: 완료 후 목록으로 이동
+    // navigate('/reservation'); 
   };
 
   const handleSaveCancelReason = () => {
-    const nextStatus = "예약됨";
+    const nextStatus = "예약됨"; // 혹은 '취소됨'으로 설정 가능
     setCurrentStatus(nextStatus);
-    saveToLocal(nextStatus);
+    saveToLocal(nextStatus, `취소사유: ${cancelReason}\n${workMemo}`);
     closeCancelModal();
   };
 
@@ -100,7 +104,13 @@ const ReservationDetailPage = () => {
     saveToLocal(currentStatus, nextMemo);
   };
 
-  /* 이미지 핸들러 */
+  /* 이미지 메모리 해제 로직 추가 */
+  useEffect(() => {
+    return () => {
+      images.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, [images]);
+
   const handleRemoveImage = () => setImages((prev) => prev.slice(0, prev.length - 1));
   const handleAddImage = (event) => {
     const files = event.target.files;
@@ -110,7 +120,6 @@ const ReservationDetailPage = () => {
     setImages((prev) => [...prev, ...urls]);
   };
 
-  /* 취소 모달 관련 */
   const openCancelModal = () => setShowCancelModal(true);
   const closeCancelModal = () => { setShowCancelModal(false); setCancelReason(""); };
 
@@ -121,7 +130,6 @@ const ReservationDetailPage = () => {
   return (
     <div className="detail-page-wrapper">
       <div className="detail-container">
-        
         <header className="detail-header-card">
           <div className="status-badge-top">{currentStatus}</div>
           <h1 className="header-date">{reservationDetailData?.date}</h1>
@@ -189,7 +197,7 @@ const ReservationDetailPage = () => {
           <section className="info-card-section">
             <span className="category-label">고객 요구사항</span>
             <div className="memo-readonly">
-              기사님! 시간이 걸리더라도 꼼꼼한 청소 부탁드려요. 잘 부탁드립니다.
+              {reservationDetailData?.customerRequest || "상세 요구사항이 없습니다."}
             </div>
           </section>
 
@@ -223,6 +231,7 @@ const ReservationDetailPage = () => {
         </footer>
       </div>
 
+      {/* 모달 로직들 생략 없이 동일하게 유지 */}
       {showCancelModal && (
         <div className="modal-root">
           <div className="modal-paper">

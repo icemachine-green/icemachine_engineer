@@ -9,14 +9,26 @@ const ReservationPage = () => {
 
   const goToDetail = (id) => navigate(`/reservation/detail/${id}`);
 
+  // 상세 페이지의 변경 사항을 반영하여 목록 생성
   const todayReservations = useMemo(() => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    return reservationsDummy.filter((item) => {
-      const itemDate = new Date(item.date);
-      itemDate.setHours(0, 0, 0, 0);
-      return itemDate.getTime() === today.getTime();
-    });
+
+    return reservationsDummy
+      .filter((item) => {
+        const itemDate = new Date(item.date);
+        itemDate.setHours(0, 0, 0, 0);
+        return itemDate.getTime() === today.getTime();
+      })
+      .map((item) => {
+        // localStorage에 저장된 최신 상태가 있다면 목록에 반영
+        const savedData = localStorage.getItem(`reservation_${item.id}`);
+        if (savedData) {
+          const parsed = JSON.parse(savedData);
+          return { ...item, status: parsed.status };
+        }
+        return item;
+      });
   }, []);
 
   const visibleReservations = todayReservations.slice(0, visibleCount);
@@ -38,7 +50,7 @@ const ReservationPage = () => {
               <div className="card-top">
                 <span className="time-badge">{item.time}</span>
                 {item.status && (
-                  <div className="status-indicator">
+                  <div className={`status-indicator ${item.status === '작업 종료' ? 'finished' : ''}`}>
                     <span className="pulse-dot"></span>
                     {item.status}
                   </div>
@@ -80,6 +92,3 @@ const ReservationPage = () => {
 };
 
 export default ReservationPage;
-
-
-
