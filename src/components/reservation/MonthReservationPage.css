@@ -1,61 +1,58 @@
 /* =========================
-   이번 달 예약 상단 박스
+   페이지 전체 레이아웃
 ========================= */
-.month-top-title-box {
-  width: 100%;
-  max-width: 1440px;
-  padding: 40px 20px;
-  display: flex;
-  justify-content: center;
-  align-items: baseline;
-  box-sizing: border-box;
-  background-color: transparent;
-}
-
-.month-top-title-box span {
-  display: inline-flex;
-  align-items: flex-end;
-  line-height: 1;
-}
-
-.text-normal {
-  font-size: 60px;
-  font-weight: 700;
-  color: #222;
-}
-
-.text-highlight {
-  font-size: 110px;
-  font-weight: 700;
-  margin: 0 10px;
-  background: linear-gradient(135deg, #00c3a2, #00814c);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.calendar-page-wrapper {
+  background-color: #f8f9fb;
+  min-height: 100vh;
+  padding: 40px 20px 80px;
+  font-family: 'Pretendard', sans-serif;
 }
 
 /* =========================
-   페이지 레이아웃
+   상단 요약 헤더
 ========================= */
-.month-reservation-page {
-  display: flex;
-  justify-content: center;
-  padding: 0;
-  background-color: #f5f5f5;
+.month-summary-header {
+  max-width: 850px;
+  margin: 0 auto 32px;
+  text-align: center;
 }
 
-.calendar-container {
-  width: 800px;
-  background-color: #fff;
-  border-radius: 16px;
-  padding: 30px 20px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+.summary-box {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 0;
+}
 
-  /* 추가 */
-  min-height: 450px;       /* 달이 적어도 이 높이 유지 */
-  overflow-y: auto;        /* 내용이 넘치면 스크롤 */
+.summary-box .label {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+}
+
+.summary-box .count-highlight {
+  font-size: 64px;
+  font-weight: 850;
+  color: #00c3a2; /* 포인트 컬러 */
+  line-height: 1;
+}
+
+/* =========================
+   메인 캘린더 카드
+========================= */
+.calendar-main-section {
+  display: flex;
+  justify-content: center;
+}
+
+.calendar-card {
+  width: 100%;
+  max-width: 850px;
+  background-color: #fff;
+  border-radius: 30px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+  border: 1px solid rgba(0,0,0,0.03);
 }
 
 /* =========================
@@ -64,211 +61,159 @@
 .react-calendar {
   width: 100%;
   border: none;
-  font-family: 'Noto Sans KR', sans-serif;
+  background: transparent;
 }
 
+/* 네비게이션 (년/월 이동) */
 .react-calendar__navigation {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 .react-calendar__navigation button {
+  min-width: 44px;
+  background: #f1f3f5;
   border: none;
-  background-color: #e0e0e0;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background 0.2s ease;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #444;
+  transition: all 0.2s ease;
 }
 
-.react-calendar__navigation button:hover {
-  background-color: #d0d0d0;
-}
-
-/* prev2 / next2 버튼 영역 배경 제거 */
-.react-calendar__navigation button[aria-label="Previous double arrow"],
-.react-calendar__navigation button[aria-label="Next double arrow"] {
-  background-color: transparent;
+.react-calendar__navigation button:enabled:hover {
+  background-color: #e9ecef;
+  color: #00c3a2;
 }
 
 .react-calendar__navigation__label {
-  font-size: 24px;
-  font-weight: 700;
-  color: #222;
+  flex-grow: 0 !important;
+  font-size: 24px !important;
+  font-weight: 800;
+  padding: 0 20px !important;
+  background: transparent !important;
 }
 
-/* 요일 제목 */
+/* 요일 표시 */
 .react-calendar__month-view__weekdays {
   text-align: center;
+  font-size: 16px;
   font-weight: 700;
-  margin-bottom: 10px;
-  color: #555;
+  color: #adb5bd;
+  margin-bottom: 15px;
 }
 
 .react-calendar__month-view__weekdays abbr {
   text-decoration: none;
 }
 
-/* =========================
-   날짜 칸
-========================= */
+/* 날짜 타일 */
 .react-calendar__tile {
-  min-height: 90px;
-  background-color: #fafafa;
-  border-radius: 8px;
-  border: 1px solid #eee;
-  padding: 6px 2px;
-  font-weight: 600;
-  color: #222;
+  min-height: 110px;
+  padding: 12px 4px;
+  background: #fff;
+  border: 1px solid #f8f9fa !important;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  gap: 6px;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.react-calendar__tile:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-/* 오늘 날짜 강조 */
-.react-calendar__tile--now {
-  background-color: #eaf6f0;
-  border: 1px solid #00c3a2;
-}
-
-/* 활성화 날짜 (클릭 시) */
+/* 은은한 호버 액션 */
+.react-calendar__tile:enabled:hover,
 .react-calendar__tile--active {
-  background-color: #f0fdf9;
-  border: 1px solid #00814c;
+  background: #fafbfc !important;
+  border-color: rgba(0, 195, 162, 0.3) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.04);
 }
 
-/* 일요일 빨강, 토요일 파랑 */
-.react-calendar__month-view__days .react-calendar__tile:nth-child(7n+1) {
-  color: #ff3b30;
+.react-calendar__tile--now {
+  background: #f0fffb !important;
+  border: 1.5px solid #00c3a2 !important;
 }
 
-.react-calendar__month-view__days .react-calendar__tile:nth-child(7n) {
-  color: #007aff;
+/* 주말 색상 */
+.react-calendar__month-view__days__day--neighboringMonth {
+  opacity: 0.3;
 }
+.react-calendar__month-view__days .react-calendar__tile:nth-child(7n+1) { color: #ff5a5a; }
+.react-calendar__month-view__days .react-calendar__tile:nth-child(7n) { color: #5a7fff; }
 
 /* =========================
-   예약 / 휴무 버튼
+   예약 / 휴무 배지 (타일 내부)
 ========================= */
-.reservation-btn,
-.closed-btn {
-  display: inline-flex;
+.tile-badge-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
   align-items: center;
-  justify-content: center;
-  min-width: 48px;
-  min-height: 20px;
+}
+
+.badge-reservation {
+  background: #e6f9f6;
+  color: #00c3a2;
+  font-size: 12px;
+  font-weight: 700;
   padding: 4px 8px;
-  margin-top: 6px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  border-radius: 12px;
-  line-height: 1;
+  border-radius: 6px;
   white-space: nowrap;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.reservation-btn {
-  background: linear-gradient(135deg, #00c3a2, #00814c);
-  color: #fff;
-}
-
-.closed-btn {
-  background-color: #555;
-  color: #fff;
+.badge-offday {
+  background: #f1f3f5;
+  color: #888;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
 }
 
 /* =========================
-   하단 컬러 안내
+   하단 범례 (Legend)
 ========================= */
-.calendar-color-view {
+.calendar-legend {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #f1f3f5;
   display: flex;
   justify-content: center;
   gap: 24px;
-  align-items: center;
-  font-size: 16px;
-  width: 100%;
-  margin-bottom: 50px;
-  margin-top: 30px;
 }
 
-.label {
+.legend-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  font-size: 15px;
+  color: #666;
+  font-weight: 500;
 }
 
-.color-box {
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
 }
-
-.color-box.reservation {
-  background: linear-gradient(135deg, #00c3a2, #00814c);
-}
-
-.color-box.offday {
-  background-color: #555;
-}
+.dot.reservation { background-color: #00c3a2; }
+.dot.offday { background-color: #dee2e6; }
 
 /* =========================
-   반응형 미디어쿼리
+   반응형 모바일 최적화
 ========================= */
-
-/* 1024px 이하 */
-@media (max-width: 1024px) {
-  .text-normal { font-size: 50px; }
-  .text-highlight { font-size: 90px; }
-
-  .calendar-container { width: 90%; }
-  .react-calendar__tile { min-height: 80px; }
-}
-
-/* 950px 이하 */
-@media (max-width: 950px) {
-  .text-normal { font-size: 45px; }
-  .text-highlight { font-size: 80px; }
-
-  .react-calendar__tile { min-height: 70px; }
-}
-
-/* 768px 이하 */
 @media (max-width: 768px) {
-  .text-normal { font-size: 34px; }
-  .text-highlight { font-size: 58px; }
+  .summary-box .label { font-size: 20px; }
+  .summary-box .count-highlight { font-size: 48px; }
 
-  .calendar-container {
-    width: 95%;
-    padding: 20px 10px 25px;
-  }
-
-  .react-calendar__tile {
-    min-height: 65px;
-    font-size: 0.75rem;
-  }
-
-  .reservation-btn,
-  .closed-btn {
-    min-width: 42px;
-    min-height: 18px;
-    font-size: 0.65rem;
-  }
-}
-
-/* 480px 이하 */
-@media (max-width: 480px) {
-  .calendar-container { width: 100%; padding: 15px 8px 20px; }
-  .react-calendar__tile { min-height: 60px; font-size: 0.7rem; }
-  .reservation-btn,
-  .closed-btn { min-width: 36px; font-size: 0.6rem; }
-
-  .react-calendar__navigation__label { font-size: 18px; }
-  .react-calendar__navigation button { padding: 5px 8px; font-size: 0.8rem; }
+  .calendar-card { padding: 20px; border-radius: 20px; }
+  .react-calendar__tile { min-height: 85px; padding: 8px 2px; }
+  .badge-reservation, .badge-offday { font-size: 10px; padding: 2px 4px; }
+  
+  .react-calendar__navigation__label { font-size: 18px !important; }
 }

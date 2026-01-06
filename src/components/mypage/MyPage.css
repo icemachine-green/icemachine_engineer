@@ -1,343 +1,291 @@
 /* =========================
-   전체
+   전체 레이아웃 및 배경
 ========================= */
-.mypage {
-    width: 100%;
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    box-sizing: border-box;
-    font-family: 'Noto Sans KR', sans-serif;
+.mypage-wrapper {
+  background-color: #f8f9fb;
+  min-height: 100vh;
+  padding: 20px 20px 100px;
+  font-family: 'Pretendard', sans-serif;
+  display: flex;
+  justify-content: center;
 }
 
-/* =========================
-   타이틀
-========================= */
+.mypage-container {
+  width: 100%;
+  max-width: 650px;
+}
+
+.mypage-header {
+  margin-bottom: 24px;
+  padding: 10px 5px;
+}
+
 .mypage-title {
-    text-align: center;
-    font-size: 80px;
-    font-weight: 700;
-    line-height: 1.2;
-
-    /* 그라데이션 적용 */
-    background: linear-gradient(135deg, #00c3a2, #00814c);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-
-    /* 표준 브라우저 fallback */
-    color: #00c3a2;
-}
-
-
-/* =========================
-   카드
-========================= */
-.card {
-    background: #fff;
-    border-radius: 18px;
-    padding: 24px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
-}
-
-/* 카드 타이틀 */
-.card-title {
-    font-size: 50px;
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    color: #111;
-}
-
-.card-subtitle {
-    font-size: 22px;
-    font-weight: 600;
-    color: #444;
-}
-
-.card-subtitle span {
-    font-size: 13px;
-    color: #888;
+  font-size: 28px;
+  font-weight: 850;
+  color: #111;
+  letter-spacing: -0.5px;
 }
 
 /* =========================
-   프로필
+   공통 카드 섹션 (상세페이지 동일)
 ========================= */
-.profile {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    text-align: center;
+.info-card-section {
+  background: #fff;
+  border-radius: 26px;
+  padding: 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+  border: 1px solid rgba(0,0,0,0.02);
+  box-sizing: border-box;
 }
 
-.profile-img {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    background: #ddd;
-    flex-shrink: 0;
-}
-
-.profile-text {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    font-size: 18px;
-    line-height: 1.4;
-    align-items: center;
-}
-
-.profile-text strong {
-    font-size: 28px;
-    font-weight: 600;
+.category-label {
+  display: block;
+  font-size: 13px;
+  color: #00c3a2; /* 시그니처 민트 */
+  font-weight: 800;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
 }
 
 /* =========================
-   작업 수
+   프로필 영역
 ========================= */
-.work-count {
-    margin-top: 16px;
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    flex-wrap: wrap;
+.profile-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-.work-count div {
-    flex: 1 1 30%;
-    min-width: 80px;
-    text-align: center;
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 28px; /* 둥근 사각형 느낌 */
+  background: #f1f3f5;
+  object-fit: cover;
 }
 
-.work-count span {
-    display: block;
-    font-size: 18px;
-    color: #666;
-    margin-bottom: 2px;
+.profile-info-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.work-count strong {
-    font-size: 28px;
-    font-weight: 600;
-
-    /* 그라데이션 적용 */
-    background: linear-gradient(135deg, #00c3a2, #00814c);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-
-    /* fallback 색상 */
-    color: #00814C;
+.profile-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: #111;
+  margin: 0;
 }
 
+.profile-meta-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profile-meta-list span {
+  font-size: 14px;
+  color: #777;
+}
+
+.badge-grade {
+  display: inline-block;
+  color: #00c3a2 !important;
+  font-weight: 700;
+  margin-top: 4px;
+}
 
 /* =========================
-   리뷰
+   작업 통계 (Stats)
 ========================= */
-.review-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 30px;
 }
 
-.review-item {
-    display: flex;
-    gap: 4%;
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid #eee;
-    background: #fff;
-    align-items: center;
-    transition: box-shadow 0.25s ease;
+.stat-item {
+  background: #f8f9fa;
+  padding: 18px 10px;
+  border-radius: 18px;
+  text-align: center;
 }
 
-.review-item:hover {
-    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+.stat-label {
+  display: block;
+  font-size: 12px;
+  color: #999;
+  font-weight: 600;
+  margin-bottom: 6px;
 }
 
-.review-image {
-    width: 22%;
-    aspect-ratio: 1 / 1;
-    border-radius: 10px;
-    flex-shrink: 0;
-    object-fit: cover;
+.stat-value {
+  font-size: 20px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #00c3a2, #00814c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.review-content {
-    width: 74%;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+/* =========================
+   리뷰 리스트
+========================= */
+.section-sub-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 16px;
 }
 
-.review-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.review-scroll-area {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.review-card-item {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background: #fafafa;
+  border-radius: 20px;
+  border: 1px solid #f1f3f5;
+  align-items: center;
+}
+
+.review-thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  object-fit: cover;
+}
+
+.review-body {
+  flex: 1;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
 }
 
 .review-stars {
-    color: #c47a2c;
-    font-size: 15px;
+  color: #ffb800;
+  font-size: 12px;
+  letter-spacing: 1px;
 }
 
-.review-meta {
-    display: flex;
-    gap: 6px;
-    font-size: 12px;
-    color: #888;
+.review-writer-info {
+  text-align: right;
 }
 
-.review-name {
-    color: #333;
-    font-weight: 500;
-}
+.writer-name { font-size: 12px; font-weight: 700; color: #555; margin-right: 6px; }
+.write-date { font-size: 11px; color: #bbb; }
 
-.review-text {
-    font-size: 14px;
-    line-height: 1.45;
-    color: #333;
+.review-comment {
+  font-size: 13.5px;
+  color: #666;
+  line-height: 1.45;
+  margin: 0;
 }
 
 /* =========================
-   토글
+   상세 내역 (아코디언)
 ========================= */
-.toggle {
-    background: none;
-    border: none;
-    padding: 0;
-    font-size: 50px;
-    font-weight: 600;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
+.accordion-toggle-btn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
 
-/* =========================
-   토글 화살표
-========================= */
-.arrow {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    border-right: 3px solid #333;
-    border-bottom: 3px solid #333;
-    transform: rotate(45deg); /* 오른쪽 아래로 향하는 화살표 */
-    transition: transform 0.25s ease;
-    margin-left: 12px;
+.toggle-text {
+  font-size: 18px;
+  font-weight: 800;
+  color: #333;
 }
 
-.arrow.open {
-    transform: rotate(-135deg); /* 클릭 시 위로 회전 */
+.toggle-icon-arrow {
+  width: 24px;
+  height: 24px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23333'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E") no-repeat center;
+  transition: transform 0.3s ease;
 }
 
-
-/* =========================
-   상세
-========================= */
-.detail {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border-top: 1px solid #eee;
-    padding-top: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.toggle-icon-arrow.is-open {
+  transform: rotate(180deg);
 }
 
-.detail-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    font-size: 14px;
-    line-height: 1.4;
+.accordion-content-detail {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px dashed #eee;
 }
 
-.detail-row span:first-child {
-    color: #666;
-    flex-shrink: 0;
+.detail-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.detail-image {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    background: #e5e5e5;
-    border-radius: 12px;
-    object-fit: cover;
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
 }
 
-/* 전후 사진 */
-.before-after {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
+.info-row .label { color: #999; font-weight: 500; }
+.info-row .value { color: #111; font-weight: 700; }
+
+.product-full-img {
+  width: 100%;
+  border-radius: 20px;
+  margin-bottom: 20px;
 }
 
-.before-after img {
-    flex: 1 1 48%;
-    max-width: 48%;
-    aspect-ratio: 1 / 1;
-    border-radius: 12px;
-    object-fit: cover;
+.work-photo-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.photo-box {
+  text-align: center;
+}
+
+.photo-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #aaa;
+  margin-bottom: 6px;
+}
+
+.photo-box img {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 1px solid #eee;
 }
 
 /* =========================
    반응형
 ========================= */
-@media (max-width: 768px) {
-    .mypage-title {
-        font-size: 48px;
-    }
-    .card-title {
-        font-size: 32px;
-    }
-    .toggle {
-        font-size: 32px;
-    }
-    .work-count strong {
-        font-size: 24px;
-    }
-    .detail-row {
-        font-size: 13.5px;
-    }
-}
-
 @media (max-width: 480px) {
-    .mypage-title {
-        font-size: 38px;
-    }
-    .card-title {
-        font-size: 28px;
-    }
-    .toggle {
-        font-size: 28px;
-    }
-    .profile-img {
-        width: 64px;
-        height: 64px;
-    }
-    .profile-text {
-        font-size: 13px;
-    }
-    .work-count strong {
-        font-size: 22px;
-    }
-    .detail-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
-        font-size: 12.5px;
-    }
-    .before-after img {
-        flex: 1 1 100%;
-        max-width: 100%;
-    }
+  .mypage-wrapper { padding: 15px 15px 80px; }
+  .info-card-section { padding: 22px; }
+  .profile-avatar { width: 64px; height: 64px; border-radius: 20px; }
+  .profile-name { font-size: 19px; }
+  .stat-value { font-size: 17px; }
 }

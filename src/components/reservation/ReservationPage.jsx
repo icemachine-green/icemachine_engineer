@@ -7,92 +7,74 @@ const ReservationPage = () => {
   const navigate = useNavigate();
   const [visibleCount, setVisibleCount] = useState(3);
 
-  const goToDetail = (id) => {
-    navigate(`/reservation/detail/${id}`);
-  };
+  const goToDetail = (id) => navigate(`/reservation/detail/${id}`);
 
-  /* =========================
-     오늘 예약만 필터링
-  ========================= */
   const todayReservations = useMemo(() => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-
     return reservationsDummy.filter((item) => {
       const itemDate = new Date(item.date);
       itemDate.setHours(0, 0, 0, 0);
-
       return itemDate.getTime() === today.getTime();
     });
   }, []);
 
-  /* =========================
-     화면에 보여줄 카드
-  ========================= */
   const visibleReservations = todayReservations.slice(0, visibleCount);
   const isExpired = visibleCount >= todayReservations.length;
 
   return (
-    <div className="reservation-container">
-      {/* 오늘 날짜 그룹 */}
-      <div className="date-group">
-        <p className="date-title">
-          {new Date().toISOString().slice(0, 10)}
-        </p>
+    <div className="page-wrapper">
+      <div className="reservation-container">
+        <header className="list-header">
+          <h2 className="date-title">
+            {new Date().toISOString().slice(0, 10)}
+          </h2>
+          <span className="total-badge">오늘 총 {todayReservations.length}건</span>
+        </header>
 
         <div className="reservation-list">
           {visibleReservations.map((item) => (
-            <div
-              key={item.id}
-              className="reservation-card"
-              onClick={() => goToDetail(item.id)}
-            >
+            <div key={item.id} className="reservation-card" onClick={() => goToDetail(item.id)}>
               <div className="card-top">
                 <span className="time-badge">{item.time}</span>
-
                 {item.status && (
-                  <span className="status-badge">{item.status}</span>
+                  <div className="status-indicator">
+                    <span className="pulse-dot"></span>
+                    {item.status}
+                  </div>
                 )}
               </div>
 
-              <div className="card-content">
-                <p className="customer-name">
-                  {item.name} <span>고객님</span>
-                </p>
-                <p className="address">{item.address}</p>
-                <p className="service">
-                  {item.type} | <strong>{item.service}</strong>
-                </p>
+              <div className="card-body">
+                <h3 className="cust-name">
+                  {item.name} <span className="suffix">고객님</span>
+                </h3>
+                <p className="cust-address">{item.address}</p>
+                <div className="service-info">
+                  <span className="type">{item.type}</span>
+                  <span className="divider">|</span>
+                  <span className="name">{item.service}</span>
+                </div>
               </div>
 
-              <button
-                type="button"
-                className="detail-btn"
-                onClick={() => goToDetail(item.id)}
-              >
-                예약 상세보기
+              <button className="detail-link-btn">
+                상세보기
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
               </button>
             </div>
           ))}
         </div>
-      </div>
 
-      {/* =========================
-         더 보기 / 완료 버튼
-      ========================= */}
-      <button
-        className={`more-btn ${isExpired ? "expired" : ""}`}
-        disabled={isExpired}
-        onClick={() => {
-          if (!isExpired) {
-            setVisibleCount((prev) => prev + 3);
-          }
-        }}
-      >
-        {isExpired
-          ? "모든 예약을 확인했습니다"
-          : "더 보기"}
-      </button>
+        <button
+          className={`pagination-btn ${isExpired ? "expired" : ""}`}
+          disabled={isExpired}
+          onClick={() => !isExpired && setVisibleCount((prev) => prev + 3)}
+        >
+          {isExpired ? "마지막 예약입니다" : "예약 더 보기"}
+        </button>
+      </div>
     </div>
   );
 };
