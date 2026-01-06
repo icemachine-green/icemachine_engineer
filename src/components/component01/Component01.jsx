@@ -1,25 +1,20 @@
 import "./Component01.css";
 import { useNavigate } from "react-router-dom";
 import { formatKoreanShortDate } from "../../utils/dateUtils.js";
-// 더미 데이터 임포트 (경로가 reservationsDummy.js 파일 위치에 맞는지 확인해주세요)
-import { reservationsDummy } from "../../data/reservationsDummy.js"; 
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchEngineerDashboard } from "../../store/thunks/engineerDashboardThunk.js";
 
 const Component01 = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const todayFormatted = formatKoreanShortDate();
 
-  // 1. 오늘 날짜 기준 데이터 추출 (2026-01-06)
-  const todayStr = "2026-01-06";
-  const todayReservations = reservationsDummy.filter(
-    (res) => res.date === todayStr
-  );
-  const todayCount = todayReservations.length;
+  const { engineerName, todayCount, monthCount } = useSelector((state) => state.engineerDashboard);
 
-  // 2. 이번 달 기준 데이터 추출 (2026-01)
-  const currentMonthStr = "2026-01";
-  const monthCount = reservationsDummy.filter((res) =>
-    res.date.startsWith(currentMonthStr)
-  ).length;
+  useEffect(() => {
+    dispatch(fetchEngineerDashboard());
+  }, []);
 
   return (
     <div className="component01-container">
@@ -35,13 +30,13 @@ const Component01 = () => {
 
         <div className="profile-info">
           <h1 className="profile-name">
-            홍길동 <span className="role-text">기사님</span>
+            {engineerName ?? "알수없음"} <span className="role-text">기사님</span>
           </h1>
           <div className="profile-message-box">
             <p className="message-text">
               <span className="highlight-date">{todayFormatted}</span>입니다.
               <br />
-              오늘 예약은 <span className="highlight-count">{todayCount}건</span> 입니다.
+              오늘 예약은{" "}<span className="highlight-count">{todayCount}건</span>{" "}입니다.
             </p>
           </div>
         </div>
