@@ -1,144 +1,97 @@
 /* =================================================
-   Header - PC 100% 기준
+   Header - Clean & Mint Theme
 ================================================= */
 .header-container {
   width: 100%;
-  height: 150px;
-  background-color: #0f0f0f;
-  color: #ffffff;
-
+  height: 70px; /* 슬림하고 세련된 높이 */
+  background-color: rgba(255, 255, 255, 0.8); /* 반투명 화이트 */
+  backdrop-filter: blur(10px); /* 뒤 배경 비침 효과 (고급스러움) */
+  -webkit-backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   display: flex;
-  justify-content: center; /* 가로 중앙 */
-  align-items: center;     /* 세로 중앙 */
-  gap: 70px;
-
-  font-size: clamp(28px, 4vw, 80px); /* 모바일 디바이스 대응*/
-  text-align: center;      /* span 내부 텍스트 중앙 */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  width: calc(100% - 17px); /* 스크롤바 가정 (대략 17px) */
-}
-
-/* 클릭 가능한 메뉴 아이템 */
-.header-item {
-  cursor: pointer;
-  transition: all 0.25s ease;
-  padding: 8px 12px;
-  border-radius: 8px;
-  display: flex;
+  justify-content: center;
   align-items: center;
-  justify-content: center; /* 내부 글자 중앙 */
-  min-width: 120px;  /* 글자 길이 따라 중앙 유지 */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
 }
 
-/* hover 효과 */
+.header-inner {
+  width: 100%;
+  max-width: 650px; /* 마이페이지 카드 폭과 동일하게 설정하여 통일감 부여 */
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 0 20px;
+}
+
+/* 메뉴 아이템 스타일 */
+.header-item {
+  font-size: 17px;
+  font-weight: 700;
+  color: #505357; /* 기본은 차분한 회색 */
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 8px 16px;
+  border-radius: 14px;
+  position: relative;
+  letter-spacing: -0.3px;
+}
+
+/* Hover 효과 */
 .header-item:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-  opacity: 0.85;
-  transform: translateY(-2px);
+  color: #00c3a2;
+  background-color: #f0fdfa;
 }
 
-/* 구분선 */
+/* 활성화(Active) 상태 - 현재 페이지 */
+.header-item.active {
+  color: #00c3a2;
+  font-weight: 850;
+}
+
+/* 활성화 시 하단 점 표시 (선택사항) */
+.header-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background-color: #00c3a2;
+  border-radius: 50%;
+}
+
+/* 구분선 - 텍스트 대신 세련된 버티컬 라인으로 변경 */
 .header-separator {
-  color: #777;
-  font-weight: 400;
-  display: inline-block;
-  text-align: center;
+  width: 1px;
+  height: 14px;
+  background-color: #eee;
 }
 
 /* =================================================
-   Responsive - 1024px 이하
-================================================= */
-@media (max-width: 1024px) {
-  .header-container {
-    height: 130px;
-    font-size: 64px;
-    gap: 56px;
-  }
-}
-
-/* =================================================
-   Responsive - 950px 이하
-================================================= */
-@media (max-width: 950px) {
-  .header-container {
-    height: 120px;
-    font-size: 56px;
-    gap: 48px;
-  }
-}
-
-/* =================================================
-   Responsive - 768px 이하 (태블릿/모바일)
+   Responsive - 모바일 대응
 ================================================= */
 @media (max-width: 768px) {
   .header-container {
-    height: 100px;
-    font-size: 37px;
-    gap: 36px;
-    padding: 0 16px;
+    height: 60px;
   }
   
-  
-
   .header-item {
-    padding: 6px 10px;
-    min-width: 100px;
+    font-size: 15px;
+    padding: 6px 12px;
   }
-
-  
 }
 
-/* =================================================
-   Responsive - 480px 이하 (모바일 소형)
-================================================= */
 @media (max-width: 480px) {
-  .header-container {
-    height: 80px;
-    font-size: 35px;
-    gap: 16px;
-    padding: 0 12px;
+  .header-inner {
+    gap: 10px;
   }
-
-  .header-container span {
-    font-size: 30px;
-  }
-
+  
   .header-item {
-    padding: 4px 6px;
-    font-size: 16px;
-    min-width: 80px;
-  }
-
-  .header-separator {
-    font-size: 16px;
+    font-size: 14px;
+    padding: 5px 10px;
   }
 }
-
-/* =================================================
-   Ultra small devices (자동 대응)
-================================================= */
-@media (max-width: 360px) {
-  .header-container {
-    height: 70px;
-    font-size: 30px;
-    gap: 12px;
-    padding: 0 8px;
-  }
-
-  .header-container span {
-    font-size: 27px;
-  }
-
-  .header-item {
-    padding: 3px 5px;
-    font-size: 14px;
-    min-width: 70px;
-  }
-
-  .header-separator {
-    font-size: 14px;
-  }
-}
-
-
-
