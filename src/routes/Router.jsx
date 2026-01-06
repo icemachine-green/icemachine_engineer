@@ -6,44 +6,25 @@ import MonthReservationPage from "../components/reservation/MonthReservationPage
 import ReservationDetailPage from "../components/reservation/ReservationDetailPage.jsx";
 import MyPage from "../components/mypage/MyPage.jsx";
 import LoginPage from "../components/login/LoginPage.jsx";
+import Social from "../components/login/Social.jsx";
 
 const router = createBrowserRouter([
-	{
+  {
+    path: '/callback/social',
+    element: <Social />
+  },
+  {
     element: <App />,
     children: [
-      {
-        path: "/",
-        element: <MainPage />,
-      },  
-      {
-        path: "/reservation",
-        element: <ReservationPage />,
-      },
-      {
-        path: "/monthreservation",
-        element: <MonthReservationPage />,
-      },
-      {
-        path: "/reservation/detail/:id",
-        element: <ReservationDetailPage />,
-      },
-      {
-        path: "/mypage",
-        element: <MyPage />,
-      },
-      {
-        path: "/login",
-        element: <LoginPage />,
-      },
-
-      // 앞으로 다른 페이지가 추가되면 이 배열에 추가합니다.
-      // 예: { path: '/login', element: <LoginPage /> }
+      { path: "/", element: <MainPage /> }, 
+      { path: "/reservation", element: <ReservationPage /> },
+      { path: "/monthreservation", element: <MonthReservationPage /> },
+      { path: "/reservation/detail/:id", element: <ReservationDetailPage /> },
+      { path: "/mypage", element: <MyPage /> },
+      { path: "/login", element: <LoginPage /> },
     ],
   },
 ]);
 
-const Router = () => {
-  return <RouterProvider router={router} />;
-};
-
+const Router = () => <RouterProvider router={router} />;
 export default Router;
