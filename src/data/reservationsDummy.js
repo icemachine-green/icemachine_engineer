@@ -5,7 +5,7 @@ export const reservationsDummy = [
   {
     id: 1,
     storeName: "교보문고 대구점",
-    date: "2026-01-05",
+    date: "2026-01-06",
     time: "09:00 ~ 10:00",
     name: "이지영",
     phone: "010-1212-7777",
@@ -19,7 +19,7 @@ export const reservationsDummy = [
   {
     id: 2,
     storeName: "경대북문 카페온",
-    date: "2026-01-05",
+    date: "2026-01-06",
     time: "10:30 ~ 12:30",
     name: "김민수",
     phone: "010-2222-3333",
@@ -33,7 +33,7 @@ export const reservationsDummy = [
   {
     id: 3,
     storeName: "중앙공원 베이커리",
-    date: "2026-01-05",
+    date: "2026-01-06",
     time: "14:00 ~ 17:00",
     name: "박서연",
     phone: "010-3333-4444",
@@ -47,7 +47,7 @@ export const reservationsDummy = [
   {
     id: 4,
     storeName: "동성로 스트리트버거",
-    date: "2026-01-05",
+    date: "2026-01-06",
     time: "09:00 ~ 10:00",
     name: "최현우",
     phone: "010-4444-5555",
@@ -61,7 +61,7 @@ export const reservationsDummy = [
   {
     id: 5,
     storeName: "동성로 커피하우스",
-    date: "2026-01-05",
+    date: "2026-01-06",
     time: "11:00 ~ 13:00",
     name: "정다은",
     phone: "010-5555-6666",
