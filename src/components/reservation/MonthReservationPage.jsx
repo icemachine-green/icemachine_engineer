@@ -1,19 +1,30 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // useNavigate 추가
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./MonthReservationPage.css";
 import { reservationsDummy } from "../../data/reservationsDummy.js";
 
 const MonthReservationPage = () => {
+  const navigate = useNavigate(); // 페이지 이동을 위한 훅
+
   // 기준 날짜 설정 (2026-01-06)
   const today = new Date(2026, 0, 6); 
   const [currentDate, setCurrentDate] = useState(new Date(2026, 0, 1));
 
   // 1. 조회 제한 범위 계산 (기준 월 전후 2개월, 총 5개월)
-  // 11월 1일 ~ 3월 말일까지로 고정
   const minDate = new Date(today.getFullYear(), today.getMonth() - 2, 1);
-  const maxLimitDate = new Date(today.getFullYear(), today.getMonth() + 3, 0); // 3월 말일
+  const maxLimitDate = new Date(today.getFullYear(), today.getMonth() + 3, 0);
 
+  // 날짜 포맷 함수 (YYYY-MM-DD)
+  const formatDate = (date) => {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  };
+
+  // 현재 월의 총 예약 건수 계산
   const getCurrentMonthReservationCount = () => {
     const year = currentDate.getFullYear();
     const month = String(currentDate.getMonth() + 1).padStart(2, "0");
@@ -21,11 +32,17 @@ const MonthReservationPage = () => {
     return reservationsDummy.filter(item => item.date.startsWith(yearMonth)).length;
   };
 
-  const formatDate = (date) => {
-    const y = date.getFullYear();
-    const m = String(date.getMonth() + 1).padStart(2, "0");
-    const d = String(date.getDate()).padStart(2, "0");
-    return `${y}-${m}-${d}`;
+  // 특정 날짜 클릭 핸들러
+  const handleDayClick = (date) => {
+    const dateStr = formatDate(date);
+    const dayReservations = reservationsDummy.filter(item => item.date === dateStr);
+
+    // 예약 건수가 0보다 크면 /reservation 페이지로 이동
+    if (dayReservations.length > 0) {
+      navigate("/reservation");
+      // 만약 특정 날짜의 데이터를 넘겨주고 싶다면 아래처럼 사용 가능
+      // navigate("/reservation", { state: { selectedDate: dateStr } });
+    }
   };
 
   const tileContent = ({ date, view }) => {
@@ -60,18 +77,19 @@ const MonthReservationPage = () => {
             calendarType="gregory"
             value={null}
             onActiveStartDateChange={({ activeStartDate }) => setCurrentDate(activeStartDate)}
+            onClickDay={handleDayClick} // 날짜 클릭 시 이동 로직 추가
             tileContent={tileContent}
             formatDay={(locale, date) => date.getDate()}
             
-            // 2. 화살표 제어 (정확히 5개월 범위 안에서만 존재)
+            // 화살표 제어
             prevLabel={currentDate <= minDate ? null : "‹"}
             nextLabel={currentDate >= new Date(today.getFullYear(), today.getMonth() + 2, 1) ? null : "›"}
             prev2Label={null}
             next2Label={null}
 
-            // 3. 중앙 라벨 클릭 무력화 (이동 방지 핵심)
+            // 중앙 라벨 클릭 무력화 및 뷰 고정
             view="month"
-            onViewChange={() => {}} // 뷰 변경 시도 자체를 무시
+            onViewChange={() => {}} 
             navigationLabel={({ label }) => (
               <span className="nav-label-custom">{label}</span>
             )}

@@ -26,11 +26,6 @@ const MyPage = () => {
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, 5);
 
-  const reviews = [
-    { name: "진중권", date: "2025.12.27", content: "제빙기 내부까지 꼼꼼하게 청소해 주셔서 얼음 상태가 확실히 달라졌어요." },
-    { name: "김재인", date: "2025.12.28", content: "약속 시간도 잘 지키시고 설명도 친절하게 해주셔서 믿음이 갑니다." },
-    { name: "김상환", date: "2025.12.29", content: "청소 전후 사진을 직접 보여주시니 정말 안심이 되네요. 추천합니다!" },
-  ];
 
   const handleInnerToggle = (index) => {
     setExpandedIndex(expandedIndex === index ? null : index);
@@ -91,31 +86,6 @@ const MyPage = () => {
               <span className="stat-label">전체 예약</span>
               <strong className="stat-value">{totalWorkCount}건</strong>
             </div>
-            <div className="stat-item">
-              <span className="stat-label">리뷰</span>
-              <strong className="stat-value">31건</strong>
-            </div>
-          </div>
-          
-          <div className="review-section-header">
-            <h3 className="section-sub-title">최근 등록된 리뷰</h3>
-          </div>
-          <div className="review-scroll-area">
-            {reviews.map((review, idx) => (
-              <div key={idx} className="review-card-item">
-                <img className="review-thumb" src="/icons/icemachine.png" alt="작업사진" />
-                <div className="review-body">
-                  <div className="review-header">
-                    <span className="review-stars">★★★★★</span>
-                    <div className="review-writer-info">
-                      <span className="writer-name">{review.name}</span>
-                      <span className="write-date">{review.date}</span>
-                    </div>
-                  </div>
-                  <p className="review-comment">{review.content}</p>
-                </div>
-              </div>
-            ))}
           </div>
         </section>
 
@@ -140,7 +110,7 @@ const MyPage = () => {
 
           {isOuterOpen && (
             <div className="outer-content-area">
-              <div className="list-limit-notice">최근 5개의 작업 내역만 표시됩니다.</div>
+              <div className="list-limit-notice">최근 5개의 완료된 작업 내역만 표시됩니다.</div>
               <div className="work-history-list">
                 {recentWorkHistory.map((work, index) => (
                   <div key={work.id} className={`work-history-item ${expandedIndex === index ? "active" : ""}`}>
@@ -179,18 +149,7 @@ const MyPage = () => {
                             <span className="label">서비스</span>
                             <span className="value">{work.service}</span>
                           </div>
-                        </div>
-                        <img className="product-full-img" src="/icons/icemachine_model.png" alt="제품" />
-                        <div className="work-photo-comparison">
-                          <div className="photo-box">
-                            <span className="photo-label">Before</span>
-                            <img src="/icons/icemachine_dark.png" alt="작업전" />
-                          </div>
-                          <div className="photo-box">
-                            <span className="photo-label">After</span>
-                            <img src="/icons/icemachine.png" alt="작업후" />
-                          </div>
-                        </div>
+                        </div>             
                       </div>
                     )}
                   </div>

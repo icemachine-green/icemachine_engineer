@@ -6,7 +6,7 @@ import { detailThunk } from "../../store/thunks/reservationDetail.thunk.js";
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { openNaverMap } from "../../utils/openNaverMap.js";
 
-// 스켈레톤 컴포넌트: 실제 페이지 구조와 동일하게 배치
+// 스켈레톤 컴포넌트
 const DetailSkeleton = () => {
   return (
     <div className="detail-page-wrapper">
@@ -38,13 +38,9 @@ const ReservationDetailPage = () => {
   const { id } = useParams();
 
   const [latLng, setLatLng] = useState({ lat: 35.8714, lng: 128.6014 });
-  
-  // isLoading 상태 추가 (Redux Slice에 isLoading이 정의되어 있어야 함)
   const { reservationDetailData, isLoading } = useSelector((state) => state.reservationDetail);
 
   const [isNotFoundReservation, setIsNotFoundReservation] = useState(false);
-  const [images, setImages] = useState([]);
-  
   const [currentStatus, setCurrentStatus] = useState("");
   const [workMemo, setWorkMemo] = useState("");
 
@@ -53,13 +49,12 @@ const ReservationDetailPage = () => {
   const [cancelReason, setCancelReason] = useState("");
   const [showCompleteModal, setShowCompleteModal] = useState(false);
 
-  // 로컬 저장 로직
   const saveToLocal = useCallback((status, memo) => {
     localStorage.setItem(`reservation_${id}`, JSON.stringify({
       status: status,
-      memo: memo !== undefined ? memo : workMemo
+      memo: memo
     }));
-  }, [id, workMemo]);
+  }, [id]);
 
   useEffect(() => {
     async function init() {
@@ -97,7 +92,6 @@ const ReservationDetailPage = () => {
     init();
   }, [dispatch, id]);
 
-  /* 상태 변경 핸들러 */
   const handleStart = () => {
     const nextStatus = "작업 진행중";
     setCurrentStatus(nextStatus);
@@ -117,13 +111,11 @@ const ReservationDetailPage = () => {
   };
 
   const handleSaveCancelReason = () => {
-    const nextStatus = "예약됨"; 
-    const cleanMemo = workMemo.includes("취소사유:") 
-      ? workMemo.split("\n").slice(1).join("\n") 
-      : workMemo;
-    const newMemo = `취소사유: ${cancelReason}\n${cleanMemo}`;
+    // 상태를 '작업 취소'로 변경하여 버튼들을 비활성화 상태로 만듦
+    const nextStatus = "작업 취소"; 
+    console.log("취소 사유:", cancelReason); 
     setCurrentStatus(nextStatus);
-    saveToLocal(nextStatus, newMemo);
+    saveToLocal(nextStatus, workMemo); 
     closeCancelModal();
   };
 
@@ -133,30 +125,10 @@ const ReservationDetailPage = () => {
     saveToLocal(currentStatus, nextMemo);
   };
 
-  useEffect(() => {
-    return () => {
-      images.forEach(url => URL.revokeObjectURL(url));
-    };
-  }, [images]);
-
-  const handleRemoveImage = () => setImages((prev) => prev.slice(0, prev.length - 1));
-  const handleAddImage = (event) => {
-    const files = event.target.files;
-    if (!files) return;
-    const newImages = Array.from(files).slice(0, 2 - images.length);
-    const urls = newImages.map((file) => URL.createObjectURL(file));
-    setImages((prev) => [...prev, ...urls]);
-  };
-
   const openCancelModal = () => setShowCancelModal(true);
   const closeCancelModal = () => { setShowCancelModal(false); setCancelReason(""); };
 
-  // 1. 로딩 중일 때 스켈레톤 먼저 반환
-  if (isLoading) {
-    return <DetailSkeleton />;
-  }
-
-  // 2. 에러 발생 시 처리
+  if (isLoading) return <DetailSkeleton />;
   if (isNotFoundReservation && !reservationDetailData) {
     return <div className="error-message-box">예약 정보를 찾을 수 없습니다.</div>;
   }
@@ -202,29 +174,10 @@ const ReservationDetailPage = () => {
           </section>
 
           <section className="info-card-section">
-            <span className="category-label">기기 및 작업 사진</span>
+            <span className="category-label">기기 크기 및 모델</span>
             <div className="specs-grid">
               <div className="spec-item"><span className="spec-label">크기</span><span className="spec-value">{reservationDetailData?.type}</span></div>
               <div className="spec-item"><span className="spec-label">모델</span><span className="spec-value">{reservationDetailData?.model}</span></div>
-            </div>
-
-            <div className="photo-comparison-grid">
-              <div className="photo-unit">
-                <p className="photo-type">작업 전</p>
-                {images[0] ? <img src={images[0]} alt="전" className="captured-img" /> : <div className="photo-empty">사진 없음</div>}
-              </div>
-              <div className="photo-unit">
-                <p className="photo-type">작업 후</p>
-                {images[1] ? <img src={images[1]} alt="후" className="captured-img" /> : <div className="photo-empty">사진 없음</div>}
-              </div>
-            </div>
-
-            <div className="photo-controls">
-              <button className="photo-btn-sub delete" onClick={handleRemoveImage} disabled={images.length === 0}>사진 삭제</button>
-              <label className="photo-btn-sub upload">
-                사진 추가
-                <input type="file" accept="image/*" multiple hidden onChange={handleAddImage} />
-              </label>
             </div>
           </section>
 
@@ -247,15 +200,29 @@ const ReservationDetailPage = () => {
         </main>
 
         <footer className="detail-sticky-footer">
-          {currentStatus === "예약됨" && (
-            <button className="btn-main-action start" onClick={handleStart}>작업 시작하기</button>
+          {(currentStatus === "예약됨" || currentStatus === "작업 취소") && (
+            <div className="action-stack">
+              <button 
+                className="btn-main-action start" 
+                onClick={handleStart}
+                disabled={currentStatus === "작업 취소"}
+              >
+                {currentStatus === "작업 취소" ? "취소된 예약" : "작업 시작하기"}
+              </button>
+              <button 
+                className="btn-text-action" 
+                onClick={openCancelModal}
+                disabled={currentStatus === "작업 취소"}
+              >
+                작업 취소
+              </button>
+            </div>
           )}
 
           {currentStatus === "작업 진행중" && (
             <div className="action-stack">
               <p className="status-notice">진행중인 작업이 있습니다</p>
               <button className="btn-main-action complete" onClick={handleComplete}>작업 완료</button>
-              <button className="btn-text-action" onClick={openCancelModal}>작업 취소</button>
             </div>
           )}
 
@@ -278,7 +245,13 @@ const ReservationDetailPage = () => {
               value={cancelReason}
               onChange={(e) => setCancelReason(e.target.value)}
             />
-            <button className="modal-btn-save" onClick={handleSaveCancelReason}>사유 저장 및 취소</button>
+            <button 
+              className="modal-btn-save" 
+              onClick={handleSaveCancelReason}
+              disabled={!cancelReason.trim()}
+            >
+              사유 저장 및 취소
+            </button>
           </div>
         </div>
       )}

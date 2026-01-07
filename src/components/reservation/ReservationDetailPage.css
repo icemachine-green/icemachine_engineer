@@ -4,7 +4,7 @@
 .detail-page-wrapper {
   background-color: #f8f9fb;
   min-height: 100vh;
-  padding: 20px 20px 120px;
+  padding: 20px 20px 140px;
   font-family: 'Pretendard', sans-serif;
   display: flex;
   justify-content: center;
@@ -90,23 +90,6 @@
 .spec-label { display: block; font-size: 12px; color: #999; margin-bottom: 4px; }
 .spec-value { font-size: 16px; font-weight: 700; color: #333; }
 
-.photo-comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.photo-unit { text-align: center; }
-.photo-type { font-size: 14px; font-weight: 700; color: #777; margin-bottom: 10px; }
-.captured-img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 20px; border: 1px solid #eee; }
-.photo-empty {
-  width: 100%; aspect-ratio: 1; background: #f1f3f5; border-radius: 20px;
-  display: flex; align-items: center; justify-content: center; color: #adb5bd; font-size: 14px;
-}
-.photo-controls { display: flex; gap: 10px; margin-top: 20px; }
-.photo-btn-sub {
-  flex: 1; padding: 14px; border-radius: 14px; font-size: 14px; font-weight: 700;
-  text-align: center; cursor: pointer; transition: 0.2s; border: 1px solid #dee2e6; background: #fff;
-}
-.photo-btn-sub.upload { color: #00c3a2; border-color: #00c3a2; }
-.photo-btn-sub.delete { color: #ff5a5a; }
-.photo-btn-sub:disabled { opacity: 0.4; }
-
 .memo-readonly {
   background: #f8fffb; border-left: 5px solid #00c3a2; padding: 18px;
   border-radius: 0 16px 16px 0; font-size: 16px; color: #444; line-height: 1.6;
@@ -127,20 +110,46 @@
   border-top: 1px solid rgba(0,0,0,0.05); z-index: 100;
   box-sizing: border-box;
 }
+
+.action-stack { 
+  width: 100%; 
+  max-width: 610px; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 10px; 
+}
+
 .btn-main-action {
-  width: 100%; max-width: 610px; padding: 20px; border-radius: 20px; font-size: 18px;
+  width: 100%; padding: 20px; border-radius: 20px; font-size: 18px;
   font-weight: 800; border: none; cursor: pointer; transition: 0.3s;
 }
 .btn-main-action.start { background: #222; color: #fff; }
-.btn-main-action.start:hover { background: #00c3a2; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 195, 162, 0.2); }
+.btn-main-action.start:hover:not(:disabled) { background: #00c3a2; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 195, 162, 0.2); }
 .btn-main-action.complete { background: #00c3a2; color: #fff; }
 .btn-main-action.finished { background: #e9ecef; color: #adb5bd; cursor: default; }
 
-.action-stack { width: 100%; max-width: 610px; display: flex; flex-direction: column; align-items: center; }
-.status-notice { color: #00c3a2; font-weight: 700; margin-bottom: 10px; font-size: 14px; }
+/* 비활성화된 메인 액션 버튼 (작업 취소 시) */
+.btn-main-action:disabled {
+  background-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.status-notice { color: #00c3a2; font-weight: 700; margin-bottom: 4px; font-size: 14px; }
+
 .btn-text-action {
-  background: none; border: none; padding: 15px; color: #aaa; font-weight: 600;
-  text-decoration: underline; cursor: pointer;
+  background: none; border: none; padding: 10px; color: #aaa;
+  font-weight: 600; text-decoration: underline; cursor: pointer; font-size: 15px;
+}
+
+/* 비활성화된 텍스트 버튼 (작업 취소 시) */
+.btn-text-action:disabled {
+  color: #e9ecef;
+  text-decoration: none;
+  cursor: not-allowed;
 }
 
 /* =========================
@@ -164,8 +173,15 @@
 .alert-type { text-align: center; }
 .modal-btn-confirm { background: #00c3a2; margin-top: 15px; }
 
+.modal-btn-save:disabled {
+  background-color: #e2e2e2;
+  color: #adb5bd;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
 /* =========================
-   반응형
+   반응형 및 스켈레톤
 ========================= */
 .error-message-box { padding: 100px; text-align: center; color: #999; font-weight: 600; }
 @media (max-width: 480px) {
@@ -174,15 +190,12 @@
   .info-card-section { padding: 22px; }
 }
 
-/* --- Skeleton UI Styles --- */
 .sk-item {
   background-color: #e2e2e2;
   border-radius: 4px;
   position: relative;
   overflow: hidden;
 }
-
-/* 무지개/빛이 지나가는 애니메이션 효과 */
 .sk-item::after {
   content: "";
   position: absolute;
@@ -190,18 +203,14 @@
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   animation: sk-loading 1.5s infinite;
 }
-
 @keyframes sk-loading {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
 }
-
 .sk-badge { width: 80px; height: 24px; margin-bottom: 12px; }
 .sk-title { width: 60%; height: 32px; margin-bottom: 8px; }
 .sk-text { width: 40%; height: 18px; }
 .sk-label { width: 100px; height: 16px; margin-bottom: 10px; }
 .sk-content-box { width: 100%; height: 120px; border-radius: 8px; }
 .sk-button { width: 100%; height: 50px; border-radius: 12px; }
-
-/* 헤더 배경 살짝 조절 */
 .skeleton-bg { background: #f9f9f9 !important; }
