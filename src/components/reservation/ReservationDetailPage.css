@@ -27,18 +27,47 @@
   text-align: center;
   box-shadow: 0 15px 35px rgba(0, 195, 162, 0.25);
   margin-bottom: 24px;
+  transition: all 0.4s ease;
+}
+
+.detail-header-card.header-finished {
+  background: linear-gradient(135deg, #adb5bd, #868e96);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 .status-badge-top {
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 5px 14px;
-  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  padding: 6px 16px;
+  border-radius: 12px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 800;
   margin-bottom: 16px;
-  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
+
+.status-badge-top .pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.status-badge-top.status-ongoing { color: #00c3a2; }
+.status-badge-top.status-ongoing .pulse-dot { 
+  background-color: #00c3a2; 
+  animation: sk-loading 2s infinite linear;
+}
+
+.status-badge-top.status-reserved { color: #ff9f43; }
+.status-badge-top.status-reserved .pulse-dot { background-color: #ff9f43; }
+
+.status-badge-top.status-cancelled { color: #ff6b6b; }
+.status-badge-top.status-cancelled .pulse-dot { background-color: #ff6b6b; }
+
+.status-badge-top.status-finished { color: #777; }
+.status-badge-top.status-finished .pulse-dot { background-color: #bbb; }
 
 .header-date { font-size: 34px; font-weight: 850; margin: 0; letter-spacing: -0.5px; }
 .header-time { font-size: 24px; opacity: 0.9; margin: 6px 0 0; font-weight: 500; }
@@ -129,28 +158,20 @@
 .btn-main-action.complete { background: #00c3a2; color: #fff; }
 .btn-main-action.finished { background: #e9ecef; color: #adb5bd; cursor: default; }
 
-/* 비활성화된 메인 액션 버튼 (작업 취소 시) */
 .btn-main-action:disabled {
   background-color: #e9ecef;
   color: #adb5bd;
   cursor: not-allowed;
-  transform: none !important;
-  box-shadow: none !important;
 }
 
-.status-notice { color: #00c3a2; font-weight: 700; margin-bottom: 4px; font-size: 14px; }
-
+/* 취소하기 텍스트 버튼 (원본 크기 유지) */
 .btn-text-action {
-  background: none; border: none; padding: 10px; color: #aaa;
-  font-weight: 600; text-decoration: underline; cursor: pointer; font-size: 15px;
+  background: none; border: none; color: #999; font-weight: 600; 
+  text-decoration: underline; cursor: pointer; font-size: 15px;
+  padding: 10px;
 }
 
-/* 비활성화된 텍스트 버튼 (작업 취소 시) */
-.btn-text-action:disabled {
-  color: #e9ecef;
-  text-decoration: none;
-  cursor: not-allowed;
-}
+.status-notice { color: #00c3a2; font-weight: 800; text-align: center; margin-bottom: 2px; font-size: 14px; }
 
 /* =========================
    모달 스타일
@@ -173,21 +194,12 @@
 .alert-type { text-align: center; }
 .modal-btn-confirm { background: #00c3a2; margin-top: 15px; }
 
-.modal-btn-save:disabled {
-  background-color: #e2e2e2;
-  color: #adb5bd;
-  cursor: not-allowed;
-  opacity: 1;
-}
-
 /* =========================
    반응형 및 스켈레톤
 ========================= */
-.error-message-box { padding: 100px; text-align: center; color: #999; font-weight: 600; }
 @media (max-width: 480px) {
   .detail-header-card { border-radius: 0 0 30px 30px; margin-top: -20px; }
   .header-date { font-size: 28px; }
-  .info-card-section { padding: 22px; }
 }
 
 .sk-item {

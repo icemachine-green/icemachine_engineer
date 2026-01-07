@@ -6,7 +6,6 @@ import { detailThunk } from "../../store/thunks/reservationDetail.thunk.js";
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { openNaverMap } from "../../utils/openNaverMap.js";
 
-// 스켈레톤 컴포넌트
 const DetailSkeleton = () => {
   return (
     <div className="detail-page-wrapper">
@@ -44,7 +43,6 @@ const ReservationDetailPage = () => {
   const [currentStatus, setCurrentStatus] = useState("");
   const [workMemo, setWorkMemo] = useState("");
 
-  /* 모달 상태 */
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
   const [showCompleteModal, setShowCompleteModal] = useState(false);
@@ -98,9 +96,7 @@ const ReservationDetailPage = () => {
     saveToLocal(nextStatus, workMemo);
   };
 
-  const handleComplete = () => {
-    setShowCompleteModal(true);
-  };
+  const handleComplete = () => setShowCompleteModal(true);
 
   const handleConfirmComplete = () => {
     const nextStatus = "작업 종료";
@@ -111,9 +107,7 @@ const ReservationDetailPage = () => {
   };
 
   const handleSaveCancelReason = () => {
-    // 상태를 '작업 취소'로 변경하여 버튼들을 비활성화 상태로 만듦
     const nextStatus = "작업 취소"; 
-    console.log("취소 사유:", cancelReason); 
     setCurrentStatus(nextStatus);
     saveToLocal(nextStatus, workMemo); 
     closeCancelModal();
@@ -128,16 +122,31 @@ const ReservationDetailPage = () => {
   const openCancelModal = () => setShowCancelModal(true);
   const closeCancelModal = () => { setShowCancelModal(false); setCancelReason(""); };
 
+  const getStatusClass = (status) => {
+    switch (status) {
+      case '작업 종료': return 'status-finished';
+      case '작업 취소': return 'status-cancelled';
+      case '작업 진행중': return 'status-ongoing';
+      case '예약됨': return 'status-reserved';
+      default: return 'status-reserved';
+    }
+  };
+
   if (isLoading) return <DetailSkeleton />;
   if (isNotFoundReservation && !reservationDetailData) {
     return <div className="error-message-box">예약 정보를 찾을 수 없습니다.</div>;
   }
 
+  const statusClass = getStatusClass(currentStatus);
+
   return (
     <div className="detail-page-wrapper">
       <div className="detail-container">
-        <header className="detail-header-card">
-          <div className="status-badge-top">{currentStatus}</div>
+        <header className={`detail-header-card ${statusClass === 'status-finished' ? 'header-finished' : ''}`}>
+          <div className={`status-badge-top ${statusClass}`}>
+            <span className="pulse-dot"></span>
+            {currentStatus}
+          </div>
           <h1 className="header-date">{reservationDetailData?.date}</h1>
           <p className="header-time">{reservationDetailData?.time}</p>
         </header>
@@ -201,25 +210,19 @@ const ReservationDetailPage = () => {
         </main>
 
         <footer className="detail-sticky-footer">
-          {(currentStatus === "예약됨" || currentStatus === "작업 취소") && (
+          {/* 예약됨 상태일 때만 시작 버튼과 작은 취소 버튼 노출 */}
+          {currentStatus === "예약됨" && (
             <div className="action-stack">
-              <button 
-                className="btn-main-action start" 
-                onClick={handleStart}
-                disabled={currentStatus === "작업 취소"}
-              >
-                {currentStatus === "작업 취소" ? "취소된 예약" : "작업 시작하기"}
+              <button className="btn-main-action start" onClick={handleStart}>
+                작업 시작하기
               </button>
-              <button 
-                className="btn-text-action" 
-                onClick={openCancelModal}
-                disabled={currentStatus === "작업 취소"}
-              >
-                작업 취소
+              <button className="btn-text-action" onClick={openCancelModal}>
+                작업 취소하기
               </button>
             </div>
           )}
 
+          {/* 작업 진행중 상태 */}
           {currentStatus === "작업 진행중" && (
             <div className="action-stack">
               <p className="status-notice">진행중인 작업이 있습니다</p>
@@ -227,8 +230,14 @@ const ReservationDetailPage = () => {
             </div>
           )}
 
+          {/* 작업 종료 상태 */}
           {currentStatus === "작업 종료" && (
             <button className="btn-main-action finished" disabled>작업 종료됨</button>
+          )}
+
+          {/* 작업 취소 상태일 때 나타나는 큰 상태 버튼 */}
+          {currentStatus === "작업 취소" && (
+            <button className="btn-main-action finished" disabled style={{ color: '#ff6b6b' }}>취소된 예약</button>
           )}
         </footer>
       </div>

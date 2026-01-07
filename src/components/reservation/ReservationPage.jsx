@@ -8,9 +8,7 @@ const ReservationPage = () => {
   const navigate = useNavigate();
   const [visibleCount, setVisibleCount] = useState(3);
 
-  // 1. 데이터 필터링 및 가공
   const todayReservations = useMemo(() => {
-    // 만약 데이터 자체가 로드되지 않은 경우 null 혹은 빈 배열 반환 가능
     if (!reservationsDummy) return [];
 
     const today = new Date();
@@ -24,20 +22,14 @@ const ReservationPage = () => {
       })
       .map((item) => {
         const savedData = localStorage.getItem(`reservation_${item.id}`);
-        if (savedData) {
-          const parsed = JSON.parse(savedData);
-          return { ...item, status: parsed.status };
-        }
-        return item;
+        const parsed = savedData ? JSON.parse(savedData) : null;
+        const currentStatus = parsed?.status || item.status || '예약됨';
+
+        return { ...item, status: currentStatus };
       });
   }, []);
 
-  // 2. 스켈레톤 노출 조건 설정
-  // 데이터가 로딩 중이거나 배열이 아예 정의되지 않았을 때를 대비합니다.
   if (!todayReservations || todayReservations.length === 0) {
-    // 실제로는 데이터가 정말 0건인 경우와 구분하기 위해 
-    // 데이터 패칭 라이브러리(React Query 등)의 isLoading 값을 쓰는 것이 가장 좋습니다.
-    // 현재는 더미 데이터가 있으므로, 데이터가 없으면 스켈레톤을 보여주도록 처리합니다.
     return <ReservationSkeleton />;
   }
 
@@ -45,6 +37,16 @@ const ReservationPage = () => {
   const isExpired = visibleCount >= todayReservations.length;
 
   const goToDetail = (id) => navigate(`/reservation/detail/${id}`);
+
+  const getStatusClass = (status) => {
+    switch (status) {
+      case '작업 종료': return 'status-finished';
+      case '작업 취소': return 'status-cancelled';
+      case '작업 진행중': return 'status-ongoing';
+      case '예약됨': return 'status-reserved';
+      default: return 'status-reserved';
+    }
+  };
 
   return (
     <div className="page-wrapper">
@@ -57,38 +59,43 @@ const ReservationPage = () => {
         </header>
 
         <div className="reservation-list">
-          {visibleReservations.map((item) => (
-            <div key={item.id} className="reservation-card" onClick={() => goToDetail(item.id)}>
-              <div className="card-top">
-                <span className="time-badge">{item.time}</span>
-                {item.status && (
-                  <div className={`status-indicator ${item.status === '작업 종료' ? 'finished' : ''}`}>
+          {visibleReservations.map((item) => {
+            const statusClass = getStatusClass(item.status);
+            return (
+              <div 
+                key={item.id} 
+                className={`reservation-card ${statusClass === 'status-finished' ? 'card-finished' : ''}`} 
+                onClick={() => goToDetail(item.id)}
+              >
+                <div className="card-top">
+                  <span className="time-badge">{item.time}</span>
+                  <div className={`status-indicator ${statusClass}`}>
                     <span className="pulse-dot"></span>
                     {item.status}
                   </div>
-                )}
-              </div>
-
-              <div className="card-body">
-                <h3 className="cust-name">
-                  {item.name} <span className="suffix">고객님</span>
-                </h3>
-                <p className="cust-address">{item.address}</p>
-                <div className="service-info">
-                  <span className="type">{item.type}</span>
-                  <span className="divider">|</span>
-                  <span className="name">{item.service}</span>
                 </div>
-              </div>
 
-              <button className="detail-link-btn">
-                상세보기
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
-              </button>
-            </div>
-          ))}
+                <div className="card-body">
+                  <h3 className="cust-name">
+                    {item.name} <span className="suffix">고객님</span>
+                  </h3>
+                  <p className="cust-address">{item.address}</p>
+                  <div className="service-info">
+                    <span className="type">{item.type}</span>
+                    <span className="divider">|</span>
+                    <span className="name">{item.service}</span>
+                  </div>
+                </div>
+
+                <button className="detail-link-btn">
+                  상세보기
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M9 18l6-6-6-6" />
+                  </svg>
+                </button>
+              </div>
+            );
+          })}
         </div>
 
         <button
