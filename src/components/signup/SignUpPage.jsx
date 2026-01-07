@@ -43,7 +43,7 @@ const SignUpPage = () => {
 
     // 회원가입 성공 시 매장 등록페이지로 리디렉션
     if (result.type.endsWith("fulfilled")) {
-      navigate("http://localhost:5173/");
+      navigate("/");
     }
   };
 

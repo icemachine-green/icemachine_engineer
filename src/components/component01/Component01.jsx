@@ -9,6 +9,7 @@ const Component01 = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const todayFormatted = formatKoreanShortDate();
+  const { user } = useSelector(state => state.auth);
 
   const { engineerName, todayCount, monthCount } = useSelector((state) => state.engineerDashboard);
 
@@ -30,7 +31,7 @@ const Component01 = () => {
 
         <div className="profile-info">
           <h1 className="profile-name">
-            {engineerName ?? "알수없음"} <span className="role-text">기사님</span>
+            {user?.name ?? "알수없음"} <span className="role-text">기사님</span>
           </h1>
           <div className="profile-message-box">
             <p className="message-text">

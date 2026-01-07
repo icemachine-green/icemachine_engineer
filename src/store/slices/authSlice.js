@@ -60,6 +60,7 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
         state.user = action.payload.data.user;
         state.accessToken = action.payload.data.accessToken;
+        console.log(action.payload);
       })
       .addCase(reissueThunk.rejected, (state, action) => {
         state.isInitializing = false;
@@ -90,8 +91,9 @@ const authSlice = createSlice({
       .addCase(socialSignupThunk.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.isLoggedIn = true;
-        state.user = action.payload.user || null;
-        state.accessToken = action.payload.accessToken || null;
+        state.isInitializing = false;
+        state.user = action.payload.data.user || null;
+        state.accessToken = action.payload.data.accessToken || null;
       })
       .addCase(socialSignupThunk.rejected, (state, action) => {
         state.status = "failed";

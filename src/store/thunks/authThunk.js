@@ -9,7 +9,7 @@ import axiosInstance from "../../api/axiosInstance.js";
 export const startKakaoLoginThunk = createAsyncThunk(
   "auth/startKakaoLogin",
   async () => {
-    window.location.href = "http://localhost:3000/api/engineers/kakao/authorize";
+    window.location.href = "/api/auth/kakao/authorize/engineer";
   }
 );
 
@@ -21,7 +21,7 @@ export const socialSignupThunk = createAsyncThunk(
   "auth/socialSignup",
   async (args, { rejectWithValue }) => {
     try {
-      const url = "/api/engineers/social-signup";
+      const url = "/api/auth/social-signup/engineer";
 
       // 사용자에게 입력받는 값만 전달
       // socialId와 provider는 사용자에게 노출을 막기위해 컴포넌트에서 따로 출력함.
