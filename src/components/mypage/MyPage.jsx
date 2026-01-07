@@ -1,18 +1,23 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // 페이지 이동
+import { useDispatch } from "react-redux"; // Redux 상태 변경
+import { logout } from "../../store/slices/authSlice"; // 로그아웃 액션
 import "./MyPage.css";
-// 1. 공통 더미 데이터 임포트
+// 공통 더미 데이터 임포트
 import { reservationsDummy } from "../../data/reservationsDummy.js"; 
 
 const MyPage = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [isOuterOpen, setIsOuterOpen] = useState(false);
   const [expandedIndex, setExpandedIndex] = useState(null);
   
   // 모달 상태 관리
-  const [isModalOpen, setIsModalOpen] = useState(false);        // 로그아웃 확인 모달
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);    // 로그아웃 완료 모달
+  const [isModalOpen, setIsModalOpen] = useState(false);        // 1단계: 로그아웃 확인
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);    // 2단계: 완료 알림
 
   const todayStr = "2026-01-06";
-
   const todayCount = reservationsDummy.filter(res => res.date === todayStr).length;
   const totalWorkCount = reservationsDummy.length;
 
@@ -35,17 +40,17 @@ const MyPage = () => {
   const openLogoutModal = () => setIsModalOpen(true);
   const closeLogoutModal = () => setIsModalOpen(false);
 
-  // 2단계: 로그아웃 실행 (질문 모달 닫고 완료 모달 열기)
+  // 2단계: 로그아웃 실행 (Redux 디스패치 + 완료 모달 전환)
   const handleLogoutConfirm = () => {
+    dispatch(logout()); // Redux 상태를 로그아웃으로 변경
     setIsModalOpen(false);
     setIsSuccessOpen(true);
-    // 실제 로그아웃 API 호출 등이 필요한 시점입니다.
   };
 
-  // 3단계: 완료 모달 확인 버튼 (최종 종료 및 페이지 이동 등)
+  // 3단계: 완료 모달 확인 버튼 (메인 페이지로 이동)
   const handleFinalConfirm = () => {
     setIsSuccessOpen(false);
-    console.log("로그아웃 완료 후 페이지 이동");
+    navigate("/login"); // 로그아웃 완료 후 초기 화면(로그인 화면)으로 이동
   };
 
   return (
@@ -172,28 +177,30 @@ const MyPage = () => {
         </section>
       </main>
 
-      {/* 1단계: 로그아웃 확인 모달 */}
+      {/* 🔔 1단계: 로그아웃 확인 모달 */}
       {isModalOpen && (
         <div className="modal-overlay" onClick={closeLogoutModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-status-bar"></div>
             <h3 className="modal-title">로그아웃</h3>
-            <p className="modal-desc">작업 종료 후에는<br/>로그아웃을 권장합니다. 진행하시겠습니까?</p>
+            <p className="modal-desc">정말 로그아웃 하시겠습니까?<br/>안전한 서비스 종료를 위해 권장합니다.</p>
             <div className="modal-button-group">
-              <button className="modal-btn-confirm" onClick={handleLogoutConfirm}>로그아웃 하기</button>
-              <button className="modal-btn-cancel" onClick={closeLogoutModal}>닫기</button>
+              <button className="modal-btn-confirm" onClick={handleLogoutConfirm}>예</button>
+              <button className="modal-btn-cancel" onClick={closeLogoutModal}>아니오</button>
             </div>
           </div>
         </div>
       )}
 
-      {/* 2단계: 로그아웃 완료 알림 모달 */}
+      {/* 🔔 2단계: 로그아웃 완료 알림 모달 */}
       {isSuccessOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="modal-status-bar success"></div>
-            <h3 className="modal-title">로그아웃 완료</h3>
-            <p className="modal-desc">안전하게 로그아웃 되었습니다.<br/>오늘도 고생 많으셨습니다!</p>
+            <div className="modal-body-with-icon">               
+               <h3 className="modal-title">로그아웃 완료</h3>
+               <p className="modal-desc">안전하게 로그아웃 되었습니다.<br/>오늘도 고생 많으셨습니다!</p>
+            </div>
             <div className="modal-button-group">
               <button className="modal-btn-confirm" onClick={handleFinalConfirm}>확인</button>
             </div>

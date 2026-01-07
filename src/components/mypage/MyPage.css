@@ -174,12 +174,12 @@
 .photo-box img { width: 100%; aspect-ratio: 1; border-radius: 12px; object-fit: cover; border: 1px solid #f1f3f5; }
 
 /* =========================
-   공통 모달 시스템
+   공통 모달 시스템 (완성형)
 ========================= */
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(17, 17, 17, 0.7);
+  background-color: rgba(17, 17, 17, 0.75);
   backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
@@ -204,16 +204,21 @@
 .modal-status-bar {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 6px;
-  background: #111; /* 기본 로그아웃은 진한색 */
+  background: #111;
 }
 
-/* 완료 모달용 상태 바 컬러 (포인트 민트색) */
 .modal-status-bar.success {
   background: linear-gradient(to right, #00c3a2, #00814c);
 }
 
+.modal-check-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+}
+
 .modal-title {
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 800;
   color: #111;
   margin: 0 0 12px 0;
@@ -273,6 +278,5 @@
   .mypage-wrapper { padding: 15px 15px 80px; }
   .info-card-section { padding: 22px; }
   .profile-avatar { width: 64px; height: 64px; border-radius: 20px; }
-  .stat-value { font-size: 17px; }
   .top-logout-btn { padding: 8px 14px; font-size: 12px; }
 }
