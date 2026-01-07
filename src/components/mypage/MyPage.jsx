@@ -26,9 +26,15 @@ const MyPage = () => {
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, 5);
 
-
   const handleInnerToggle = (index) => {
     setExpandedIndex(expandedIndex === index ? null : index);
+  };
+
+  // 오늘 예약 통계 클릭 핸들러
+  const handleTodayCountClick = () => {
+    if (todayCount > 0) {
+      navigate("/reservation"); // 오늘 예약이 있을 때만 이동
+    }
   };
 
   // 1단계: 로그아웃 질문 모달 열기/닫기
@@ -78,10 +84,16 @@ const MyPage = () => {
         <section className="info-card-section">
           <span className="category-label">내 작업 내역</span>
           <div className="stats-grid">
-            <div className="stat-item">
+            {/* 오늘 예약 건수 클릭 가능 영역 */}
+            <div 
+              className={`stat-item click-enabled ${todayCount > 0 ? "has-data" : ""}`} 
+              onClick={handleTodayCountClick}
+            >
               <span className="stat-label">오늘 예약</span>
               <strong className="stat-value">{todayCount}건</strong>
+              {todayCount > 0 && <span className="stat-click-hint">이동하기</span>}
             </div>
+
             <div className="stat-item">
               <span className="stat-label">전체 예약</span>
               <strong className="stat-value">{totalWorkCount}건</strong>
@@ -89,21 +101,20 @@ const MyPage = () => {
           </div>
         </section>
 
-        {/* 내 작업 상세 내역 */}
-        <section className="info-card-section" >
-          <button className="accordion-toggle-btn" onClick={() => setIsOuterOpen(!isOuterOpen)} >
+        {/* 내 작업 상세 내역 (아코디언) */}
+        <section className="info-card-section">
+          <button className="accordion-toggle-btn" onClick={() => setIsOuterOpen(!isOuterOpen)}>
             <span className="toggle-text">내 작업 상세 내역</span>
-           <span className={`toggle-icon-arrow ${isOuterOpen ? "is-open" : ""}`}>
-               <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  strokeWidth={1.5} 
-                  stroke="currentColor" 
-                  className="size-6"
-                  style={{ width: '100%', height: '100%' }} // 부모 크기에 맞춤
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            <span className={`toggle-icon-arrow ${isOuterOpen ? "is-open" : ""}`}>
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                strokeWidth={1.5} 
+                stroke="currentColor" 
+                style={{ width: '100%', height: '100%' }}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
               </svg>
             </span>
           </button>
@@ -121,15 +132,14 @@ const MyPage = () => {
                       </div>
                       <span className={`inner-arrow-icon ${expandedIndex === index ? "is-open" : ""}`}>
                         <svg 
-                            xmlns="http://www.w3.org/2000/svg" 
-                            fill="none" 
-                            viewBox="0 0 24 24" 
-                            strokeWidth={1.5} 
-                            stroke="currentColor" 
-                            className="size-6"
-                            style={{ width: '100%', height: '100%' }} // 부모 크기에 맞춤
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                          xmlns="http://www.w3.org/2000/svg" 
+                          fill="none" 
+                          viewBox="0 0 24 24" 
+                          strokeWidth={1.5} 
+                          stroke="currentColor" 
+                          style={{ width: '100%', height: '100%' }}
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                         </svg>
                       </span>
                     </div>
@@ -181,8 +191,8 @@ const MyPage = () => {
           <div className="modal-content">
             <div className="modal-status-bar success"></div>
             <div className="modal-body-with-icon">               
-               <h3 className="modal-title">로그아웃 완료</h3>
-               <p className="modal-desc">안전하게 로그아웃 되었습니다.<br/>오늘도 고생 많으셨습니다!</p>
+                <h3 className="modal-title">로그아웃 완료</h3>
+                <p className="modal-desc">안전하게 로그아웃 되었습니다.<br/>오늘도 고생 많으셨습니다!</p>
             </div>
             <div className="modal-button-group">
               <button className="modal-btn-confirm" onClick={handleFinalConfirm}>확인</button>
