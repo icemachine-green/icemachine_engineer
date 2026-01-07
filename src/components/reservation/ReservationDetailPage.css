@@ -85,7 +85,7 @@
   font-size: 13px; font-weight: 700; transform: translateY(-48px);
 }
 
-.specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.specs-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; }
 .spec-item { background: #f8f9fa; padding: 16px; border-radius: 16px; }
 .spec-label { display: block; font-size: 12px; color: #999; margin-bottom: 4px; }
 .spec-value { font-size: 16px; font-weight: 700; color: #333; }

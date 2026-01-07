@@ -177,6 +177,7 @@ const ReservationDetailPage = () => {
             <span className="category-label">기기 크기 및 모델</span>
             <div className="specs-grid">
               <div className="spec-item"><span className="spec-label">크기</span><span className="spec-value">{reservationDetailData?.type}</span></div>
+              <div className="spec-item"><span className="spec-label">서비스 타입</span><span className="spec-value">{reservationDetailData?.service}</span></div>
               <div className="spec-item"><span className="spec-label">모델</span><span className="spec-value">{reservationDetailData?.model}</span></div>
             </div>
           </section>

@@ -10,6 +10,14 @@ const MyPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+// ✅ 고정된 문자열 대신 실제 날짜를 생성하는 로직
+const now = new Date();
+const year = now.getFullYear();
+const month = String(now.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+const day = String(now.getDate()).padStart(2, "0");
+const todayStr = `${year}-${month}-${day}`; 
+// 오늘이 1월 7일이면 자동으로 "2026-01-07"이 됩니다.
+
   const [isOuterOpen, setIsOuterOpen] = useState(false);
   const [expandedIndex, setExpandedIndex] = useState(null);
   
@@ -17,7 +25,6 @@ const MyPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);        // 1단계: 로그아웃 확인
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);    // 2단계: 완료 알림
 
-  const todayStr = "2026-01-06";
   const todayCount = reservationsDummy.filter(res => res.date === todayStr).length;
   const totalWorkCount = reservationsDummy.length;
 
