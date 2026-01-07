@@ -1,9 +1,13 @@
 import React from 'react';
 import './LoginPage.css';
+import { startKakaoLoginThunk } from "../../store/thunks/authThunk.js";
+import { useDispatch } from 'react-redux';
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
+
   const handleKakaoLogin = () => {
-    window.location.href = "http://localhost:3000/api/auth/kakao/authorize/engineer";
+    dispatch(startKakaoLoginThunk());
   };
 
   return (

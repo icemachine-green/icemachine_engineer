@@ -7,11 +7,16 @@ import ReservationDetailPage from "../components/reservation/ReservationDetailPa
 import MyPage from "../components/mypage/MyPage.jsx";
 import LoginPage from "../components/login/LoginPage.jsx";
 import Social from "../components/login/Social.jsx";
+import SignUpPage from "../components/signup/SignUpPage.jsx";
 
 const router = createBrowserRouter([
   {
     path: '/callback/social',
     element: <Social />
+  },
+  {
+    path: '/signup',
+    element: <SignUpPage />
   },
   {
     element: <App />,
