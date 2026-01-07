@@ -138,6 +138,17 @@
   border: 1.5px solid #00c3a2 !important;
 }
 
+/* 클릭 가능한 타일(오늘 예약)에만 손가락 커서 표시 */
+.react-calendar__tile.can-click-tile {
+  cursor: pointer !important;
+  background-color: #f0f7ff; /* 살짝 강조하고 싶을 때 */
+}
+
+/* 클릭 불가능한 나머지 타일은 기본 화살표 커서 */
+.react-calendar__tile:not(.can-click-tile) {
+  cursor: default !important;
+}
+
 /* 주말 색상 */
 .react-calendar__month-view__days__day--neighboringMonth {
   opacity: 0.3;

@@ -1,20 +1,16 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // useNavigate 추가
+import { useNavigate } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./MonthReservationPage.css";
 import { reservationsDummy } from "../../data/reservationsDummy.js";
 
 const MonthReservationPage = () => {
-  const navigate = useNavigate(); // 페이지 이동을 위한 훅
+  const navigate = useNavigate();
 
-  // 기준 날짜 설정 (2026-01-06)
-  const today = new Date(2026, 0, 6); 
-  const [currentDate, setCurrentDate] = useState(new Date(2026, 0, 1));
-
-  // 1. 조회 제한 범위 계산 (기준 월 전후 2개월, 총 5개월)
-  const minDate = new Date(today.getFullYear(), today.getMonth() - 2, 1);
-  const maxLimitDate = new Date(today.getFullYear(), today.getMonth() + 3, 0);
+  // ✅ 실제 오늘 날짜 정보 생성 (2026-01-07 기준 동적 처리)
+  const now = new Date();
+  const [currentDate, setCurrentDate] = useState(new Date(now.getFullYear(), now.getMonth(), 1));
 
   // 날짜 포맷 함수 (YYYY-MM-DD)
   const formatDate = (date) => {
@@ -24,31 +20,47 @@ const MonthReservationPage = () => {
     return `${y}-${m}-${d}`;
   };
 
+  const todayStr = formatDate(now);
+
+  // 1. 조회 제한 범위 계산 (현재 월 전후 2개월)
+  const minDate = new Date(now.getFullYear(), now.getMonth() - 2, 1);
+  const maxLimitDate = new Date(now.getFullYear(), now.getMonth() + 3, 0);
+
   // 현재 월의 총 예약 건수 계산
   const getCurrentMonthReservationCount = () => {
     const year = currentDate.getFullYear();
     const month = String(currentDate.getMonth() + 1).padStart(2, "0");
     const yearMonth = `${year}-${month}`;
-    return reservationsDummy.filter(item => item.date.startsWith(yearMonth)).length;
+    return reservationsDummy.filter((item) => item.date.startsWith(yearMonth)).length;
   };
 
-  // 특정 날짜 클릭 핸들러
+  // ✅ 특정 날짜 클릭 핸들러: 오늘인 경우에만 이동 로직 작동
   const handleDayClick = (date) => {
     const dateStr = formatDate(date);
-    const dayReservations = reservationsDummy.filter(item => item.date === dateStr);
+    const dayReservations = reservationsDummy.filter((item) => item.date === dateStr);
 
-    // 예약 건수가 0보다 크면 /reservation 페이지로 이동
-    if (dayReservations.length > 0) {
+    // 조건: 클릭한 날짜가 오늘(todayStr)과 일치하고 예약이 있을 때만 이동
+    if (dateStr === todayStr && dayReservations.length > 0) {
       navigate("/reservation");
-      // 만약 특정 날짜의 데이터를 넘겨주고 싶다면 아래처럼 사용 가능
-      // navigate("/reservation", { state: { selectedDate: dateStr } });
     }
+    // 오늘이 아니면 클릭해도 아무런 동작을 하지 않음
+  };
+
+  // ✅ 타일 클래스 제어: 오늘이면서 예약이 있는 날만 클릭 가능한 스타일(커서 등) 부여
+  const getTileClassName = ({ date, view }) => {
+    if (view === "month") {
+      const dateStr = formatDate(date);
+      if (dateStr === todayStr && reservationsDummy.some((res) => res.date === dateStr)) {
+        return "can-click-tile";
+      }
+    }
+    return "default-tile";
   };
 
   const tileContent = ({ date, view }) => {
     if (view !== "month") return null;
     const dateStr = formatDate(date);
-    const dayReservations = reservationsDummy.filter(item => item.date === dateStr);
+    const dayReservations = reservationsDummy.filter((item) => item.date === dateStr);
     const reservationCount = dayReservations.length;
 
     return (
@@ -77,17 +89,18 @@ const MonthReservationPage = () => {
             calendarType="gregory"
             value={null}
             onActiveStartDateChange={({ activeStartDate }) => setCurrentDate(activeStartDate)}
-            onClickDay={handleDayClick} // 날짜 클릭 시 이동 로직 추가
+            onClickDay={handleDayClick}
             tileContent={tileContent}
+            tileClassName={getTileClassName}
             formatDay={(locale, date) => date.getDate()}
             
-            // 화살표 제어
+            // 화살표 제어 (제한 범위 내에서만 노출)
             prevLabel={currentDate <= minDate ? null : "‹"}
-            nextLabel={currentDate >= new Date(today.getFullYear(), today.getMonth() + 2, 1) ? null : "›"}
+            nextLabel={currentDate >= new Date(now.getFullYear(), now.getMonth() + 2, 1) ? null : "›"}
             prev2Label={null}
             next2Label={null}
 
-            // 중앙 라벨 클릭 무력화 및 뷰 고정
+            // 뷰 고정
             view="month"
             onViewChange={() => {}} 
             navigationLabel={({ label }) => (
