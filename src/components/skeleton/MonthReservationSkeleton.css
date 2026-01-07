@@ -1,0 +1,106 @@
+/* --- Skeleton Core Animation --- */
+.skeleton-box {
+  background: #eee;
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  background-size: 200% 100%;
+  animation: shine 1.5s linear infinite;
+}
+
+@keyframes shine {
+  to { background-position-x: -200%; }
+}
+
+/* --- Layout Reset for Skeleton --- */
+.sk-card-no-padding {
+  cursor: default !important;
+  pointer-events: none;
+}
+
+/* --- Summary Header Skeleton --- */
+.sk-summary-box {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 12px;
+  height: 80px;
+}
+
+.sk-summary-label { width: 50px; height: 32px; border-radius: 6px; }
+.sk-summary-count { width: 80px; height: 64px; border-radius: 12px; }
+.sk-summary-text { width: 180px; height: 30px; border-radius: 6px; }
+
+/* --- Calendar Navigation Skeleton --- */
+.sk-calendar-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 35px;
+}
+
+.sk-nav-btn { width: 44px; height: 38px; border-radius: 12px; }
+.sk-nav-label { width: 160px; height: 34px; border-radius: 8px; }
+
+/* --- Weekdays Skeleton --- */
+.sk-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.sk-weekday-item {
+  width: 40px;
+  height: 20px;
+  margin: 0 auto;
+  border-radius: 4px;
+  opacity: 0.6;
+}
+
+/* --- Calendar Grid & Tiles Skeleton --- */
+.sk-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0; /* react-calendar의 타일 보더를 시뮬레이션하기 위해 0 */
+  border: 1px solid #f8f9fa;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.sk-calendar-tile {
+  min-height: 110px;
+  padding: 15px 5px;
+  background: #fff;
+  border: 1px solid #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.sk-tile-number { width: 24px; height: 24px; border-radius: 4px; opacity: 0.5; }
+.sk-tile-badge { width: 80%; height: 22px; border-radius: 6px; opacity: 0.3; }
+
+/* --- Legend Skeleton --- */
+.sk-calendar-legend {
+  margin-top: 30px;
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.sk-legend-item { display: flex; align-items: center; gap: 10px; }
+.sk-dot { width: 12px; height: 12px; border-radius: 50%; }
+.sk-legend-text { width: 60px; height: 18px; border-radius: 4px; }
+
+/* --- Mobile Optimization --- */
+@media (max-width: 768px) {
+  .sk-summary-count { width: 60px; height: 48px; }
+  .sk-summary-text { width: 120px; }
+  
+  .sk-calendar-tile { min-height: 85px; padding: 10px 2px; }
+  .sk-tile-badge { width: 90%; height: 18px; }
+  
+  .sk-nav-label { width: 120px; }
+}

@@ -6,9 +6,11 @@ import "./MyPage.css";
 // 공통 더미 데이터 임포트
 import { reservationsDummy } from "../../data/reservationsDummy.js"; 
 
+
 const MyPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
 
 // ✅ 고정된 문자열 대신 실제 날짜를 생성하는 로직
 const now = new Date();

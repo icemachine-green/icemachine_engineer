@@ -12,3 +12,4 @@ export const detailThunk = createAsyncThunk(
 		return reservationsDummy.find(item => item.id == id);
   }
 );
+

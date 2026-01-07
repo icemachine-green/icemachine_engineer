@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; 
 import { useNavigate } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -8,7 +8,8 @@ import { reservationsDummy } from "../../data/reservationsDummy.js";
 const MonthReservationPage = () => {
   const navigate = useNavigate();
 
-  // ✅ 실제 오늘 날짜 정보 생성 (2026-01-07 기준 동적 처리)
+
+  // 실제 오늘 날짜 정보 생성 (2026-01-07 기준 동적 처리)
   const now = new Date();
   const [currentDate, setCurrentDate] = useState(new Date(now.getFullYear(), now.getMonth(), 1));
 
@@ -34,19 +35,17 @@ const MonthReservationPage = () => {
     return reservationsDummy.filter((item) => item.date.startsWith(yearMonth)).length;
   };
 
-  // ✅ 특정 날짜 클릭 핸들러: 오늘인 경우에만 이동 로직 작동
+  // 특정 날짜 클릭 핸들러: 오늘인 경우에만 이동 로직 작동
   const handleDayClick = (date) => {
     const dateStr = formatDate(date);
     const dayReservations = reservationsDummy.filter((item) => item.date === dateStr);
 
-    // 조건: 클릭한 날짜가 오늘(todayStr)과 일치하고 예약이 있을 때만 이동
     if (dateStr === todayStr && dayReservations.length > 0) {
       navigate("/reservation");
     }
-    // 오늘이 아니면 클릭해도 아무런 동작을 하지 않음
   };
 
-  // ✅ 타일 클래스 제어: 오늘이면서 예약이 있는 날만 클릭 가능한 스타일(커서 등) 부여
+  // 타일 클래스 제어: 오늘이면서 예약이 있는 날만 클릭 가능한 스타일 부여
   const getTileClassName = ({ date, view }) => {
     if (view === "month") {
       const dateStr = formatDate(date);
@@ -94,13 +93,11 @@ const MonthReservationPage = () => {
             tileClassName={getTileClassName}
             formatDay={(locale, date) => date.getDate()}
             
-            // 화살표 제어 (제한 범위 내에서만 노출)
             prevLabel={currentDate <= minDate ? null : "‹"}
             nextLabel={currentDate >= new Date(now.getFullYear(), now.getMonth() + 2, 1) ? null : "›"}
             prev2Label={null}
             next2Label={null}
 
-            // 뷰 고정
             view="month"
             onViewChange={() => {}} 
             navigationLabel={({ label }) => (

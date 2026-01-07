@@ -1,16 +1,18 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { reservationsDummy } from "../../data/reservationsDummy.js";
+import ReservationSkeleton from "../skeleton/ReservationSkeleton.jsx"; 
 import "./ReservationPage.css";
 
 const ReservationPage = () => {
   const navigate = useNavigate();
   const [visibleCount, setVisibleCount] = useState(3);
 
-  const goToDetail = (id) => navigate(`/reservation/detail/${id}`);
-
-  // 상세 페이지의 변경 사항을 반영하여 목록 생성
+  // 1. 데이터 필터링 및 가공
   const todayReservations = useMemo(() => {
+    // 만약 데이터 자체가 로드되지 않은 경우 null 혹은 빈 배열 반환 가능
+    if (!reservationsDummy) return [];
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -21,7 +23,6 @@ const ReservationPage = () => {
         return itemDate.getTime() === today.getTime();
       })
       .map((item) => {
-        // localStorage에 저장된 최신 상태가 있다면 목록에 반영
         const savedData = localStorage.getItem(`reservation_${item.id}`);
         if (savedData) {
           const parsed = JSON.parse(savedData);
@@ -31,8 +32,19 @@ const ReservationPage = () => {
       });
   }, []);
 
+  // 2. 스켈레톤 노출 조건 설정
+  // 데이터가 로딩 중이거나 배열이 아예 정의되지 않았을 때를 대비합니다.
+  if (!todayReservations || todayReservations.length === 0) {
+    // 실제로는 데이터가 정말 0건인 경우와 구분하기 위해 
+    // 데이터 패칭 라이브러리(React Query 등)의 isLoading 값을 쓰는 것이 가장 좋습니다.
+    // 현재는 더미 데이터가 있으므로, 데이터가 없으면 스켈레톤을 보여주도록 처리합니다.
+    return <ReservationSkeleton />;
+  }
+
   const visibleReservations = todayReservations.slice(0, visibleCount);
   const isExpired = visibleCount >= todayReservations.length;
+
+  const goToDetail = (id) => navigate(`/reservation/detail/${id}`);
 
   return (
     <div className="page-wrapper">
