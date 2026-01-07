@@ -6,13 +6,41 @@ import { detailThunk } from "../../store/thunks/reservationDetail.thunk.js";
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { openNaverMap } from "../../utils/openNaverMap.js";
 
+// 스켈레톤 컴포넌트: 실제 페이지 구조와 동일하게 배치
+const DetailSkeleton = () => {
+  return (
+    <div className="detail-page-wrapper">
+      <div className="detail-container">
+        <header className="detail-header-card skeleton-bg">
+          <div className="sk-item sk-badge"></div>
+          <div className="sk-item sk-title"></div>
+          <div className="sk-item sk-text"></div>
+        </header>
+        <main className="detail-main-content">
+          {[1, 2, 3, 4].map((i) => (
+            <section key={i} className="info-card-section">
+              <div className="sk-item sk-label"></div>
+              <div className="sk-item sk-content-box"></div>
+            </section>
+          ))}
+        </main>
+        <footer className="detail-sticky-footer">
+          <div className="sk-item sk-button"></div>
+        </footer>
+      </div>
+    </div>
+  );
+};
+
 const ReservationDetailPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
 
   const [latLng, setLatLng] = useState({ lat: 35.8714, lng: 128.6014 });
-  const { reservationDetailData } = useSelector((state) => state.reservationDetail);
+  
+  // isLoading 상태 추가 (Redux Slice에 isLoading이 정의되어 있어야 함)
+  const { reservationDetailData, isLoading } = useSelector((state) => state.reservationDetail);
 
   const [isNotFoundReservation, setIsNotFoundReservation] = useState(false);
   const [images, setImages] = useState([]);
@@ -25,7 +53,7 @@ const ReservationDetailPage = () => {
   const [cancelReason, setCancelReason] = useState("");
   const [showCompleteModal, setShowCompleteModal] = useState(false);
 
-  // 로컬 저장 로직: 목록 페이지와 공유되는 핵심 데이터
+  // 로컬 저장 로직
   const saveToLocal = useCallback((status, memo) => {
     localStorage.setItem(`reservation_${id}`, JSON.stringify({
       status: status,
@@ -42,7 +70,6 @@ const ReservationDetailPage = () => {
         return;
       }
 
-      // 초기 로드 시 저장된 데이터 확인
       const savedData = localStorage.getItem(`reservation_${id}`);
       if (savedData) {
         const parsed = JSON.parse(savedData);
@@ -53,7 +80,6 @@ const ReservationDetailPage = () => {
         setWorkMemo(result.memo || "");
       }
 
-      // 카카오 맵 Geocoding (기존 로직 유지)
       const waitForKakao = (item) => {
         if (window.kakao && window.kakao.maps) {
           const geocoder = new window.kakao.maps.services.Geocoder();
@@ -91,18 +117,15 @@ const ReservationDetailPage = () => {
   };
 
   const handleSaveCancelReason = () => {
-  const nextStatus = "예약됨"; 
-  
-  const cleanMemo = workMemo.includes("취소사유:") 
-    ? workMemo.split("\n").slice(1).join("\n") 
-    : workMemo;
-
-  const newMemo = `취소사유: ${cancelReason}\n${cleanMemo}`;
-  
-  setCurrentStatus(nextStatus);
-  saveToLocal(nextStatus, newMemo);
-  closeCancelModal();
-};
+    const nextStatus = "예약됨"; 
+    const cleanMemo = workMemo.includes("취소사유:") 
+      ? workMemo.split("\n").slice(1).join("\n") 
+      : workMemo;
+    const newMemo = `취소사유: ${cancelReason}\n${cleanMemo}`;
+    setCurrentStatus(nextStatus);
+    saveToLocal(nextStatus, newMemo);
+    closeCancelModal();
+  };
 
   const handleMemoChange = (e) => {
     const nextMemo = e.target.value;
@@ -110,7 +133,6 @@ const ReservationDetailPage = () => {
     saveToLocal(currentStatus, nextMemo);
   };
 
-  /* 이미지 메모리 해제 로직 추가 */
   useEffect(() => {
     return () => {
       images.forEach(url => URL.revokeObjectURL(url));
@@ -129,6 +151,12 @@ const ReservationDetailPage = () => {
   const openCancelModal = () => setShowCancelModal(true);
   const closeCancelModal = () => { setShowCancelModal(false); setCancelReason(""); };
 
+  // 1. 로딩 중일 때 스켈레톤 먼저 반환
+  if (isLoading) {
+    return <DetailSkeleton />;
+  }
+
+  // 2. 에러 발생 시 처리
   if (isNotFoundReservation && !reservationDetailData) {
     return <div className="error-message-box">예약 정보를 찾을 수 없습니다.</div>;
   }
@@ -237,7 +265,6 @@ const ReservationDetailPage = () => {
         </footer>
       </div>
 
-      {/* 모달 로직들 생략 없이 동일하게 유지 */}
       {showCancelModal && (
         <div className="modal-root">
           <div className="modal-paper">
