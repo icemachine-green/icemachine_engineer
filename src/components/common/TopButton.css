@@ -1,6 +1,6 @@
 .top-button {
   position: fixed;
-  bottom: 80px;      /* 푸터 위 위치 */
+  bottom: 60px; /* 평소 바닥에서 띄울 높이 */
   right: 40px;
   width: 75px;
   height: 75px;
@@ -12,6 +12,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  
+  /* 부드러운 전환을 위해 추가 */
+  transition: transform 04s ease, bottom 0.6s ease-out; 
+}
+
+/* 푸터 영역에 진입했을 때 적용될 스타일 */
+.top-button.at-footer {
+  /* 푸터가 250px라면 그보다 조금 더 큰 값을 주어 푸터 바로 위에 위치시킵니다 */
+  bottom: 160px; 
 }
 
 .top-button img {
@@ -22,5 +31,4 @@
 
 .top-button:hover {
   transform: scale(1.1);
-  transition: transform 0.2s;
 }

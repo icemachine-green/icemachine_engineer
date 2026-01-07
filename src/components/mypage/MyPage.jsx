@@ -120,10 +120,22 @@ const MyPage = () => {
         </section>
 
         {/* 내 작업 상세 내역 */}
-        <section className="info-card-section">
-          <button className="accordion-toggle-btn" onClick={() => setIsOuterOpen(!isOuterOpen)}>
+        <section className="info-card-section" >
+          <button className="accordion-toggle-btn" onClick={() => setIsOuterOpen(!isOuterOpen)} >
             <span className="toggle-text">내 작업 상세 내역</span>
-            <span className={`toggle-icon-arrow ${isOuterOpen ? "is-open" : ""}`}></span>
+           <span className={`toggle-icon-arrow ${isOuterOpen ? "is-open" : ""}`}>
+               <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  strokeWidth={1.5} 
+                  stroke="currentColor" 
+                  className="size-6"
+                  style={{ width: '100%', height: '100%' }} // 부모 크기에 맞춤
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+              </svg>
+            </span>
           </button>
 
           {isOuterOpen && (
@@ -137,7 +149,19 @@ const MyPage = () => {
                         <span className="work-date">{work.date.replace(/-/g, ".")}</span>
                         <span className="work-customer">{work.name} 고객님</span>
                       </div>
-                      <span className={`inner-arrow-icon ${expandedIndex === index ? "is-open" : ""}`}></span>
+                      <span className={`inner-arrow-icon ${expandedIndex === index ? "is-open" : ""}`}>
+                        <svg 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            fill="none" 
+                            viewBox="0 0 24 24" 
+                            strokeWidth={1.5} 
+                            stroke="currentColor" 
+                            className="size-6"
+                            style={{ width: '100%', height: '100%' }} // 부모 크기에 맞춤
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                        </svg>
+                      </span>
                     </div>
 
                     {expandedIndex === index && (

@@ -115,14 +115,28 @@
 .accordion-toggle-btn {
   width: 100%; display: flex; justify-content: space-between; align-items: center;
   background: none; border: none; padding: 0; cursor: pointer;
+  width: 100%;             /* 가로 전체 클릭 가능 */
+  padding: 20px 20px;         /* 좌우, 세로 여백(기사님이 장갑끼고 누르기 쉽게) */  
 }
 .toggle-text { font-size: 18px; font-weight: 800; color: #333; }
 .toggle-icon-arrow {
-  width: 24px; height: 24px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23333'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E") no-repeat center;
+  display: inline-block;
+  width: 24px;  /* 아이콘 크기 조절 */
+  height: 24px;
+  color: #333;  /* 여기서 아이콘 색상을 변경할 수 있습니다 */
   transition: transform 0.3s ease;
+  vertical-align: middle;
 }
-.toggle-icon-arrow.is-open { transform: rotate(180deg); }
+
+/* 열렸을 때 180도 회전 */
+.toggle-icon-arrow.is-open {
+  transform: rotate(180deg);
+}
+
+/* SVG 자체 스타일링 (필요시) */
+.size-6 {
+  display: block;
+}
 
 .outer-content-area {
   margin-top: 24px; border-top: 1px solid #f1f3f5; padding-top: 20px;
