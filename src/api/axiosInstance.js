@@ -1,5 +1,3 @@
-// client axiosInstance.js 복붙함
-
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import dayjs from "dayjs";

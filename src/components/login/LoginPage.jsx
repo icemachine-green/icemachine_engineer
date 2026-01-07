@@ -2,15 +2,13 @@ import React from 'react';
 import './LoginPage.css';
 
 const LoginPage = () => {
-  // 카카오 로그인 핸들러 (실제 구현 시 API 연결)
   const handleKakaoLogin = () => {
-    console.log("카카오 로그인 시도...");
+    window.location.href = "http://localhost:3000/api/auth/kakao/authorize/engineer";
   };
 
   return (
     <div className="page-wrapper login-page">
       <div className="login-container">
-        {/* 상단 로고 및 안내 세션 */}
         <header className="login-header">
           <div className="brand-logo">
             <span className="logo-dot"></span>
@@ -22,20 +20,13 @@ const LoginPage = () => {
           </div>
         </header>
 
-        {/* 로그인 영역 */}
         <div className="login-content">
           <button className="kakao-login-btn" onClick={handleKakaoLogin}>
-            <img 
-              src="/icons/kakao.png" 
-              alt="카카오" 
-              className="kakao-icon" 
-            />
+            <img src="/icons/kakao.png" alt="카카오" className="kakao-icon" />
             <span>카카오로 시작하기</span>
           </button>
-          
         </div>
 
-        {/* 하단 장식 또는 추가 정보 */}
         <footer className="login-footer-info">
           <p>© 2026 Pro Connect. All rights reserved.</p>
         </footer>
