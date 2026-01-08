@@ -46,7 +46,6 @@
   overflow: hidden;
 }
 
-/* [작업 종료] 전용 배경색 */
 .reservation-card.card-finished {
   background-color: #d6d9db; 
   box-shadow: none; 
@@ -61,7 +60,6 @@
   transition: width 0.2s ease;
 }
 
-/* 호버 효과 */
 .reservation-card:hover { 
   background-color: #f6fffd;
   border-color: rgba(0, 195, 162, 0.4);
@@ -83,8 +81,9 @@
   display: flex; 
   justify-content: space-between; 
   align-items: center; 
-  margin-bottom: 20px; 
+  margin-bottom: 32px; /* ID 영역을 이름 쪽으로 밀기 위해 상단 여백 확보 */
 }
+
 .time-badge { 
   background: #333; 
   color: #fff; 
@@ -92,6 +91,16 @@
   border-radius: 10px; 
   font-size: 18px; 
   font-weight: 700; 
+}
+
+/* ID 영역: 이름(card-body) 바로 위에 자연스럽게 밀착 */
+.card-id-num {
+  font-size: 13px;
+  font-weight: 600;
+  color: #bbb;
+  margin-bottom: 0px; /* 이름과의 자연스러운 최소 간격 */
+  padding-left: 2px;
+  line-height: 1;
 }
 
 /* 상태 표시기 */
@@ -127,7 +136,7 @@
 
 /* 카드 본문 */
 .card-body { margin-bottom: 24px; }
-.cust-name { font-size: 30px; font-weight: 800; margin-bottom: 8px; color: #1a1a1a; }
+.cust-name { font-size: 30px; font-weight: 800; margin-bottom: 8px; color: #1a1a1a; line-height: 1.2; }
 .card-finished .cust-name { color: #666; }
 .cust-name .suffix { font-size: 18px; font-weight: 500; color: #999; }
 .cust-address { font-size: 17px; color: #777; margin-bottom: 12px; }

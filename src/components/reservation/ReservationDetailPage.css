@@ -94,8 +94,30 @@
   letter-spacing: 0.5px;
 }
 
-.store-name { font-size: 26px; font-weight: 800; margin: 0 0 6px; color: #111; }
-.customer-name { font-size: 18px; color: #666; margin: 0 0 8px; }
+.store-name { 
+  font-size: 26px; 
+  font-weight: 800; 
+  margin: 0 0 16px; /* 매장명과 ID 사이 여백을 좀 더 띄움 */
+  color: #111; 
+  line-height: 1.2;
+}
+
+/* 상세페이지 내 ID 스타일 */
+.detail-id-num {
+  font-size: 13px;
+  font-weight: 600;
+  color: #bbb;
+  margin-bottom: 5px; /* ID와 이름 사이의 자연스러운 간격 */
+  padding-left: 2px;
+  line-height: 1;
+}
+
+.customer-name { 
+  font-size: 18px; 
+  color: #666; 
+  margin: 0 0 8px; 
+  font-weight: 700; 
+}
 .customer-phone-info { font-size: 15px; color: #999; font-weight: 500; }
 
 .section-title-row { display: flex; justify-content: space-between; align-items: center; }

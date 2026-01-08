@@ -144,6 +144,10 @@ const ReservationDetailPage = () => {
             <div className="section-header">
               <span className="category-label">고객 정보</span>
               <h2 className="store-name">{reservationDetailData?.storeName}</h2>
+              
+              {/* 매장명과 이름 사이 ID 출력 */}
+              <div className="detail-id-num">{id}</div>
+
               <p className="customer-name">{reservationDetailData?.name} 고객님</p>
               <div className="customer-phone-info">연락처: {reservationDetailData?.phone}</div>
             </div>

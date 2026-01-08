@@ -88,6 +88,9 @@ const ReservationPage = () => {
                   </div>
                 </div>
 
+                {/* ID 영역 */}
+                <div className="card-id-num">{item.id}</div>
+
                 <div className="card-body">
                   <h3 className="cust-name">
                     {item.name} <span className="suffix">고객님</span>
