@@ -43,8 +43,6 @@ const ReservationDetailPage = () => {
   const [currentStatus, setCurrentStatus] = useState("");
   const [workMemo, setWorkMemo] = useState("");
 
-  const [showCancelModal, setShowCancelModal] = useState(false);
-  const [cancelReason, setCancelReason] = useState("");
   const [showCompleteModal, setShowCompleteModal] = useState(false);
 
   const saveToLocal = useCallback((status, memo) => {
@@ -106,21 +104,11 @@ const ReservationDetailPage = () => {
     navigate('/reservation'); 
   };
 
-  const handleSaveCancelReason = () => {
-    const nextStatus = "작업 취소"; 
-    setCurrentStatus(nextStatus);
-    saveToLocal(nextStatus, workMemo); 
-    closeCancelModal();
-  };
-
   const handleMemoChange = (e) => {
     const nextMemo = e.target.value;
     setWorkMemo(nextMemo);
     saveToLocal(currentStatus, nextMemo);
   };
-
-  const openCancelModal = () => setShowCancelModal(true);
-  const closeCancelModal = () => { setShowCancelModal(false); setCancelReason(""); };
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -210,19 +198,14 @@ const ReservationDetailPage = () => {
         </main>
 
         <footer className="detail-sticky-footer">
-          {/* 예약됨 상태일 때만 시작 버튼과 작은 취소 버튼 노출 */}
           {currentStatus === "예약됨" && (
             <div className="action-stack">
               <button className="btn-main-action start" onClick={handleStart}>
                 작업 시작하기
               </button>
-              <button className="btn-text-action" onClick={openCancelModal}>
-                작업 취소하기
-              </button>
             </div>
           )}
 
-          {/* 작업 진행중 상태 */}
           {currentStatus === "작업 진행중" && (
             <div className="action-stack">
               <p className="status-notice">진행중인 작업이 있습니다</p>
@@ -230,41 +213,15 @@ const ReservationDetailPage = () => {
             </div>
           )}
 
-          {/* 작업 종료 상태 */}
           {currentStatus === "작업 종료" && (
             <button className="btn-main-action finished" disabled>작업 종료됨</button>
           )}
 
-          {/* 작업 취소 상태일 때 나타나는 큰 상태 버튼 */}
           {currentStatus === "작업 취소" && (
             <button className="btn-main-action finished" disabled style={{ color: '#727272ff' }}>취소된 예약</button>
           )}
         </footer>
       </div>
-
-      {showCancelModal && (
-        <div className="modal-root">
-          <div className="modal-paper">
-            <div className="modal-head">
-              <h3>작업 취소 사유</h3>
-              <button className="btn-close" onClick={closeCancelModal}>&times;</button>
-            </div>
-            <textarea 
-              className="modal-text-input" 
-              placeholder="취소 사유를 적어주세요."
-              value={cancelReason}
-              onChange={(e) => setCancelReason(e.target.value)}
-            />
-            <button 
-              className="modal-btn-save" 
-              onClick={handleSaveCancelReason}
-              disabled={!cancelReason.trim()}
-            >
-              사유 저장 및 취소
-            </button>
-          </div>
-        </div>
-      )}
 
       {showCompleteModal && (
         <div className="modal-root">

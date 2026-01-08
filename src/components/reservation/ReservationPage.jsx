@@ -14,6 +14,14 @@ const ReservationPage = () => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+    // 1. 상태별 정렬 우선순위 정의
+    const statusPriority = {
+      "작업 진행중": 1,
+      "예약됨": 2,
+      "작업 종료": 3,
+      "작업 취소": 4
+    };
+
     return reservationsDummy
       .filter((item) => {
         const itemDate = new Date(item.date);
@@ -21,11 +29,16 @@ const ReservationPage = () => {
         return itemDate.getTime() === today.getTime();
       })
       .map((item) => {
+        // 상세 페이지에서 변경된 최신 상태(localStorage) 반영
         const savedData = localStorage.getItem(`reservation_${item.id}`);
         const parsed = savedData ? JSON.parse(savedData) : null;
         const currentStatus = parsed?.status || item.status || '예약됨';
 
         return { ...item, status: currentStatus };
+      })
+      .sort((a, b) => {
+        // 2. [핵심] 우선순위에 따른 오름차순 정렬
+        return (statusPriority[a.status] || 99) - (statusPriority[b.status] || 99);
       });
   }, []);
 

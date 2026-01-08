@@ -10,7 +10,7 @@
 }
 
 /* =========================
-   ReservationPage 리스트 컨테이너
+   리스트 컨테이너
 ========================= */
 .reservation-container { max-width: 700px; margin: 0 auto; }
 
@@ -31,7 +31,7 @@
 }
 
 /* =========================
-   예약 카드 스타일 (기본: 흰색)
+   예약 카드 스타일
 ========================= */
 .reservation-card {
   position: relative;
@@ -48,8 +48,8 @@
 
 /* [작업 종료] 전용 배경색 */
 .reservation-card.card-finished {
-  background-color: #d6d9db; /* 연한 회색 배경 */
-  box-shadow: none; /* 종료된 카드는 그림자를 줄여 평면적으로 보이게 함 */
+  background-color: #d6d9db; 
+  box-shadow: none; 
 }
 
 .reservation-card::before {
@@ -61,7 +61,7 @@
   transition: width 0.2s ease;
 }
 
-/* 기본 호버 효과 */
+/* 호버 효과 */
 .reservation-card:hover { 
   background-color: #f6fffd;
   border-color: rgba(0, 195, 162, 0.4);
@@ -69,16 +69,15 @@
   padding-left: 34px;
 }
 
-/* [작업 종료] 카드 호버 효과 별도 처리 */
 .reservation-card.card-finished:hover {
-  background-color: #ebedef; /* 살짝 더 짙은 회색 */
+  background-color: #ebedef;
   border-color: #ddd;
   padding-left: 34px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
 .reservation-card:hover::before { width: 6px; }
-.reservation-card.card-finished:hover::before { background-color: #bbb; } /* 종료 카드는 포인트 바도 회색 */
+.reservation-card.card-finished:hover::before { background-color: #bbb; }
 
 .card-top { 
   display: flex; 
@@ -95,7 +94,7 @@
   font-weight: 700; 
 }
 
-/* 상태 표시기 스타일 */
+/* 상태 표시기 */
 .status-indicator { 
   display: flex; 
   align-items: center; 
@@ -105,22 +104,18 @@
 }
 .pulse-dot { width: 7px; height: 7px; border-radius: 50%; }
 
-/* [작업 진행중] - 초록색 */
 .status-ongoing { color: #00c3a2; }
 .status-ongoing .pulse-dot {
   background-color: #00c3a2;
   animation: pulse-green 2s infinite;
 }
 
-/* [예약됨] - 주황색 */
 .status-reserved { color: #ff9f43; }
 .status-reserved .pulse-dot { background-color: #ff9f43; }
 
-/* [작업 취소] - 붉은색 */
 .status-cancelled { color: #ff6b6b; }
 .status-cancelled .pulse-dot { background-color: #ff6b6b; }
 
-/* [작업 종료] - 회색 */
 .status-finished { color: #777; }
 .status-finished .pulse-dot { background-color: #bbb; }
 
@@ -133,7 +128,7 @@
 /* 카드 본문 */
 .card-body { margin-bottom: 24px; }
 .cust-name { font-size: 30px; font-weight: 800; margin-bottom: 8px; color: #1a1a1a; }
-.card-finished .cust-name { color: #666; } /* 종료 카드는 이름도 살짝 흐리게 */
+.card-finished .cust-name { color: #666; }
 .cust-name .suffix { font-size: 18px; font-weight: 500; color: #999; }
 .cust-address { font-size: 17px; color: #777; margin-bottom: 12px; }
 
@@ -146,7 +141,7 @@
   align-items: center; 
 }
 .service-info .type { color: #00c3a2; }
-.card-finished .service-info .type { color: #999; } /* 종료 카드는 서비스 타입도 회색 */
+.card-finished .service-info .type { color: #999; }
 .divider { color: #eee; }
 
 /* 상세보기 버튼 */
@@ -167,7 +162,7 @@
 }
 
 .reservation-card:hover .detail-link-btn { background: #00c3a2; color: #fff; }
-.card-finished:hover .detail-link-btn { background: #bbb; color: #fff; } /* 종료 카드는 호버 시에도 차분한 회색 */
+.card-finished:hover .detail-link-btn { background: #bbb; color: #fff; }
 
 /* 더보기 버튼 */
 .pagination-btn {
