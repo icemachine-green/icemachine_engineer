@@ -113,20 +113,20 @@
 }
 .pulse-dot { width: 7px; height: 7px; border-radius: 50%; }
 
-.status-ongoing { color: #00c3a2; }
-.status-ongoing .pulse-dot {
+.status-start { color: #00c3a2; }
+.status-start .pulse-dot {
   background-color: #00c3a2;
   animation: pulse-green 2s infinite;
 }
 
-.status-reserved { color: #ff9f43; }
-.status-reserved .pulse-dot { background-color: #ff9f43; }
+.status-confirmed { color: #ff9f43; }
+.status-confirmed .pulse-dot { background-color: #ff9f43; }
 
-.status-cancelled { color: #ff6b6b; }
-.status-cancelled .pulse-dot { background-color: #ff6b6b; }
+.status-canceled { color: #ff6b6b; }
+.status-canceled .pulse-dot { background-color: #ff6b6b; }
 
-.status-finished { color: #777; }
-.status-finished .pulse-dot { background-color: #bbb; }
+.status-completed { color: #777; }
+.status-completed .pulse-dot { background-color: #bbb; }
 
 @keyframes pulse-green {
   0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 195, 162, 0.4); }

@@ -1,105 +1,96 @@
-import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { reservationsDummy } from "../../data/reservationsDummy.js";
 import ReservationSkeleton from "../skeleton/ReservationSkeleton.jsx"; 
 import "./ReservationPage.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { engineerReservationThunk } from "../../store/thunks/engineerReservationThunk.js";
+import dayjs from "dayjs";
 
 const ReservationPage = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [visibleCount, setVisibleCount] = useState(3);
+  const { reservations, totalCount, isLasted, date } = useSelector(state => state.engineerReservation);
 
-  const todayReservations = useMemo(() => {
-    if (!reservationsDummy) return [];
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    // 1. 상태별 정렬 우선순위 정의
-    const statusPriority = {
-      "작업 진행중": 1,
-      "예약됨": 2,
-      "작업 종료": 3,
-      "작업 취소": 4
-    };
-
-    return reservationsDummy
-      .filter((item) => {
-        const itemDate = new Date(item.date);
-        itemDate.setHours(0, 0, 0, 0);
-        return itemDate.getTime() === today.getTime();
-      })
-      .map((item) => {
-        // 상세 페이지에서 변경된 최신 상태(localStorage) 반영
-        const savedData = localStorage.getItem(`reservation_${item.id}`);
-        const parsed = savedData ? JSON.parse(savedData) : null;
-        const currentStatus = parsed?.status || item.status || '예약됨';
-
-        return { ...item, status: currentStatus };
-      })
-      .sort((a, b) => {
-        // 2. [핵심] 우선순위에 따른 오름차순 정렬
-        return (statusPriority[a.status] || 99) - (statusPriority[b.status] || 99);
-      });
-  }, []);
-
-  if (!todayReservations || todayReservations.length === 0) {
-    return <ReservationSkeleton />;
-  }
-
-  const visibleReservations = todayReservations.slice(0, visibleCount);
-  const isExpired = visibleCount >= todayReservations.length;
-
+  // --------------------
+  // Redirect Function
+  // --------------------
   const goToDetail = (id) => navigate(`/reservation/detail/${id}`);
 
-  const getStatusClass = (status) => {
+  // --------------------
+  // 스테이터스 한글로 변환 함수
+  // --------------------
+  const getKrStatus = (status) => {
     switch (status) {
-      case '작업 종료': return 'status-finished';
-      case '작업 취소': return 'status-cancelled';
-      case '작업 진행중': return 'status-ongoing';
-      case '예약됨': return 'status-reserved';
-      default: return 'status-reserved';
+      case 'CONFIRMED':return '예약됨';
+      case 'START': return '작업진행중';
+      case 'COMPLETED': return '작업종료';
+      case 'CANCELED': return '작업취소';
+      default: return '예약대기';
     }
   };
 
+  async function getReservations() {
+    try {
+      const result = await dispatch(engineerReservationThunk());
+      if(result.type.endsWith('/rejected')) {
+        throw result;
+      }
+    } catch (error) {
+      console.log(error);
+      alert('시스템에러가 발생했습니다.\n잠시후 다시 시도해 주십시오.');
+    }
+  }
+
+  useEffect(() => {
+    getReservations();
+  },[]);
+
+  // --------------------
+  // Skeleton 처리
+  // --------------------
+  if (!reservations || reservations.length === 0) {
+    return <ReservationSkeleton />;
+  }
+
+  // --------------------
+  // 출력 처리
+  // --------------------
   return (
     <div className="page-wrapper">
       <div className="reservation-container">
         <header className="list-header">
-          <h2 className="date-title">
-            {new Date().toISOString().slice(0, 10)}
-          </h2>
-          <span className="total-badge">오늘 총 {todayReservations.length}건</span>
+          <h2 className="date-title">{date}</h2>
+          <span className="total-badge">오늘 총 {totalCount}건</span>
         </header>
 
         <div className="reservation-list">
-          {visibleReservations.map((item) => {
-            const statusClass = getStatusClass(item.status);
+          {reservations.map((item) => {
             return (
               <div 
                 key={item.id} 
-                className={`reservation-card ${statusClass === 'status-finished' ? 'card-finished' : ''}`} 
+                className={`reservation-card ${item.status === 'COMPLETED' ? 'card-finished' : ''}`} 
                 onClick={() => goToDetail(item.id)}
               >
                 <div className="card-top">
-                  <span className="time-badge">{item.time}</span>
-                  <div className={`status-indicator ${statusClass}`}>
+                  <span className="time-badge">{`${dayjs(item.startAt).format('HH:mm')} ~ ${dayjs(item.endAt).format('HH:mm')}`}</span>
+                  <div className={`status-indicator ${`status-${item.status.toLowerCase()}`}`}>
                     <span className="pulse-dot"></span>
-                    {item.status}
+                    <span>{getKrStatus(item.status)}</span>
                   </div>
                 </div>
 
                 {/* ID 영역 */}
-                <div className="card-id-num">예약 ID : {item.id}</div>
+                <div className="card-id-num">예약 ID : {item.reservationId}</div>
 
                 <div className="card-body">
                   <h3 className="cust-name">
-                    {item.name} <span className="suffix">고객님</span>
+                    <span className="suffix">{`${item.managerName} 고객님`}</span>
                   </h3>
-                  <p className="cust-address">{item.address}</p>
+                  <p className="cust-address">{item.businessAddress}</p>
                   <div className="service-info">
-                    <span className="type">{item.type}</span>
+                    <span className="type">{item.serviceType}</span>
                     <span className="divider">|</span>
-                    <span className="name">{item.service}</span>
+                    <span className="name">{item.sizeType}</span>
                   </div>
                 </div>
 
@@ -113,13 +104,13 @@ const ReservationPage = () => {
             );
           })}
         </div>
-
+        
         <button
-          className={`pagination-btn ${isExpired ? "expired" : ""}`}
-          disabled={isExpired}
-          onClick={() => !isExpired && setVisibleCount((prev) => prev + 3)}
+          className={`pagination-btn ${isLasted ? "expired" : ""}`}
+          disabled={isLasted}
+          onClick={getReservations}
         >
-          {isExpired ? "마지막 예약입니다" : "예약 더 보기"}
+          {isLasted ? "마지막 예약입니다" : "예약 더 보기"}
         </button>
       </div>
     </div>
