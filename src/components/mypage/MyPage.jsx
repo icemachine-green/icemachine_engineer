@@ -113,7 +113,7 @@ const todayStr = `${year}-${month}-${day}`;
         {/* 내 작업 상세 내역 (아코디언) */}
         <section className="info-card-section">
           <button className="accordion-toggle-btn" onClick={() => setIsOuterOpen(!isOuterOpen)}>
-            <span className="toggle-text">내 작업 상세 내역</span>
+            <span className="toggle-text">내 작업 요약 정보</span>
             <span className={`toggle-icon-arrow ${isOuterOpen ? "is-open" : ""}`}>
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
