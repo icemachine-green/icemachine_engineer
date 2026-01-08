@@ -107,7 +107,7 @@
   font-size: 13px;
   font-weight: 600;
   color: #bbb;
-  margin-bottom: 5px; /* ID와 이름 사이의 자연스러운 간격 */
+  margin-bottom: 16px; /* ID와 이름 사이의 자연스러운 간격 */
   padding-left: 2px;
   line-height: 1;
 }

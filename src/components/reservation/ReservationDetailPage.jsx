@@ -146,7 +146,7 @@ const ReservationDetailPage = () => {
               <h2 className="store-name">{reservationDetailData?.storeName}</h2>
               
               {/* 매장명과 이름 사이 ID 출력 */}
-              <div className="detail-id-num">{id}</div>
+              <div className="detail-id-num">예약 ID : {id}</div>
 
               <p className="customer-name">{reservationDetailData?.name} 고객님</p>
               <div className="customer-phone-info">연락처: {reservationDetailData?.phone}</div>
