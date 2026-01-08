@@ -20,9 +20,11 @@ const engineerDashboardSlice = createSlice({
       })
       .addCase(fetchEngineerDashboard.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.engineerName = action.payload.engineer.name;
-        state.todayCount = action.payload.todayReservationCount;
-        state.monthCount = action.payload.monthlyReservationCount;
+
+        const data = action.payload.data;
+        state.engineerName = data.engineer.name;
+        state.todayCount = data.todayReservationCount;
+        state.monthCount = data.monthlyReservationCount;
       })
       .addCase(fetchEngineerDashboard.rejected, (state, action) => {
         state.status = "failed";
