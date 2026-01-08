@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../App.jsx";
+import ProtectedRoute from "../components/auth/ProtectedRoute.jsx";
 import MainPage from "../components/main/MainPage.jsx";
 import ReservationPage from "../components/reservation/ReservationPage.jsx";
 import MonthReservationPage from "../components/reservation/MonthReservationPage.jsx";
@@ -10,23 +11,36 @@ import Social from "../components/login/Social.jsx";
 import SignUpPage from "../components/signup/SignUpPage.jsx";
 
 const router = createBrowserRouter([
+  // 공개 라우트 (로그인 전)
   {
-    path: '/callback/social',
-    element: <Social />
+    path: "/login",
+    element: <LoginPage />
   },
   {
     path: '/signup',
     element: <SignUpPage />
   },
   {
+    path: '/callback/social',
+    element: <Social />
+  },
+
+  // 보호 라우트 (로그인 필수)
+  {
+    // element: <ProtectedRoute />,
     element: <App />,
     children: [
-      { path: "/", element: <MainPage /> }, 
-      { path: "/reservation", element: <ReservationPage /> },
-      { path: "/monthreservation", element: <MonthReservationPage /> },
-      { path: "/reservation/detail/:id", element: <ReservationDetailPage /> },
-      { path: "/mypage", element: <MyPage /> },
-      { path: "/login", element: <LoginPage /> },
+      {
+        // element: <App />,
+        element: <ProtectedRoute />,
+        children: [
+          { path: "/", element: <MainPage /> }, 
+          { path: "/reservation", element: <ReservationPage /> },
+          { path: "/monthreservation", element: <MonthReservationPage /> },
+          { path: "/reservation/detail/:id", element: <ReservationDetailPage /> },
+          { path: "/mypage", element: <MyPage /> },
+        ],
+      },
     ],
   },
 ]);
