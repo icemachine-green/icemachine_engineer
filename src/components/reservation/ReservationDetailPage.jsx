@@ -183,7 +183,7 @@ const ReservationDetailPage = () => {
           </section>
 
           <section className="info-card-section">
-            <span className="category-label">기기 크기 및 모델</span>
+            <span className="category-label">기기 크기 &middot; 서비스 타입 &middot; 모델</span>
             <div className="specs-grid">
               <div className="spec-item"><span className="spec-label">크기</span><span className="spec-value">{reservationDetailData?.type}</span></div>
               <div className="spec-item"><span className="spec-label">서비스 타입</span><span className="spec-value">{reservationDetailData?.service}</span></div>
@@ -237,7 +237,7 @@ const ReservationDetailPage = () => {
 
           {/* 작업 취소 상태일 때 나타나는 큰 상태 버튼 */}
           {currentStatus === "작업 취소" && (
-            <button className="btn-main-action finished" disabled style={{ color: '#ff6b6b' }}>취소된 예약</button>
+            <button className="btn-main-action finished" disabled style={{ color: '#727272ff' }}>취소된 예약</button>
           )}
         </footer>
       </div>
