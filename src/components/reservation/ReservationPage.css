@@ -46,6 +46,12 @@
   overflow: hidden;
 }
 
+/* [추가] 작업 진행 중(START)일 때의 배경색과 테두리 */
+.status-start-card {
+  background-color: #ccece6; /* 아주 은은한 민트색 배경 */
+  border: 1px solid rgba(0, 195, 162, 0.15);
+}
+
 .reservation-card.card-finished {
   background-color: #d6d9db; 
   box-shadow: none; 
@@ -60,11 +66,21 @@
   transition: width 0.2s ease;
 }
 
+/* 작업 진행 중인 카드는 기본적으로 왼쪽 바가 살짝 보이게 설정 (선택 사항) */
+.status-start-card::before {
+  width: 4px;
+}
+
 .reservation-card:hover { 
   background-color: #f6fffd;
   border-color: rgba(0, 195, 162, 0.4);
   box-shadow: 0 10px 25px rgba(0, 195, 162, 0.08);
   padding-left: 34px;
+}
+
+/* 작업 중 카드 호버 시 더 선명하게 */
+.status-start-card:hover {
+  background-color: #e6fffb;
 }
 
 .reservation-card.card-finished:hover {
@@ -81,7 +97,7 @@
   display: flex; 
   justify-content: space-between; 
   align-items: center; 
-  margin-bottom: 32px; /* ID 영역을 이름 쪽으로 밀기 위해 상단 여백 확보 */
+  margin-bottom: 32px; 
 }
 
 .time-badge { 
@@ -93,12 +109,11 @@
   font-weight: 700; 
 }
 
-/* ID 영역: 이름(card-body) 바로 위에 자연스럽게 밀착 */
 .card-id-num {
   font-size: 13px;
   font-weight: 600;
   color: #bbb;
-  margin-bottom: 0px; /* 이름과의 자연스러운 최소 간격 */
+  margin-bottom: 0px; 
   padding-left: 2px;
   line-height: 1;
 }

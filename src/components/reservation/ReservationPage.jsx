@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom"; // useSearchParams 추가
 import ReservationSkeleton from "../skeleton/ReservationSkeleton.jsx"; 
 import "./ReservationPage.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,9 @@ const ReservationPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams(); // URL 쿼리 파라미터 추출
+  const selectedDate = searchParams.get("date"); // ?date=YYYY-MM-DD 값 가져오기
+
   const { reservations, totalCount, isLasted, date, status } = useSelector(state => state.engineerReservation);
 
   const goToDetail = (id) => navigate(`/reservation/${id}`);
@@ -24,11 +27,11 @@ const ReservationPage = () => {
       default: return '예약대기';
     }
   };
-  {/* 바로 위의 작업취소 status는 걸러내는 기능을 위해 필요합니다 */}
 
   async function getReservations() {
     try {
-      const result = await dispatch(engineerReservationThunk());
+      // selectedDate가 있으면 파라미터로 전달 (Thunk가 해당 인자를 받도록 구성되어 있어야 함)
+      const result = await dispatch(engineerReservationThunk({ date: selectedDate }));
       if(result.type.endsWith('/rejected')) {
         throw result;
       }
@@ -39,10 +42,10 @@ const ReservationPage = () => {
   }
 
   useEffect(() => {
-    // getReservations();
     dispatch(clearEngineerReservation());
-    dispatch(engineerReservationThunk());
-  }, [location.pathname]);
+    // 페이지 진입 시 선택된 날짜가 있으면 해당 날짜로 호출
+    dispatch(engineerReservationThunk({ date: selectedDate }));
+  }, [location.pathname, selectedDate]); // selectedDate 변경 시에도 재호출
 
   if (status !== 'succeeded' && (!reservations || reservations.length === 0)) {
     return <ReservationSkeleton />;
@@ -52,20 +55,23 @@ const ReservationPage = () => {
     <div className="page-wrapper">
       <div className="reservation-container">
         <header className="list-header">
-          <h2 className="date-title">{date}</h2>
-          {/* totalCount는 요청하신 대로 그대로 유지합니다 */}
-          <span className="total-badge">오늘 총 {totalCount}건</span>
+          {/* Redux에 저장된 date 또는 URL의 selectedDate 표시 */}
+          <h2 className="date-title">{date || selectedDate}</h2>
+          <span className="total-badge">
+            {selectedDate === dayjs().format('YYYY-MM-DD') ? '오늘' : '해당 날짜'} 총 {totalCount}건
+          </span>
         </header>
 
         <div className="reservation-list">
-          {/* filter를 추가하여 취소 상태만 제외하고 렌더링합니다 */}
           {reservations
             .filter((item) => item.status !== 'CANCELED')
             .map((item) => {
               return (
                 <div 
                   key={item.reservationId} 
-                  className={`reservation-card ${item.status === 'COMPLETED' ? 'card-finished' : ''}`} 
+                  className={`reservation-card 
+                    ${item.status === 'COMPLETED' ? 'card-finished' : ''} 
+                    ${item.status === 'START' ? 'status-start-card' : ''}`} 
                   onClick={() => goToDetail(item.reservationId)}
                 >
                   <div className="card-top">

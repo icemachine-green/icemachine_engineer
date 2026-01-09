@@ -241,6 +241,15 @@
   pointer-events: none !important;
 }
 
+
+.can-click-tile {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.can-click-tile:hover {
+  background-color: #f0f7ff; /* 살짝 강조 */
+}
+
 /* =========================
    반응형 모바일 최적화
 ========================= */

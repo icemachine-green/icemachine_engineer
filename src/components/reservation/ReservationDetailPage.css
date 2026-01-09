@@ -20,6 +20,7 @@
    상단 헤더 카드
 ========================= */
 .detail-header-card {
+  /* 기본 상태 (CONFIRMED, START 등)는 녹색 유지 */
   background: linear-gradient(135deg, #00c3a2, #00a88b);
   border-radius: 30px;
   padding: 40px 20px;
@@ -30,9 +31,10 @@
   transition: all 0.4s ease;
 }
 
-.detail-header-card.header-finished {
-  background: linear-gradient(135deg, #adb5bd, #868e96);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+/* 상태가 COMPLETED일 때 적용되는 회색 스타일 */
+.detail-header-card.card-finished {
+  background: linear-gradient(135deg, #adb5bd, #868e96) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
 }
 
 .status-badge-top {
@@ -97,17 +99,16 @@
 .store-name { 
   font-size: 26px; 
   font-weight: 800; 
-  margin: 0 0 16px; /* 매장명과 ID 사이 여백을 좀 더 띄움 */
+  margin: 0 0 16px; 
   color: #111; 
   line-height: 1.2;
 }
 
-/* 상세페이지 내 ID 스타일 */
 .detail-id-num {
   font-size: 13px;
   font-weight: 600;
   color: #bbb;
-  margin-bottom: 16px; /* ID와 이름 사이의 자연스러운 간격 */
+  margin-bottom: 16px;
   padding-left: 2px;
   line-height: 1;
 }
