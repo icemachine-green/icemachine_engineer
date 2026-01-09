@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { engineerMyPageThunk } from "../../store/thunks/engineerMyPageThunk.js";
-import { logout } from "../../store/slices/authSlice";
 import "./MyPage.css";
+import { logoutThunk } from "../../store/thunks/authThunk.js";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ const MyPage = () => {
 
   // 로그아웃 플로우
   const handleLogoutConfirm = () => {
-    dispatch(logout());
+    dispatch(logoutThunk());
     setIsLogoutModalOpen(false);
     setIsLogoutSuccessOpen(true);
   };
@@ -57,9 +57,7 @@ const MyPage = () => {
         {/* 헤더 */}
         <header className="mypage-header">
           <h1 className="mypage-title">마이 페이지</h1>
-          <button className="top-logout-btn" onClick={() => setIsLogoutModalOpen(true)}>
-            로그아웃
-          </button>
+          <button className="top-logout-btn" onClick={() => setIsLogoutModalOpen(true)}>로그아웃</button>
         </header>
 
         {/* 내 정보 확인 */}

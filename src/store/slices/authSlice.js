@@ -3,6 +3,7 @@ import {
   reissueThunk,
   startKakaoLoginThunk,
   socialSignupThunk,
+  logoutThunk,
 } from "../thunks/authThunk.js";
 
 const initialState = {
@@ -23,11 +24,6 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logout: (state) => {
-      state.isLoggedIn = false;
-      state.user = null;
-      state.accessToken = null;
-    },
     /**
      * callback 페이지에서 소셜 정보 저장용
      */
@@ -36,7 +32,6 @@ const authSlice = createSlice({
       state.provider = provider;
       state.socialId = socialId;
     },
-
     clearAuthState: (state) => {
       state.isLoggedIn = false;
       state.accessToken = null;
@@ -98,7 +93,18 @@ const authSlice = createSlice({
       .addCase(socialSignupThunk.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
-      });
+      })
+      .addCase(logoutThunk.fulfilled, (state) => {
+        state.isLoggedIn = false;
+        state.accessToken = null;
+        state.user = null;
+        state.provider = null;
+        state.socialId = null;
+        state.error = null;
+        state.status = "idle";
+        state.isInitializing = false; // 초기화 시 false로 설정
+      })
+      ;
   },
 });
 
