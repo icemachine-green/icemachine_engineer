@@ -4,6 +4,7 @@ import reservationDetailSlice from "./slices/reservationDetail.slice.js";
 import engineerDashboardReducer from "./slices/engineerDashboardSlice.js";
 import engineerReservationReducer from './slices/engineerReservationSlice.js';
 import engineerMyPageReducer from "./slices/engineerMyPageSlice.js";
+import engineerCalendarReducer from "./slices/engineerCalendarSlice.js";
 import { injectStoreInAxios } from "../api/axiosInstance.js";
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     engineerDashboard: engineerDashboardReducer,
     engineerReservation: engineerReservationReducer,
     engineerMyPage: engineerMyPageReducer,
+    engineerCalendar: engineerCalendarReducer,
   },
 });
 
