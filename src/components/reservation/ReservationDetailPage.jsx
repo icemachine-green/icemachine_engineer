@@ -1,10 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./ReservationDetailPage.css";
 import { useDispatch, useSelector } from "react-redux";
-import { detailThunk } from "../../store/thunks/reservationDetail.thunk.js";
+import { reservationDetailThunk } from "../../store/thunks/reservationDetail.thunk.js";
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { openNaverMap } from "../../utils/openNaverMap.js";
+import dayjs from "dayjs";
 
 const DetailSkeleton = () => {
   return (
@@ -36,13 +37,25 @@ const ReservationDetailPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  // --------------------
+  // 스테이터스 한글 변환 함수
+  // --------------------
+  const getKrStatus = (status) => {
+    switch (status) {
+      case 'CONFIRMED': return '예약됨';
+      case 'START': return '작업진행중';
+      case 'COMPLETED': return '작업종료';
+      case 'CANCELED': return '작업취소';
+      default: return status; // 이미 한글인 경우 그대로 반환
+    }
+  };
+
   const [latLng, setLatLng] = useState({ lat: 35.8714, lng: 128.6014 });
   const { reservationDetailData, isLoading } = useSelector((state) => state.reservationDetail);
 
   const [isNotFoundReservation, setIsNotFoundReservation] = useState(false);
-  const [currentStatus, setCurrentStatus] = useState("");
+  const [currentStatus, setCurrentStatus] = useState(""); // 내부적으로 영문 코드 유지
   const [workMemo, setWorkMemo] = useState("");
-
   const [showCompleteModal, setShowCompleteModal] = useState(false);
 
   const saveToLocal = useCallback((status, memo) => {
@@ -54,31 +67,35 @@ const ReservationDetailPage = () => {
 
   useEffect(() => {
     async function init() {
-      const result = await dispatch(detailThunk(id)).unwrap();
-
-      if (!result) {
-        setIsNotFoundReservation(true);
+      const result = await dispatch(reservationDetailThunk(id));
+      if (!result || result.payload === undefined) {
+        // thunk 결과값 확인 로직 (rejected 대응)
+        if(!reservationDetailData) setIsNotFoundReservation(true);
         return;
       }
 
       const savedData = localStorage.getItem(`reservation_${id}`);
       if (savedData) {
         const parsed = JSON.parse(savedData);
-        setCurrentStatus(parsed.status);
+        setCurrentStatus(parsed.status); 
         setWorkMemo(parsed.memo || "");
       } else {
-        setCurrentStatus(result.status || "예약됨");
-        setWorkMemo(result.memo || "");
+        // 초기값은 서버에서 온 영문 상태값 그대로 저장
+        setCurrentStatus(result.payload?.status || "CONFIRMED"); 
+        setWorkMemo(result.payload?.memo || "");
       }
 
       const waitForKakao = (item) => {
         if (window.kakao && window.kakao.maps) {
           const geocoder = new window.kakao.maps.services.Geocoder();
-          geocoder.addressSearch(item.address, (res, status) => {
-            if (status === window.kakao.maps.services.Status.OK && res.length > 0) {
-              setLatLng({ lat: Number(res[0].y), lng: Number(res[0].x) });
-            }
-          });
+          const address = item?.payload?.business?.address || item?.business?.address;
+          if (address) {
+            geocoder.addressSearch(address, (res, status) => {
+              if (status === window.kakao.maps.services.Status.OK && res.length > 0) {
+                setLatLng({ lat: Number(res[0].y), lng: Number(res[0].x) });
+              }
+            });
+          }
         } else {
           setTimeout(() => waitForKakao(item), 100);
         }
@@ -88,8 +105,11 @@ const ReservationDetailPage = () => {
     init();
   }, [dispatch, id]);
 
+  // --------------------
+  // 핸들러: 내부 상태는 '영문'으로 관리해야 switch문이 안 꼬임
+  // --------------------
   const handleStart = () => {
-    const nextStatus = "작업 진행중";
+    const nextStatus = "START"; 
     setCurrentStatus(nextStatus);
     saveToLocal(nextStatus, workMemo);
   };
@@ -97,7 +117,7 @@ const ReservationDetailPage = () => {
   const handleComplete = () => setShowCompleteModal(true);
 
   const handleConfirmComplete = () => {
-    const nextStatus = "작업 종료";
+    const nextStatus = "COMPLETED";
     setCurrentStatus(nextStatus);
     saveToLocal(nextStatus, workMemo);
     setShowCompleteModal(false);
@@ -110,46 +130,48 @@ const ReservationDetailPage = () => {
     saveToLocal(currentStatus, nextMemo);
   };
 
-  const getStatusClass = (status) => {
-    switch (status) {
-      case '작업 종료': return 'status-finished';
-      case '작업 취소': return 'status-cancelled';
-      case '작업 진행중': return 'status-ongoing';
-      case '예약됨': return 'status-reserved';
-      default: return 'status-reserved';
-    }
-  };
-
   if (isLoading) return <DetailSkeleton />;
   if (isNotFoundReservation && !reservationDetailData) {
     return <div className="error-message-box">예약 정보를 찾을 수 없습니다.</div>;
   }
 
-  const statusClass = getStatusClass(currentStatus);
+  // 화면 출력용 한글 변환
+  const krStatusText = getKrStatus(currentStatus);
+  // CSS 클래스용 영문 (소문자로 변환하여 CSS와 매칭)
+  const statusClass = String(currentStatus).toLowerCase(); 
 
   return (
     <div className="detail-page-wrapper">
       <div className="detail-container">
-        <header className={`detail-header-card ${statusClass === 'status-finished' ? 'header-finished' : ''}`}>
-          <div className={`status-badge-top ${statusClass}`}>
+        <header className={`detail-header-card ${currentStatus === 'COMPLETED' ? 'card-finished' : ''}`}>
+          {/* 클래스명은 status-confirmed, status-start 등으로 적용됨 */}
+          <div className={`status-badge-top status-${statusClass}`}>
             <span className="pulse-dot"></span>
-            {currentStatus}
+            {krStatusText} 
           </div>
-          <h1 className="header-date">{reservationDetailData?.date}</h1>
-          <p className="header-time">{reservationDetailData?.time}</p>
+          <p className="header-time">
+           {/* 1. 연도와 날짜 (위쪽) */}
+              <p className="date-display">
+                <strong style={{ fontWeight: '800' }}>
+                  {dayjs(reservationDetailData?.time?.start).format('YYYY-MM-DD')}
+                </strong>
+              </p>
+              
+              {/* 2. 시간 범위 (아래쪽) */}
+              <span className="time-range-display">
+                {dayjs(reservationDetailData?.time?.start).format('HH:mm')} ~ {dayjs(reservationDetailData?.time?.end).format('HH:mm')}
+              </span>
+            </p>
         </header>
 
         <main className="detail-main-content">
           <section className="info-card-section">
             <div className="section-header">
               <span className="category-label">고객 정보</span>
-              <h2 className="store-name">{reservationDetailData?.storeName}</h2>
-              
-              {/* 매장명과 이름 사이 ID 출력 */}
-              <div className="detail-id-num">예약 ID : {id}</div>
-
-              <p className="customer-name">{reservationDetailData?.name} 고객님</p>
-              <div className="customer-phone-info">연락처: {reservationDetailData?.phone}</div>
+              <h2 className="store-name">{reservationDetailData?.business?.name}</h2>
+              <div className="detail-id-num">예약 ID : {reservationDetailData?.reservationId}</div>
+              <p className="customer-name">{`${reservationDetailData?.business?.managerName} 고객님`}</p>
+              <div className="customer-phone-info">연락처: {reservationDetailData?.business?.phoneNumber}</div>
             </div>
           </section>
 
@@ -158,17 +180,17 @@ const ReservationDetailPage = () => {
               <span className="category-label">방문 주소</span>
               <button 
                 className="external-map-btn"
-                onClick={() => openNaverMap({ lat: latLng.lat, lng: latLng.lng, name: reservationDetailData?.storeName })}
+                onClick={() => openNaverMap({ lat: latLng.lat, lng: latLng.lng, name: reservationDetailData?.business?.name })}
               >
                 네이버 지도로 보기
               </button>
             </div>
-            <p className="address-display">📍 {reservationDetailData?.address}</p>
+            <p className="address-display">📍 {reservationDetailData?.business?.address}</p>
             <div className="map-view-box">
               <Map center={{ lat: latLng.lat, lng: latLng.lng }} level={3} className="kakao-map-instance">
                 <MapMarker position={{ lat: latLng.lat, lng: latLng.lng }} />
                 <CustomOverlayMap position={{ lat: latLng.lat, lng: latLng.lng }}>
-                  <div className="map-marker-label">{reservationDetailData?.storeName}</div>
+                  <div className="map-marker-label">{reservationDetailData?.business?.name}</div>
                 </CustomOverlayMap>
               </Map>
             </div>
@@ -177,9 +199,9 @@ const ReservationDetailPage = () => {
           <section className="info-card-section">
             <span className="category-label">기기 크기 &middot; 서비스 타입 &middot; 모델</span>
             <div className="specs-grid">
-              <div className="spec-item"><span className="spec-label">크기</span><span className="spec-value">{reservationDetailData?.type}</span></div>
-              <div className="spec-item"><span className="spec-label">서비스 타입</span><span className="spec-value">{reservationDetailData?.service}</span></div>
-              <div className="spec-item"><span className="spec-label">모델</span><span className="spec-value">{reservationDetailData?.model}</span></div>
+              <div className="spec-item"><span className="spec-label">크기</span><span className="spec-value">{reservationDetailData?.iceMachine?.sizeType}</span></div>
+              <div className="spec-item"><span className="spec-label">서비스</span><span className="spec-value">{reservationDetailData?.service?.type}</span></div>
+              <div className="spec-item"><span className="spec-label">모델</span><span className="spec-value">{reservationDetailData?.iceMachine?.modelName}</span></div>
             </div>
           </section>
 
@@ -202,7 +224,7 @@ const ReservationDetailPage = () => {
         </main>
 
         <footer className="detail-sticky-footer">
-          {currentStatus === "예약됨" && (
+          {currentStatus === "CONFIRMED" && (
             <div className="action-stack">
               <button className="btn-main-action start" onClick={handleStart}>
                 작업 시작하기
@@ -210,18 +232,18 @@ const ReservationDetailPage = () => {
             </div>
           )}
 
-          {currentStatus === "작업 진행중" && (
+          {currentStatus === "START" && (
             <div className="action-stack">
               <p className="status-notice">진행중인 작업이 있습니다</p>
               <button className="btn-main-action complete" onClick={handleComplete}>작업 완료</button>
             </div>
           )}
 
-          {currentStatus === "작업 종료" && (
+          {currentStatus === "COMPLETED" && (
             <button className="btn-main-action finished" disabled>작업 종료됨</button>
           )}
 
-          {currentStatus === "작업 취소" && (
+          {currentStatus === "CANCELED" && (
             <button className="btn-main-action finished" disabled style={{ color: '#727272ff' }}>취소된 예약</button>
           )}
         </footer>

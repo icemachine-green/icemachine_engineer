@@ -9,12 +9,12 @@ import dayjs from "dayjs";
 const ReservationPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { reservations, totalCount, isLasted, date } = useSelector(state => state.engineerReservation);
+  const { reservations, totalCount, isLasted, date, status } = useSelector(state => state.engineerReservation);
 
   // --------------------
   // Redirect Function
   // --------------------
-  const goToDetail = (id) => navigate(`/reservation/detail/${id}`);
+  const goToDetail = (id) => navigate(`/reservation/${id}`);
 
   // --------------------
   // 스테이터스 한글로 변환 함수
@@ -43,12 +43,12 @@ const ReservationPage = () => {
 
   useEffect(() => {
     getReservations();
-  },[]);
+  }, []);
 
   // --------------------
   // Skeleton 처리
   // --------------------
-  if (!reservations || reservations.length === 0) {
+  if (status !== 'succeeded' && (!reservations || reservations.length === 0)) {
     return <ReservationSkeleton />;
   }
 
@@ -67,9 +67,9 @@ const ReservationPage = () => {
           {reservations.map((item) => {
             return (
               <div 
-                key={item.id} 
+                key={item.reservationId} 
                 className={`reservation-card ${item.status === 'COMPLETED' ? 'card-finished' : ''}`} 
-                onClick={() => goToDetail(item.id)}
+                onClick={() => goToDetail(item.reservationId)}
               >
                 <div className="card-top">
                   <span className="time-badge">{`${dayjs(item.startAt).format('HH:mm')} ~ ${dayjs(item.endAt).format('HH:mm')}`}</span>

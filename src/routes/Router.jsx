@@ -37,7 +37,7 @@ const router = createBrowserRouter([
           { path: "/", element: <MainPage /> }, 
           { path: "/reservation", element: <ReservationPage /> },
           { path: "/monthreservation", element: <MonthReservationPage /> },
-          { path: "/reservation/detail/:id", element: <ReservationDetailPage /> },
+          { path: "/reservation/:id", element: <ReservationDetailPage /> },
           { path: "/mypage", element: <MyPage /> },
         ],
       },

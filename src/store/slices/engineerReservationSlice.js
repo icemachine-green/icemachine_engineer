@@ -39,7 +39,7 @@ const slice = createSlice({
         state.reservations.push(...reservations);
         state.page = page;
         state.totalCount = total;
-        state.isLasted = page === Math.ceil(total / state.limit);
+        state.isLasted = page >= Math.ceil(total / state.limit);
       })
       .addCase(engineerReservationThunk.rejected, (state, action) => {
         state.status = "failed";
