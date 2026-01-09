@@ -36,7 +36,14 @@ const slice = createSlice({
         state.status = "succeeded";
 
         const { reservations, page, total } = action.payload.data;
-        state.reservations.push(...reservations);
+        if (page === 1) {
+          // 목록 최초 진입 / 상세 → 목록 복귀
+          state.reservations = reservations;
+        } else {
+          // "예약 더 보기"
+          state.reservations.push(...reservations);
+        }
+
         state.page = page;
         state.totalCount = total;
         state.isLasted = page >= Math.ceil(total / state.limit);

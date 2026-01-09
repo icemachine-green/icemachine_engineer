@@ -1,14 +1,16 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import ReservationSkeleton from "../skeleton/ReservationSkeleton.jsx"; 
 import "./ReservationPage.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { engineerReservationThunk } from "../../store/thunks/engineerReservationThunk.js";
 import dayjs from "dayjs";
+import { clearEngineerReservation } from "../../store/slices/engineerReservationSlice.js";
 
 const ReservationPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { reservations, totalCount, isLasted, date, status } = useSelector(state => state.engineerReservation);
 
   const goToDetail = (id) => navigate(`/reservation/${id}`);
@@ -37,8 +39,10 @@ const ReservationPage = () => {
   }
 
   useEffect(() => {
-    getReservations();
-  }, []);
+    // getReservations();
+    dispatch(clearEngineerReservation());
+    dispatch(engineerReservationThunk());
+  }, [location.pathname]);
 
   if (status !== 'succeeded' && (!reservations || reservations.length === 0)) {
     return <ReservationSkeleton />;

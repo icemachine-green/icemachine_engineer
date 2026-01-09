@@ -1,8 +1,10 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./ReservationDetailPage.css";
 import { useDispatch, useSelector } from "react-redux";
 import { reservationDetailThunk } from "../../store/thunks/reservationDetail.thunk.js";
+import { reservationStartThunk } from "../../store/thunks/reservationStart.thunk";
+import { reservationCompleteThunk } from "../../store/thunks/reservationComplete.thunk";
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { openNaverMap } from "../../utils/openNaverMap.js";
 import dayjs from "dayjs";
@@ -53,17 +55,14 @@ const ReservationDetailPage = () => {
   const [latLng, setLatLng] = useState({ lat: 35.8714, lng: 128.6014 });
   const { reservationDetailData, isLoading } = useSelector((state) => state.reservationDetail);
 
+  const status = reservationDetailData?.status;
+  const krStatusText = getKrStatus(status);
+  const statusClass = String(status || "").toLowerCase();
+
+
   const [isNotFoundReservation, setIsNotFoundReservation] = useState(false);
-  const [currentStatus, setCurrentStatus] = useState(""); // 내부적으로 영문 코드 유지
   const [workMemo, setWorkMemo] = useState("");
   const [showCompleteModal, setShowCompleteModal] = useState(false);
-
-  const saveToLocal = useCallback((status, memo) => {
-    localStorage.setItem(`reservation_${id}`, JSON.stringify({
-      status: status,
-      memo: memo
-    }));
-  }, [id]);
 
   useEffect(() => {
     async function init() {
@@ -74,14 +73,10 @@ const ReservationDetailPage = () => {
         return;
       }
 
-      const savedData = localStorage.getItem(`reservation_${id}`);
-      if (savedData) {
-        const parsed = JSON.parse(savedData);
-        setCurrentStatus(parsed.status); 
-        setWorkMemo(parsed.memo || "");
+      const savedMemo = localStorage.getItem(`reservation_${id}_memo`);
+      if (savedMemo !== null) {
+        setWorkMemo(savedMemo);
       } else {
-        // 초기값은 서버에서 온 영문 상태값 그대로 저장
-        setCurrentStatus(result.payload?.status || "CONFIRMED"); 
         setWorkMemo(result.payload?.memo || "");
       }
 
@@ -108,26 +103,42 @@ const ReservationDetailPage = () => {
   // --------------------
   // 핸들러: 내부 상태는 '영문'으로 관리해야 switch문이 안 꼬임
   // --------------------
-  const handleStart = () => {
-    const nextStatus = "START"; 
-    setCurrentStatus(nextStatus);
-    saveToLocal(nextStatus, workMemo);
+  const handleStart = async () => {
+  try {
+    const result = await dispatch(reservationStartThunk(id)).unwrap();
+
+    if (result.message === "WORK_STARTED") {
+      dispatch(reservationDetailThunk(id));
+    }
+  } catch (err) {
+    alert("작업 시작 처리에 실패했습니다.", err);
+  }
   };
 
   const handleComplete = () => setShowCompleteModal(true);
 
-  const handleConfirmComplete = () => {
-    const nextStatus = "COMPLETED";
-    setCurrentStatus(nextStatus);
-    saveToLocal(nextStatus, workMemo);
-    setShowCompleteModal(false);
-    navigate('/reservation'); 
+  const handleConfirmComplete = async () => {
+  try {
+    const result = await dispatch(reservationCompleteThunk(id)).unwrap();
+
+    if (result.message === "WORK_COMPLETED") {
+      dispatch(reservationDetailThunk(id));
+      setShowCompleteModal(false);
+      navigate("/reservation");
+    }
+  } catch (err) {
+    alert("작업 완료 처리에 실패했습니다.", err);
+  }
   };
 
   const handleMemoChange = (e) => {
     const nextMemo = e.target.value;
     setWorkMemo(nextMemo);
-    saveToLocal(currentStatus, nextMemo);
+
+    localStorage.setItem(
+    `reservation_${id}_memo`,
+    nextMemo
+  );
   };
 
   if (isLoading) return <DetailSkeleton />;
@@ -135,15 +146,10 @@ const ReservationDetailPage = () => {
     return <div className="error-message-box">예약 정보를 찾을 수 없습니다.</div>;
   }
 
-  // 화면 출력용 한글 변환
-  const krStatusText = getKrStatus(currentStatus);
-  // CSS 클래스용 영문 (소문자로 변환하여 CSS와 매칭)
-  const statusClass = String(currentStatus).toLowerCase(); 
-
   return (
     <div className="detail-page-wrapper">
       <div className="detail-container">
-        <header className={`detail-header-card ${currentStatus === 'COMPLETED' ? 'card-finished' : ''}`}>
+        <header className={`detail-header-card ${status === 'COMPLETED' ? 'card-finished' : ''}`}>
           {/* 클래스명은 status-confirmed, status-start 등으로 적용됨 */}
           <div className={`status-badge-top status-${statusClass}`}>
             <span className="pulse-dot"></span>
@@ -224,7 +230,7 @@ const ReservationDetailPage = () => {
         </main>
 
         <footer className="detail-sticky-footer">
-          {currentStatus === "CONFIRMED" && (
+          {status === "CONFIRMED" && (
             <div className="action-stack">
               <button className="btn-main-action start" onClick={handleStart}>
                 작업 시작하기
@@ -232,18 +238,18 @@ const ReservationDetailPage = () => {
             </div>
           )}
 
-          {currentStatus === "START" && (
+          {status === "START" && (
             <div className="action-stack">
               <p className="status-notice">진행중인 작업이 있습니다</p>
               <button className="btn-main-action complete" onClick={handleComplete}>작업 완료</button>
             </div>
           )}
 
-          {currentStatus === "COMPLETED" && (
+          {status === "COMPLETED" && (
             <button className="btn-main-action finished" disabled>작업 종료됨</button>
           )}
 
-          {currentStatus === "CANCELED" && (
+          {status === "CANCELED" && (
             <button className="btn-main-action finished" disabled style={{ color: '#727272ff' }}>취소된 예약</button>
           )}
         </footer>
