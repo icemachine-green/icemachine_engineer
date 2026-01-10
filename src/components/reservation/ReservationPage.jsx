@@ -13,8 +13,9 @@ const ReservationPage = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams(); // URL 쿼리 파라미터 추출
   const selectedDate = searchParams.get("date"); // ?date=YYYY-MM-DD 값 가져오기
+  const displayDate = selectedDate || dayjs().format('YYYY-MM-DD');
 
-  const { reservations, totalCount, isLasted, date, status } = useSelector(state => state.engineerReservation);
+  const { reservations, totalCount, isLasted, status } = useSelector(state => state.engineerReservation);
 
   const goToDetail = (id) => navigate(`/reservation/${id}`);
 
@@ -56,9 +57,9 @@ const ReservationPage = () => {
       <div className="reservation-container">
         <header className="list-header">
           {/* Redux에 저장된 date 또는 URL의 selectedDate 표시 */}
-          <h2 className="date-title">{date || selectedDate}</h2>
+          <h2 className="date-title">{displayDate}</h2>
           <span className="total-badge">
-            {selectedDate === dayjs().format('YYYY-MM-DD') ? '오늘' : '해당 날짜'} 총 {totalCount}건
+            {displayDate === dayjs().format('YYYY-MM-DD') ? '오늘' : '해당 날짜'} 총 {totalCount}건
           </span>
         </header>
 
