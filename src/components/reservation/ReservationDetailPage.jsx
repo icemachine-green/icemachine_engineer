@@ -59,6 +59,7 @@ const ReservationDetailPage = () => {
   const krStatusText = getKrStatus(status);
   const statusClass = String(status || "").toLowerCase();
 
+  const isStartButtonEnabled = reservationDetailData?.canStart === true;
 
   const [isNotFoundReservation, setIsNotFoundReservation] = useState(false);
   const [workMemo, setWorkMemo] = useState("");
@@ -232,25 +233,31 @@ const ReservationDetailPage = () => {
         <footer className="detail-sticky-footer">
           {status === "CONFIRMED" && (
             <div className="action-stack">
-              <button className="btn-main-action start" onClick={handleStart}>
+              <button className="btn-main-action start" disabled={!isStartButtonEnabled} onClick={handleStart}>
                 작업 시작하기
               </button>
+
+              {!isStartButtonEnabled && (
+                <p className="status-notice">
+                  이전 예약 작업이 완료 또는 취소되어야 시작할 수 있습니다.
+                </p>
+              )}
             </div>
           )}
 
           {status === "START" && (
             <div className="action-stack">
               <p className="status-notice">진행중인 작업이 있습니다</p>
-              <button className="btn-main-action complete" onClick={handleComplete}>작업 완료</button>
+              <button className="btn-main-action complete" onClick={handleComplete}>작업 완료하기</button>
             </div>
           )}
 
           {status === "COMPLETED" && (
-            <button className="btn-main-action finished" disabled>작업 종료됨</button>
+            <button className="btn-main-action finished" disabled>종료된 작업</button>
           )}
 
           {status === "CANCELED" && (
-            <button className="btn-main-action finished" disabled style={{ color: '#727272ff' }}>취소된 예약</button>
+            <button className="btn-main-action finished" disabled style={{ color: '#727272ff' }}>취소된 작업</button>
           )}
         </footer>
       </div>
