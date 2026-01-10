@@ -211,7 +211,11 @@
 ========================= */
 @media (max-width: 480px) {
   .detail-header-card { border-radius: 0 0 30px 30px; margin-top: -20px; }
-  .header-date { font-size: 28px; }
+  .header-date { font-size: 28px; } 
+  .specs-grid {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .sk-item {

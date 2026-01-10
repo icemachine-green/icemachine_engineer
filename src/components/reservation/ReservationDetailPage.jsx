@@ -204,11 +204,11 @@ const ReservationDetailPage = () => {
           </section>
 
           <section className="info-card-section">
-            <span className="category-label">기기 크기 &middot; 서비스 타입 &middot; 모델</span>
+            <span className="category-label">모델 &middot; 기기 크기 &middot; 서비스 타입</span>
             <div className="specs-grid">
+              <div className="spec-item"><span className="spec-label">모델</span><span className="spec-value">{reservationDetailData?.iceMachine?.modelName}</span></div>
               <div className="spec-item"><span className="spec-label">크기</span><span className="spec-value">{reservationDetailData?.iceMachine?.sizeType}</span></div>
               <div className="spec-item"><span className="spec-label">서비스</span><span className="spec-value">{reservationDetailData?.service?.type}</span></div>
-              <div className="spec-item"><span className="spec-label">모델</span><span className="spec-value">{reservationDetailData?.iceMachine?.modelName}</span></div>
             </div>
           </section>
 
