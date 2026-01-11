@@ -9,6 +9,7 @@ import MyPage from "../components/mypage/MyPage.jsx";
 import LoginPage from "../components/login/LoginPage.jsx";
 import Social from "../components/login/Social.jsx";
 import SignUpPage from "../components/signup/SignUpPage.jsx";
+import EngineerLayout from "../layouts/EngineerLayout.jsx";
 
 const router = createBrowserRouter([
   // 공개 라우트 (로그인 전)
@@ -27,18 +28,21 @@ const router = createBrowserRouter([
 
   // 보호 라우트 (로그인 필수)
   {
-    // element: <ProtectedRoute />,
     element: <App />,
     children: [
       {
-        // element: <App />,
         element: <ProtectedRoute />,
         children: [
-          { path: "/", element: <MainPage /> }, 
-          { path: "/reservation", element: <ReservationPage /> },
-          { path: "/monthreservation", element: <MonthReservationPage /> },
-          { path: "/reservation/:id", element: <ReservationDetailPage /> },
-          { path: "/mypage", element: <MyPage /> },
+          {
+            element: <EngineerLayout />,
+            children: [
+              { path: "/", element: <MainPage /> }, 
+              { path: "/reservation", element: <ReservationPage /> },
+              { path: "/monthreservation", element: <MonthReservationPage /> },
+              { path: "/reservation/:id", element: <ReservationDetailPage /> },
+              { path: "/mypage", element: <MyPage /> },
+            ]
+          }
         ],
       },
     ],
