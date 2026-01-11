@@ -10,6 +10,8 @@ const initialState = {
   completedWorks: [],
   status: "idle",
   error: null,
+  page: 1,
+  hasMore: true,
 };
 
 const engineerMyPageSlice = createSlice({
@@ -23,9 +25,19 @@ const engineerMyPageSlice = createSlice({
       })
       .addCase(engineerMyPageThunk.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.engineer = action.payload.engineer;
-        state.workSummary = action.payload.workSummary;
-        state.completedWorks = action.payload.completedWorks;
+
+        const { engineer, workSummary, completedWorks, pagination, page } = action.payload;
+
+        if (page === 1) {
+          state.engineer = engineer;
+          state.workSummary = workSummary;
+          state.completedWorks = completedWorks;
+        } else {
+          state.completedWorks.push(...completedWorks);
+        }
+
+        state.page = pagination.currentPage;
+        state.hasMore = pagination.currentPage < pagination.totalPages;
       })
       .addCase(engineerMyPageThunk.rejected, (state, action) => {
         state.status = "failed";

@@ -9,11 +9,18 @@ const MyPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { engineer, workSummary, completedWorks } = useSelector((state) => state.engineerMyPage);
+  const { engineer, workSummary, completedWorks, page, hasMore, status } = useSelector((state) => state.engineerMyPage);
 
   useEffect(() => {
-    dispatch(engineerMyPageThunk());
-  }, [])
+    dispatch(engineerMyPageThunk({ page: 1 }));
+  }, [dispatch])
+
+  const handleLoadMore = () => {
+    if (hasMore && status !== "loading") {
+      // Redux의 현재 page 상태에 1을 더해 다음 페이지를 요청합니다.
+      dispatch(engineerMyPageThunk({ page: page + 1 }));
+    }
+  };
 
   // ---------- 오늘 날짜 문자열 생성 ----------
   const now = new Date();
@@ -102,10 +109,9 @@ const MyPage = () => {
         <section className="info-card-section">
           <div>
             <div className="info-card-section-head">
-              <span className="toggle-text">내 작업 요약 정보</span>
-              <div className="list-limit-notice">최근 5개의 완료된 작업 내역만 표시됩니다.</div>
+              <span className="toggle-text">내 작업 완료 내역</span>
+              <div className="list-limit-notice">* 클릭시 상세내역 확인 가능</div>
             </div>
-            <span className="work-history-hint">* 클릭시 상세내역 확인 가능</span>
           </div>
           <div className="outer-content-area">
             <div className="work-history-list">
@@ -125,6 +131,17 @@ const MyPage = () => {
               ))}
             </div>
           </div>
+          {hasMore && (
+            <div className="load-more-btn-container">
+              <button
+                className="load-more-btn"
+                onClick={handleLoadMore}
+                disabled={status === 'loading'}
+              >
+                {status === 'loading' ? '로딩중...' : '더보기'}
+              </button>
+            </div>
+          )}
         </section>
       </main>
 

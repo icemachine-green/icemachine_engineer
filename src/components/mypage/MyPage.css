@@ -139,7 +139,7 @@
 .toggle-text { font-size: 18px; font-weight: 800; color: #333; }
 
 .outer-content-area {
-  margin-top: 10px; border-top: 1px solid #f1f3f5; padding-top: 20px;
+  margin-top: 3px; border-top: 1px solid #f1f3f5; padding-top: 20px;
 }
 
 .list-limit-notice {
@@ -186,6 +186,23 @@
 .inner-header-left { display: flex; flex-direction: column; gap: 3px; }
 .work-date { font-size: 12px; color: #727272; font-weight: 600; }
 .work-customer { font-size: 15px; font-weight: 700; color: #333; }
+.load-more-btn-container {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.load-more-btn {
+  padding: 5px;
+  width: 90%;
+  border: none;
+  border-radius: 20px;
+  background-color: #00c3a2;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+}
 
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-10px); }
@@ -287,5 +304,13 @@
   .info-card-section { padding: 22px; }
   .profile-avatar { width: 64px; height: 64px; border-radius: 20px; }
   .top-logout-btn { padding: 8px 14px; font-size: 12px; }
-  .stats-grid { gap: 8px; }
+  .stats-grid { gap: 8px; }  
+  .info-card-section-head {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .outer-content-area {
+    margin-top: 0px;
+  }
 }
