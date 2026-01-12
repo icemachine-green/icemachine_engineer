@@ -1,0 +1,43 @@
+/* --- 공통 애니메이션 --- */
+.skeleton-box {
+  background: #eee;
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  background-size: 200% 100%;
+  animation: shine 1.5s linear infinite;
+  border-radius: 8px;
+}
+
+@keyframes shine {
+  to { background-position-x: -200%; }
+}
+
+/* --- 헤더 --- */
+.sk-title { width: 140px; height: 34px; }
+.sk-top-btn { width: 80px; height: 38px; border-radius: 12px; }
+
+/* --- 라벨 & 프로필 --- */
+.sk-label { width: 70px; height: 16px; margin-bottom: 20px; }
+.sk-avatar { width: 80px; height: 80px; border-radius: 28px; flex-shrink: 0; }
+.sk-name { width: 120px; height: 26px; margin-bottom: 10px; }
+.sk-meta-group { display: flex; flex-direction: column; gap: 6px; }
+.sk-meta-line { width: 180px; height: 14px; }
+.sk-meta-line.short { width: 100px; }
+
+/* --- 통계 그리드 --- */
+.sk-stat-item { height: 85px; border-radius: 18px; }
+
+/* --- 아코디언 --- */
+.sk-accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+.sk-accordion-title { width: 150px; height: 24px; }
+.sk-arrow { width: 24px; height: 24px; border-radius: 50%; }
+
+/* 모바일 대응 */
+@media (max-width: 480px) {
+  .sk-avatar { width: 64px; height: 64px; border-radius: 20px; }
+  .sk-name { width: 100px; height: 22px; }
+}

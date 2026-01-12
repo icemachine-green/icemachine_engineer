@@ -1,0 +1,67 @@
+/* =================================================
+   Footer - Clean & Minimal Theme
+================================================= */
+.footer-container {
+  width: 100%;
+  padding: 60px 20px 80px; /* 상단 여백을 충분히 주어 본문과 분리 */
+  background-color: #f8f9fb; /* 마이페이지 배경색과 통일 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #eee; /* 아주 연한 구분선 */
+  box-sizing: border-box;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer-image {
+  width: 160px; /* 기존 550px에서 전문적인 사이즈로 조정 */
+  height: auto;
+  opacity: 0.5; /* 로고가 너무 튀지 않게 은은하게 조절 */
+  filter: grayscale(100%); /* 톤앤매너를 위해 무채색 처리 (선택사항) */
+  transition: all 0.3s ease;
+}
+
+.footer-image:hover {
+  opacity: 0.8;
+  filter: grayscale(0%); /* 호버 시에만 컬러 강조 */
+}
+
+.footer-copyright {
+  font-size: 13px;
+  color: #adb5bd;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+}
+
+/* =================================================
+   Responsive - 모바일 대응
+================================================= */
+@media (max-width: 768px) {
+  .footer-container {
+    padding: 40px 20px 60px;
+  }
+
+  .footer-image {
+    width: 130px;
+  }
+  
+  .footer-copyright {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-container {
+    padding: 30px 15px 50px;
+  }
+
+  .footer-image {
+    width: 110px;
+  }
+}

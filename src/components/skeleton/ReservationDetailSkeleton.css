@@ -1,0 +1,44 @@
+/* --- Skeleton Core Animation --- */
+.skeleton-box {
+  background: #eee;
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  background-size: 200% 100%;
+  animation: shine 1.5s linear infinite;
+}
+
+@keyframes shine {
+  to { background-position-x: -200%; }
+}
+
+/* --- Header Section 정밀 조정 --- */
+/* 실제 padding 40px + badge(16+24) + date(34) + time(6+24) 계산 */
+.sk-badge-top { width: 80px; height: 30px; border-radius: 10px; margin: 0 auto 16px; opacity: 0.2; }
+.sk-header-date { width: 220px; height: 41px; border-radius: 8px; margin: 0 auto; }
+.sk-header-time { width: 120px; height: 30px; border-radius: 6px; margin: 6px auto 0; opacity: 0.5; }
+
+/* --- Info Card Section 내부 요소 --- */
+/* 실제 category-label margin-bottom 16px 반영 */
+.sk-label-text { width: 60px; height: 16px; border-radius: 4px; margin-bottom: 16px; }
+.sk-store-name { width: 70%; height: 31px; border-radius: 6px; margin-bottom: 6px; }
+.sk-cust-name { width: 40%; height: 22px; border-radius: 4px; margin-bottom: 8px; }
+.sk-cust-phone { width: 50%; height: 18px; border-radius: 4px; }
+
+/* 지도 영역 - 실제 map-view-box와 동일하게 260px */
+.sk-address { width: 85%; height: 21px; margin: 12px 0; border-radius: 4px; }
+.sk-map-area { width: 100%; height: 260px; border-radius: 18px; margin-top: 10px; }
+
+/* 기기 및 사진 - 실제 specs-grid(gap 12px), photo-comparison-grid(gap 16px) 반영 */
+.sk-spec-box { width: 100%; height: 61px; border-radius: 16px; }
+.sk-photo-box { width: 100%; aspect-ratio: 1; border-radius: 20px; }
+
+/* 업무 메모 영역 */
+.sk-memo-area { width: 100%; height: 130px; border-radius: 18px; }
+
+/* 하단 버튼 - 실제 btn-main-action padding 및 font-size 기반 */
+.sk-main-btn { width: 100%; max-width: 610px; height: 62px; border-radius: 20px; }
+
+/* 로딩 중일 때 헤더 배경색 (실제 둥근 모서리 30px 유지) */
+.detail-header-card.is-loading {
+  background: #e9ecef !important;
+  box-shadow: none;
+}

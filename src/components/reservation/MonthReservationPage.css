@@ -1,0 +1,265 @@
+/* =========================
+   페이지 전체 레이아웃
+========================= */
+.calendar-page-wrapper {
+  background-color: #f8f9fb;
+  min-height: 100vh;
+  padding: 40px 20px 80px;
+  font-family: 'Pretendard', sans-serif;
+}
+
+/* =========================
+   상단 요약 헤더
+========================= */
+.month-summary-header {
+  max-width: 850px;
+  margin: 0 auto 32px;
+  text-align: center;
+}
+
+.summary-box {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 0;
+}
+
+.summary-box .label {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+}
+
+.summary-box .count-highlight {
+  font-size: 64px;
+  font-weight: 850;
+  color: #00c3a2; /* 포인트 컬러 */
+  line-height: 1;
+}
+
+/* =========================
+   메인 캘린더 카드
+========================= */
+.calendar-main-section {
+  display: flex;
+  justify-content: center;
+}
+
+.calendar-card {
+  width: 100%;
+  max-width: 850px;
+  background-color: #fff;
+  border-radius: 30px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+/* =========================
+   react-calendar 커스터마이징
+========================= */
+.react-calendar {
+  width: 100%;
+  border: none;
+  background: transparent;
+}
+
+/* 네비게이션 (년/월 이동) */
+.react-calendar__navigation {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.react-calendar__navigation button {
+  min-width: 44px;
+  background: #f1f3f5;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #444;
+  transition: all 0.2s ease;
+}
+
+.react-calendar__navigation button:enabled:hover {
+  background-color: #e9ecef;
+  color: #00c3a2;
+}
+
+.react-calendar__navigation__label {
+  flex-grow: 0 !important;
+  font-size: 24px !important;
+  font-weight: 800;
+  padding: 0 20px !important;
+  background: transparent !important;
+}
+
+/* 요일 표시 */
+.react-calendar__month-view__weekdays {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #adb5bd;
+  margin-bottom: 15px;
+}
+
+.react-calendar__month-view__weekdays abbr {
+  text-decoration: none;
+}
+
+/* 날짜 타일 */
+.react-calendar__tile {
+  min-height: 110px;
+  padding: 12px 4px;
+  background: #fff;
+  border: 1px solid #f8f9fa !important;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* 은은한 호버 액션 */
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile--active {
+  background: #fafbfc !important;
+  border-color: rgba(0, 195, 162, 0.3) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.04);
+}
+
+.react-calendar__tile--now {
+  background: #f0fffb !important;
+  border: 1.5px solid #00c3a2 !important;
+}
+
+/* 클릭 가능한 타일(오늘 예약)에만 손가락 커서 표시 */
+.react-calendar__tile.can-click-tile {
+  cursor: pointer !important;
+  background-color: #f0f7ff; /* 살짝 강조하고 싶을 때 */
+}
+
+/* 클릭 불가능한 나머지 타일은 기본 화살표 커서 */
+.react-calendar__tile:not(.can-click-tile) {
+  cursor: default !important;
+}
+
+/* 주말 색상 */
+.react-calendar__month-view__days__day--neighboringMonth {
+  opacity: 0.3;
+}
+.react-calendar__month-view__days .react-calendar__tile:nth-child(7n+1) { color: #ff5a5a; }
+.react-calendar__month-view__days .react-calendar__tile:nth-child(7n) { color: #5a7fff; }
+
+/* =========================
+   예약 / 휴무 배지 (타일 내부)
+========================= */
+.tile-badge-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  align-items: center;
+}
+
+.badge-reservation {
+  background: #e6f9f6;
+  color: #00c3a2;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.badge-offday {
+  background: #f1f3f5;
+  color: #888;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+/* =========================
+   하단 범례 (Legend)
+========================= */
+.calendar-legend {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #f1f3f5;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #666;
+  font-weight: 500;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.dot.reservation { background-color: #00c3a2; }
+.dot.offday { background-color: #dee2e6; }
+
+
+/* 1. 중앙 날짜 라벨 버튼 자체의 클릭을 막음 */
+.react-calendar__navigation__label {
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+/* 2. 중앙 라벨 클릭 시 배경이 변하는 효과 제거 */
+.react-calendar__navigation__label:hover,
+.react-calendar__navigation__label:focus {
+  background-color: transparent !important;
+}
+
+/* 3. 양옆 화살표 버튼은 클릭이 되어야 하므로 다시 살려줌 */
+.react-calendar__navigation__arrow {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+/* 4. 비활성화된 날짜 타일 클릭 방지 */
+.react-calendar__tile:disabled {
+  background-color: #f0f0f0 !important;
+  color: #ccc !important;
+  pointer-events: none !important;
+}
+
+
+.can-click-tile {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.can-click-tile:hover {
+  background-color: #f0f7ff; /* 살짝 강조 */
+}
+
+/* =========================
+   반응형 모바일 최적화
+========================= */
+@media (max-width: 768px) {
+  .summary-box .label { font-size: 20px; }
+  .summary-box .count-highlight { font-size: 48px; }
+
+  .calendar-card { padding: 20px; border-radius: 20px; }
+  .react-calendar__tile { min-height: 85px; padding: 8px 2px; }
+  .badge-reservation, .badge-offday { font-size: 10px; padding: 2px 4px; }
+  
+  .react-calendar__navigation__label { font-size: 18px !important; }
+}

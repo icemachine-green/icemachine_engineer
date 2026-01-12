@@ -1,0 +1,244 @@
+/* =========================
+   전체 레이아웃
+========================= */
+.detail-page-wrapper {
+  background-color: #f8f9fb;
+  min-height: 100vh;
+  padding: 20px 20px 140px;
+  font-family: 'Pretendard', sans-serif;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.detail-container {
+  width: 100%;
+  max-width: 650px;
+}
+
+/* =========================
+   상단 헤더 카드
+========================= */
+.detail-header-card {
+  /* 기본 상태 (CONFIRMED, START 등)는 녹색 유지 */
+  background: linear-gradient(135deg, #00c3a2, #00a88b);
+  border-radius: 30px;
+  padding: 40px 20px;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0, 195, 162, 0.25);
+  margin-bottom: 24px;
+  transition: all 0.4s ease;
+}
+
+/* 상태가 COMPLETED일 때 적용되는 회색 스타일 */
+.detail-header-card.card-finished {
+  background: linear-gradient(135deg, #adb5bd, #868e96) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+.status-badge-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  padding: 6px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.status-badge-top .pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.status-badge-top.status-ongoing { color: #00c3a2; }
+.status-badge-top.status-ongoing .pulse-dot { 
+  background-color: #00c3a2; 
+  animation: sk-loading 2s infinite linear;
+}
+
+.status-badge-top.status-reserved { color: #ff9f43; }
+.status-badge-top.status-reserved .pulse-dot { background-color: #ff9f43; }
+
+.status-badge-top.status-cancelled { color: #ff6b6b; }
+.status-badge-top.status-cancelled .pulse-dot { background-color: #ff6b6b; }
+
+.status-badge-top.status-finished { color: #777; }
+.status-badge-top.status-finished .pulse-dot { background-color: #bbb; }
+
+.header-date { font-size: 34px; font-weight: 850; margin: 0; letter-spacing: -0.5px; }
+.header-time { font-size: 24px; opacity: 0.9; margin: 6px 0 0; font-weight: 500; }
+
+/* =========================
+   정보 섹션 공통
+========================= */
+.info-card-section {
+  background: #fff;
+  border-radius: 26px;
+  padding: 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+  border: 1px solid rgba(0,0,0,0.02);
+  box-sizing: border-box;
+}
+
+.category-label {
+  display: block;
+  font-size: 13px;
+  color: #00c3a2;
+  font-weight: 800;
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+}
+
+.store-name { 
+  font-size: 26px; 
+  font-weight: 800; 
+  margin: 0 0 16px; 
+  color: #111; 
+  line-height: 1.2;
+}
+
+.detail-id-num {
+  font-size: 17px;
+  font-weight: 500;
+  text-decoration: underline;
+  margin-bottom: 14px;
+  padding-left: 2px;
+  line-height: 1;
+}
+
+.customer-name { 
+  font-size: 18px; 
+  color: #666; 
+  margin: 0 0 8px; 
+  font-weight: 700; 
+}
+.customer-phone-info { font-size: 15px; color: #999; font-weight: 500; }
+
+.section-title-row { display: flex; justify-content: space-between; align-items: center; }
+.external-map-btn {
+  background: none; border: none; color: #888; font-weight: 700; 
+  text-decoration: underline; cursor: pointer; font-size: 13px;
+}
+.address-display { font-size: 17px; font-weight: 600; margin: 12px 0; color: #333; }
+.map-view-box {
+  width: 100%; height: 260px; border-radius: 18px; overflow: hidden;
+  border: 1px solid #f1f3f5; margin-top: 10px;
+}
+.kakao-map-instance { width: 100%; height: 100%; }
+.map-marker-label {
+  background: #222; color: #fff; padding: 6px 14px; border-radius: 10px;
+  font-size: 13px; font-weight: 700; transform: translateY(-48px);
+}
+
+.specs-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.spec-item { background: #f8f9fa; padding: 16px; border-radius: 16px; }
+.spec-label { display: block; font-size: 12px; color: #999; margin-bottom: 4px; }
+.spec-value { font-size: 16px; font-weight: 700; color: #333; }
+
+.memo-readonly {
+  background: #f8fffb; border-left: 5px solid #00c3a2; padding: 18px;
+  border-radius: 0 16px 16px 0; font-size: 16px; color: #444; line-height: 1.6;
+}
+.memo-edit-area {
+  width: 100%; min-height: 130px; border-radius: 18px; border: 1px solid #eee;
+  padding: 18px; font-family: inherit; font-size: 16px; resize: none; background: #fafafa;
+  outline: none; box-sizing: border-box; transition: 0.2s;
+}
+.memo-edit-area:focus { border-color: #00c3a2; background: #fff; box-shadow: 0 0 0 4px rgba(0, 195, 162, 0.05); }
+
+/* =========================
+   하단 고정 버튼 영역
+========================= */
+.detail-sticky-footer {
+  position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px); padding: 20px; display: flex; justify-content: center;
+  border-top: 1px solid rgba(0,0,0,0.05); z-index: 100;
+  box-sizing: border-box;
+}
+
+.action-stack { 
+  width: 100%; 
+  max-width: 610px; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 10px; 
+}
+
+.btn-main-action {
+  width: 100%; padding: 20px; border-radius: 20px; font-size: 18px;
+  font-weight: 800; border: none; cursor: pointer; transition: 0.3s;
+}
+.btn-main-action.start { background: #222; color: #fff; }
+.btn-main-action.start:hover:not(:disabled) { background: #00c3a2; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 195, 162, 0.2); }
+.btn-main-action.complete { background: #00c3a2; color: #fff; }
+.btn-main-action.finished { background: #e9ecef; color: #adb5bd; cursor: default; }
+
+.btn-main-action:disabled {
+  background-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+.status-notice { color: #00c3a2; font-weight: 800; text-align: center; margin-bottom: 2px; font-size: 14px; }
+
+/* =========================
+   모달 스타일
+========================= */
+.modal-root {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
+  display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px;
+}
+.modal-paper { background: #fff; width: 100%; max-width: 420px; border-radius: 28px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); box-sizing: border-box;}
+.modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.btn-close { background: none; border: none; font-size: 28px; cursor: pointer; color: #ccc; }
+.modal-btn-save, .modal-btn-confirm {
+  width: 100%; padding: 16px; border-radius: 16px; border: none; background: #222;
+  color: #fff; font-weight: 700; cursor: pointer; font-size: 16px;
+}
+.alert-type { text-align: center; }
+.modal-btn-confirm { background: #00c3a2; margin-top: 15px; }
+
+/* =========================
+   반응형 및 스켈레톤
+========================= */
+@media (max-width: 480px) {
+  .detail-header-card { border-radius: 0 0 30px 30px; margin-top: -20px; }
+  .header-date { font-size: 28px; } 
+  .specs-grid {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.sk-item {
+  background-color: #e2e2e2;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+.sk-item::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: sk-loading 1.5s infinite;
+}
+@keyframes sk-loading {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.sk-badge { width: 80px; height: 24px; margin-bottom: 12px; }
+.sk-title { width: 60%; height: 32px; margin-bottom: 8px; }
+.sk-text { width: 40%; height: 18px; }
+.sk-label { width: 100px; height: 16px; margin-bottom: 10px; }
+.sk-content-box { width: 100%; height: 120px; border-radius: 8px; }
+.sk-button { width: 100%; height: 50px; border-radius: 12px; }
+.skeleton-bg { background: #f9f9f9 !important; }
