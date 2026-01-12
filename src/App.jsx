@@ -2,6 +2,7 @@ import './App.css';
 import Header from "./components/common/Header.jsx";
 import Footer from "./components/common/Footer.jsx";
 import TopButton from "./components/common/TopButton.jsx";
+import NotificationInfo from './components/subscriptions/NotificationInfo.jsx';
 import { Outlet, useLocation } from "react-router-dom"; // useLocation 추가
 import ScrollToTop from "./components/scrolltotop/ScrollToTop.jsx";
 import { useDispatch } from 'react-redux';
@@ -34,6 +35,7 @@ function App() {
       {/* 로그인 페이지가 아닐 때만 Footer와 TopButton 렌더링 */}
       {!isHideLayout && <Footer />}
       {!isHideLayout && <TopButton />}
+      <NotificationInfo />
     </>
   );
 }

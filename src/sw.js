@@ -46,15 +46,22 @@ registerRoute(
 // 웹푸시 핸들러
 // --------------------------
 self.addEventListener('push', e => { // self: 서비스워커 자신
+  // {
+  //   title,
+  //   message,
+  //   data: {
+  //     targetUrl: string
+  //   }
+  // }
   const data = e.data.json(); // js객체형태로 가져옴(백엔드에서 셋팅한 payload 가져옴)
-  
+  const targetUrl = data.data?.targetUrl;
   self.registration.showNotification(
     data.title,
     {
       body: data.message,
       icon: '/icons/meerkat_32.png',
       data: {
-        targetUrl: data.data.targetUrl
+        targetUrl
       }
     }
   );
@@ -65,6 +72,9 @@ self.addEventListener('push', e => { // self: 서비스워커 자신
 // --------------------------
 self.addEventListener('notificationclick', e => {
   e.notification.close(); // 푸시 알림창 닫기
+
+  // 리다이렉트처리가 필요없는 푸시인 경우, 처리 종료
+  if(!e.notification.data.targetUrl) return;
 
   // 페이로드에서 백엔드가 전달해 준 전체 URL 추출
   const openUrl = e.notification.data.targetUrl;
