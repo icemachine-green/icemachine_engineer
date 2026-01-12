@@ -97,7 +97,7 @@
   display: flex; 
   justify-content: space-between; 
   align-items: center; 
-  margin-bottom: 32px; 
+  margin-bottom: 20px; 
 }
 
 .time-badge { 
@@ -110,12 +110,12 @@
 }
 
 .card-id-num {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 600;
-  color: #bbb;
   margin-bottom: 0px; 
   padding-left: 2px;
   line-height: 1;
+  text-decoration: underline;
 }
 
 /* 상태 표시기 */
@@ -151,7 +151,7 @@
 
 /* 카드 본문 */
 .card-body { margin-bottom: 24px; }
-.cust-name { font-size: 30px; font-weight: 800; margin-bottom: 8px; color: #1a1a1a; line-height: 1.2; }
+.cust-name { font-size: 30px; font-weight: 800; margin-bottom: 8px; color: #1a1a1a; line-height: 1.2; margin-top: 5px;}
 .card-finished .cust-name { color: #666; }
 .cust-name .suffix { font-size: 18px; font-weight: 500; color: #999; }
 .cust-address { font-size: 17px; color: #777; margin-bottom: 12px; }

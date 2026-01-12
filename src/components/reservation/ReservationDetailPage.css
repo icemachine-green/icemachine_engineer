@@ -105,10 +105,10 @@
 }
 
 .detail-id-num {
-  font-size: 13px;
-  font-weight: 600;
-  color: #bbb;
-  margin-bottom: 16px;
+  font-size: 17px;
+  font-weight: 500;
+  text-decoration: underline;
+  margin-bottom: 14px;
   padding-left: 2px;
   line-height: 1;
 }
