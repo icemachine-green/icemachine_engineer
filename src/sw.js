@@ -59,7 +59,7 @@ self.addEventListener('push', e => { // self: 서비스워커 자신
     data.title,
     {
       body: data.message,
-      icon: '/icons/meerkat_32.png',
+      icon: '/icons/32_logo.png',
       data: {
         targetUrl
       }

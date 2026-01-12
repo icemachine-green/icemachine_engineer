@@ -11,14 +11,17 @@ export default function NotificationInfo() {
       {
         ( isLoggedIn && isInit && !isSubscribing && !isCheckedSubscribe) && (
           <div className="notification-info-container">
-            <div className="notification-info-content-box bg-light">
+            <div className="notification-info-content-box">
               <div className="notification-info-content-info">
-                <p>알림 허용을 하지 않으면 서비스 이용에 제한이 있습니다.</p>
-                <br />
-                <p>광고성 알림을 절대 보내지 않습니다.</p>
+                <p className="notification-info-desc">
+                  서비스 정책에 의한 <strong>불가피한 예약 취소시</strong> 알림을 드립니다.
+                </p>
+                <p className="notification-info-sub">
+                  광고성 알림은 발송하지 않습니다.
+                </p>
               </div>
               <div className="notification-info-btn-box">
-                <button type="button" className='btn-medium bg-dark' onClick={subscribeUser}>Accept</button>
+                <button type="button" className='btn-primary' onClick={subscribeUser}>알림 허용하기</button>
               </div>
             </div>
           </div>
