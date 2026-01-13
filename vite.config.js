@@ -15,9 +15,9 @@ export default defineConfig({
         '/icons/*'
       ],
       manifest: {
-        name: 'icemachine_engineer',  // PWA 애플리케이션의 이름 (설치 배너에 표시)
-        short_name: 'icemachine_engineer', // 홈 화면 아이콘 아래에 표시될 이름
-        description: 'icemachine_engineer', // 앱 설명
+        name: '싹싹기사님',  // PWA 애플리케이션의 이름 (설치 배너에 표시)
+        short_name: '싹싹기사님', // 홈 화면 아이콘 아래에 표시될 이름
+        description: '싹싹제빙기 기사님 전용 예약 관리 앱입니다.', // 앱 설명
         theme_color: '#ffffff', // 브라우저 UI 테마 색상
         background_color: '#ffffff', //기본 배경색
         lang: 'ko',                     // 앱의 언어 설정 (기본 언어)

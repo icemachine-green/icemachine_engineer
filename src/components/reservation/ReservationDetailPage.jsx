@@ -61,6 +61,16 @@ const ReservationDetailPage = () => {
 
   const isStartButtonEnabled = reservationDetailData?.canStart === true;
 
+  // 예약 날짜 (YYYY-MM-DD 기준)
+  const reservationDate = reservationDetailData?.time?.start
+    ? dayjs(reservationDetailData.time.start)
+    : null;
+
+  // 오늘 여부
+  const isTodayReservation = reservationDate
+    ? reservationDate.isSame(dayjs(), 'day')
+    : false;
+
   const [isNotFoundReservation, setIsNotFoundReservation] = useState(false);
   const [workMemo, setWorkMemo] = useState("");
   const [showCompleteModal, setShowCompleteModal] = useState(false);
@@ -239,7 +249,9 @@ const ReservationDetailPage = () => {
 
               {!isStartButtonEnabled && (
                 <p className="status-notice">
-                  이전 예약 작업이 완료 또는 취소되어야 시작할 수 있습니다.
+                  {isTodayReservation
+                    ? '이전 예약 작업이 완료 또는 취소되어야 시작할 수 있습니다.'
+                    : '오늘 예약건이 아닙니다. 날짜를 확인해주세요.'}
                 </p>
               )}
             </div>
