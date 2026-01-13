@@ -9,7 +9,8 @@ import axiosInstance from "../../api/axiosInstance.js";
 export const startKakaoLoginThunk = createAsyncThunk(
   "auth/startKakaoLogin",
   async () => {
-    window.location.href = "/api/auth/kakao/authorize/engineer";
+    const domain = import.meta.env.VITE_SERVER_URL || 'http://localhost:3000';
+    window.location.href = `${domain}/api/auth/kakao/authorize/engineer`;
   }
 );
 
